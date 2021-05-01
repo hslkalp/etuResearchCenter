@@ -39,3 +39,4 @@ C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\hodag\source\repos\WebProject\WebProject\bin\Debug\netcoreapp3.1\package-lock.json
 C:\Users\hodag\source\repos\WebProject\WebProject\bin\Debug\netcoreapp3.1\package.json
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Slider.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_SocialMedia.cshtml.g.cs

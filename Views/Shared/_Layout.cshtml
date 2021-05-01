@@ -12,7 +12,8 @@
 <body>
     @await Html.PartialAsync("_Svg")
     @await Html.PartialAsync("_Header")
-    <main>
+    @await Html.PartialAsync("_SocialMedia")
+    <main role="main">
         @RenderBody()
     </main>
     @await Html.PartialAsync("_footer")

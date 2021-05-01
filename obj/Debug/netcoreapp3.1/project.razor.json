@@ -14427,6 +14427,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Shared\\_SocialMedia.cshtml",
+      "TargetPath": "Views\\Shared\\_SocialMedia.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Shared\\_Svg.cshtml",
       "TargetPath": "Views\\Shared\\_Svg.cshtml",
       "FileKind": "mvc"

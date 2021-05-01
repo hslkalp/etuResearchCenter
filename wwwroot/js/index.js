@@ -17,6 +17,13 @@ const interValTime = 5000;
 let slideInterval;
 
 /**
+ * * social media variable
+ */
+
+const socialMediaBtn = document.querySelector('#social-media-btn');
+const socialMediaMenu = document.querySelector('#social-media-menu');
+
+/**
  *  * menu function
  */
 
@@ -74,3 +81,12 @@ prev.addEventListener('click', () => {
 if (auto) {
   slideInterval = setInterval(nextSlide, interValTime);
 }
+
+/**
+ * * social media function
+ */
+
+socialMediaBtn.addEventListener('click', () => {
+  socialMediaMenu.classList.toggle('social-menu-active');
+  socialMediaMenu.classList.toggle('animate__bounceInDown');
+});

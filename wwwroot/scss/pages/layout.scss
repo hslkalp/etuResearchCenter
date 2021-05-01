@@ -1,0 +1,35 @@
+.social-media-wrapper {
+  font-size: 2rem;
+  position: absolute;
+  top: 40px;
+  left: calc((100vw / 8) - 2rem);
+  z-index: 99;
+  text-align: center;
+  button.social-media-btn {
+    margin-bottom: 20px;
+    color: var(--text-color-white);
+    display: none;
+    @include screen('desktop') {
+      display: block;
+    }
+  }
+}
+.social-media {
+  max-height: 0px;
+  overflow: hidden;
+  &.social-menu-active {
+    max-height: 100%;
+  }
+  &-item {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0px;
+    }
+    &-link {
+      color: white;
+      &:hover {
+        color: aqua;
+      }
+    }
+  }
+}
