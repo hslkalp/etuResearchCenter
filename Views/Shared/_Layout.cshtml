@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebProject</title>
+    <link rel="stylesheet" href="~/node/animate.css/animate.min.css">
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+</head>
+
+<body>
+    @await Html.PartialAsync("_Svg")
+    @await Html.PartialAsync("_Header")
+    <main>
+        @RenderBody()
+    </main>
+    @await Html.PartialAsync("_footer")
+
+
+
+    <script src="~/js/index.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

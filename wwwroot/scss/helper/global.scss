@@ -1,0 +1,40 @@
+body {
+  font-family: var(--default-font);
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.btn {
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+
+.read-more-btn {
+  @include flex-inline;
+  gap: 0.5rem;
+  padding: 9px 24px;
+  border: 2px solid var(--bg-blue-2);
+  border-radius: 20px;
+  color: var(--text-color-white);
+  cursor: pointer;
+  transition: all 0.5s ease;
+  font-weight: bold;
+  &:hover {
+    border: 2px solid var(--bg-white);
+    background: var(--bg-white);
+    color: var(--text-color-blue);
+  }
+}
+
+.display-block {
+  display: block !important;
+}
