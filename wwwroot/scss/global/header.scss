@@ -39,7 +39,7 @@ nav {
     position: absolute;
     top: var(--header-hight);
     left: 0px;
-    width: 80%;
+    width: calc(100vw / 1.333);
     padding: var(--menu-padding) 10px;
     background: var(--bg-white);
     @include screen('desktop') {
@@ -47,7 +47,7 @@ nav {
       display: block;
       background: var(--default-bg-color);
       @include flex-row;
-      width: 100%;
+      @include max-size;
       padding: 0px;
     }
     li.menu-item {
@@ -74,9 +74,9 @@ nav {
       }
       p.sub-menu-icon {
         position: absolute;
-        top: 0px;
-        right: 0px;
-        transform: translate(50%, 50%);
+        top: -8px;
+        left: 50%;
+        transform: translate(-50%, 50%);
         cursor: pointer;
         transition: all 1s ease;
         @include screen('desktop') {
@@ -88,21 +88,15 @@ nav {
         ul.sub-menu {
           @include screen('desktop') {
             display: block;
-            overflow: unset;
-            position: absolute;
-            top: calc(var(--header-hight) / 1.125);
-            left: 0px;
           }
         }
       }
       ul.sub-menu {
         display: none;
         padding-left: var(--menu-padding);
-        height: 0px;
-        overflow: hidden;
+        position: relative;
         &.active-menu {
           display: block;
-          height: 100%;
         }
         li {
           margin-top: 10px;
@@ -111,11 +105,20 @@ nav {
           }
         }
         @include screen('desktop') {
-          min-width: 240px;
-          padding-left: 0px;
+          position: absolute;
+          top: calc(var(--header-hight) / 1.125);
+          left: 0px;
           background: var(--bg-white);
-          width: 100%;
-          height: 100%;
+          padding: 20px 5px;
+          width: 17rem;
+          .sub-menu {
+            position: static;
+            padding: 0px;
+            width: 100%;
+          }
+          li {
+            padding: 8px 12px;
+          }
         }
       }
     }

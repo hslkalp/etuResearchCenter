@@ -6,11 +6,24 @@
   z-index: 99;
   text-align: center;
   button.social-media-btn {
-    margin-bottom: 20px;
-    color: var(--text-color-white);
     display: none;
+    position: relative;
+    margin-bottom: 30px;
+    color: var(--text-color-white);
     @include screen('desktop') {
       display: block;
+    }
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 54%;
+      left: 46%;
+      transform: translate(-50%, 50%);
+      width: 60px;
+      height: 60px;
+      border: 2px solid var(--bg-blue-2);
+      border-radius: 100%;
     }
   }
 }
