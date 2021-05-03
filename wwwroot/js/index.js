@@ -24,6 +24,13 @@ const socialMediaBtn = document.querySelector('#social-media-btn');
 const socialMediaMenu = document.querySelector('#social-media-menu');
 
 /**
+ * * arrow variable
+ */
+
+const arrow = document.querySelector('#arrow-cta');
+const aboutWork = document.querySelector('#about');
+
+/**
  *  * menu function
  */
 
@@ -89,4 +96,12 @@ if (auto) {
 socialMediaBtn.addEventListener('click', () => {
   socialMediaMenu.classList.toggle('social-menu-active');
   socialMediaMenu.classList.toggle('animate__bounceInDown');
+});
+
+/**
+ * * arrow function
+ */
+
+arrow.addEventListener('click', () => {
+  aboutWork.scrollIntoView();
 });

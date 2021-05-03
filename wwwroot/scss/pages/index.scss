@@ -1,0 +1,46 @@
+.about-work-wrapper {
+  max-width: 1200px;
+  margin: 0px auto;
+  margin-top: calc(100vh - 75px);
+}
+
+.about-work {
+  padding: 50px var(--mobile-padding-gap);
+  @include flex-row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  @include screen('tablet') {
+    flex-wrap: nowrap;
+  }
+  .card {
+    border: 2px solid var(--bg-white-2);
+    border-radius: 8px;
+    text-align: center;
+    padding: 2px 0px;
+    transition: transform 1s ease;
+    &:focus,
+    &:hover {
+      transform: scale(1.1) translateY(-10px);
+    }
+    & > img {
+      width: 120px;
+      height: auto;
+      margin: 0px auto;
+      transition: all 1s ease;
+      &:hover {
+        background: var(--bg-blue-2);
+        border-radius: 100%;
+      }
+    }
+    &-title {
+      text-transform: capitalize;
+      color: var(--text-color-blue);
+    }
+    &-text {
+      max-width: 320px;
+      font-size: 0.85em;
+      line-height: 1.2em;
+      color: var(--text-color-gray);
+    }
+  }
+}

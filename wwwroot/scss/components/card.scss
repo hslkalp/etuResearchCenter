@@ -1,0 +1,14 @@
+.card {
+  position: relative;
+  @include flex-column;
+  &-body {
+    flex: 1 1 auto;
+    padding: 10px;
+  }
+  &-title {
+    margin-bottom: 10px;
+  }
+  &-img{
+      @include max-size;
+  }
+}
