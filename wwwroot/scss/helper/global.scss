@@ -41,3 +41,15 @@ body {
 .display-block {
   display: block !important;
 }
+
+.row {
+  display: flex;
+  flex-flow: column wrap;
+  @include screen('tablet') {
+    flex-direction: row;
+  }
+}
+
+.col {
+  flex: 0 0 33.3333%;
+}

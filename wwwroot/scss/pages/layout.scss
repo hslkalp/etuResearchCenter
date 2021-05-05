@@ -1,5 +1,5 @@
 .social-media-wrapper {
-  font-size: 2rem;
+  font-size: 1.5rem;
   position: absolute;
   top: 40px;
   left: calc((100vw / 8) - 2rem);
@@ -20,8 +20,8 @@
       bottom: 54%;
       left: 46%;
       transform: translate(-50%, 50%);
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       border: 2px solid var(--bg-blue-2);
       border-radius: 100%;
     }

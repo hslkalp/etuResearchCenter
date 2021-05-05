@@ -7,13 +7,16 @@
   --bg-blue-3: #262261;
   --bg-white: #fff;
   --bg-white-2: #f2f7f9;
+  --bg-white-3: #f7f7f7;
   --bg-orange: #ffd346;
   --defult-text-color: #000;
   --text-color-black-2: #2b2321;
   --text-color-white: #fff;
   --text-color-white-2: #d8e3e7;
   --text-color-gray: #777;
+  --text-color-gray-2: #bebebe;
   --text-color-blue: #262261;
+  --text-color-blue-2: #77acd4;
   --mobile-padding-gap: 10px;
   --menu-padding: 30px;
   --header-hight: 110px; }
@@ -532,6 +535,26 @@ body {
 .display-block {
   display: block !important; }
 
+.row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column wrap;
+          flex-flow: column wrap; }
+  @media (min-width: 768px) {
+    .row {
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row; } }
+
+.col {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 33.3333%;
+          flex: 0 0 33.3333%; }
+
 .circle-anim {
   -webkit-animation-name: circle-animation;
           animation-name: circle-animation;
@@ -639,8 +662,8 @@ body {
     .slider .slide::before {
       content: '';
       display: block;
-      width: 100%;
       height: 100%;
+      width: 100%;
       position: absolute;
       top: 0px;
       left: 0px;
@@ -736,7 +759,7 @@ p.arrow {
   -webkit-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
-  gap: .5rem; }
+  gap: 0.5rem; }
   .slider-indicators button {
     font-size: 1.5625rem;
     padding: 10px 20px;
@@ -758,7 +781,7 @@ p.arrow {
   -webkit-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
-  gap: .5rem; }
+  gap: 0.5rem; }
   .card-body {
     -webkit-box-flex: 1;
         -ms-flex: 1 1 auto;
@@ -930,11 +953,17 @@ nav ul.menu {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   gap: 1rem; }
   @media (min-width: 768px) {
     .about-work {
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
       -ms-flex-wrap: nowrap;
           flex-wrap: nowrap; } }
   .about-work .card {
@@ -963,12 +992,126 @@ nav ul.menu {
       color: var(--text-color-blue); }
     .about-work .card-text {
       max-width: 320px;
-      font-size: 0.85em;
+      font-size: 0.95em;
       line-height: 1.2em;
       color: var(--text-color-gray); }
 
+.substructure-wrapper {
+  margin: 0px; }
+
+.substructure {
+  padding: 50px 0px;
+  text-align: center;
+  background: var(--bg-white-3);
+  cursor: pointer; }
+  .substructure > * {
+    margin-bottom: 20px; }
+  .substructure > h2 {
+    font-size: 1.3em;
+    color: var(--text-color-black-2);
+    text-transform: uppercase; }
+  .substructure p.base svg {
+    font-size: 1.5rem;
+    margin: 0px 5px;
+    -webkit-transform: translate(0px, 8px);
+            transform: translate(0px, 8px); }
+  .substructure p.base::before,
+  .substructure p.base::after {
+    content: '';
+    display: inline-block;
+    width: 100px;
+    border: 1px solid var(--bg-blue-3); }
+  .substructure p.sub-title {
+    font-size: 1.1em;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.2em;
+    color: var(--text-color-gray); }
+  .substructure-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: end;
+        -ms-flex-align: end;
+            align-items: flex-end;
+    gap: 0.5rem;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    overflow: hidden;
+    position: relative; }
+    .substructure-item:hover .substructure-item-content {
+      bottom: 0px; }
+    .substructure-item:hover .substructure-item-img {
+      top: -90px; }
+    .substructure-item:hover .substructure-item-img img,
+    .substructure-item:focus .substructure-item-img img {
+      -webkit-filter: grayscale(0);
+              filter: grayscale(0); }
+    .substructure-item-img {
+      position: relative;
+      top: 0px;
+      -webkit-transition: all 0.5s;
+      transition: all 0.5s; }
+      .substructure-item-img.grayscale img {
+        height: 400px;
+        -o-object-fit: cover;
+           object-fit: cover;
+        -webkit-filter: grayscale(100%);
+                filter: grayscale(100%);
+        -webkit-transition: all 0.5s;
+        transition: all 0.5s; }
+      .substructure-item-img img {
+        height: 100%;
+        width: 100%; }
+    .substructure-item-content {
+      height: 90px;
+      width: 100%;
+      position: absolute;
+      left: 0px;
+      bottom: -90px;
+      padding: 10px 0px;
+      -webkit-transition-duration: 0.5s;
+              transition-duration: 0.5s;
+      background: var(--bg-white); }
+      .substructure-item-content > * {
+        margin-bottom: 10px; }
+      .substructure-item-content::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        width: 0px;
+        height: 0px;
+        margin-top: -10px;
+        border-bottom: 10px solid var(--bg-white);
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent; }
+      .substructure-item-content h3 {
+        font-size: 1.1em; }
+        .substructure-item-content h3 a {
+          -webkit-transition: all 0.5s;
+          transition: all 0.5s; }
+          .substructure-item-content h3 a:hover {
+            color: var(--text-color-blue-2); }
+        @media (min-width: 992px) {
+          .substructure-item-content h3 {
+            font-size: 1.3em; } }
+      .substructure-item-content p {
+        font-size: 0.95em;
+        color: var(--text-color-gray-2); }
+
 .social-media-wrapper {
-  font-size: 2rem;
+  font-size: 1.5rem;
   position: absolute;
   top: 40px;
   left: calc((100vw / 8) - 2rem);
@@ -990,8 +1133,8 @@ nav ul.menu {
       left: 46%;
       -webkit-transform: translate(-50%, 50%);
               transform: translate(-50%, 50%);
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       border: 2px solid var(--bg-blue-2);
       border-radius: 100%; }
 

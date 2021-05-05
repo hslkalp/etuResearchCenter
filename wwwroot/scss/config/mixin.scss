@@ -36,10 +36,15 @@
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: flex-end;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 @mixin max-size {
   height: 100%;
   width: 100%;
+}
+
+@mixin margin-auto {
+  margin-left: auto;
+  margin-right: auto;
 }
