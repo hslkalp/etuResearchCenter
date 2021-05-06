@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WebProject.Data;
 
 namespace WebProject
 {
@@ -28,6 +30,9 @@ namespace WebProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMvc();
+            services.AddDbContext<ETURContext>(options =>
+                   options.UseSqlServer(Configuration.GetConnectionString("ETURContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

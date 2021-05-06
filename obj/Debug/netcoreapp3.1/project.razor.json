@@ -12432,6 +12432,23 @@
         }
       },
       {
+        "HashCode": 1413062900,
+        "Kind": "MVC.ViewComponent",
+        "Name": "__Generated__UstMenuComponentViewComponentTagHelper",
+        "AssemblyName": "WebProject",
+        "CaseSensitive": false,
+        "TagMatchingRules": [
+          {
+            "TagName": "vc:ust-menu-component"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "ITagHelper",
+          "Common.TypeName": "__Generated__UstMenuComponentViewComponentTagHelper",
+          "MVC.ViewComponent.Name": "UstMenuComponent"
+        }
+      },
+      {
         "HashCode": -653984039,
         "Kind": "Components.Bind",
         "Name": "Bind",
@@ -14434,6 +14451,11 @@
     {
       "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Shared\\_Svg.cshtml",
       "TargetPath": "Views\\Shared\\_Svg.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Shared\\Components\\UstMenuComponent\\UstMenu.cshtml",
+      "TargetPath": "Views\\Shared\\Components\\UstMenuComponent\\UstMenu.cshtml",
       "FileKind": "mvc"
     },
     {

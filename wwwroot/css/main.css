@@ -674,7 +674,7 @@ body {
       .slider .slide.active .slide-inner {
         opacity: 1; }
     .slider .slide-inner {
-      z-index: 9;
+      z-index: 99;
       opacity: 0;
       position: absolute;
       bottom: 50%;
@@ -709,26 +709,9 @@ body {
           .slider .slide-inner p {
             font-size: 1.2em;
             line-height: 1.5rem; } }
-    .slider .slide:nth-child(1) {
-      background-color: transparent;
-      background-image: url("./../../img/lab1.jpg");
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-position: center center;
-      background-size: cover; }
-    .slider .slide:nth-child(2) {
-      background-color: transparent;
-      background-image: url("./../../img/lab2.jpg");
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-position: center center;
-      background-size: cover; }
-    .slider .slide:nth-child(3) {
-      background-color: transparent;
-      background-image: url("./../../img/lab3.jpg");
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-position: center center;
+    .slider .slide > img {
+      height: 100%;
+      width: 100%;
       background-size: cover; }
 
 p.arrow {
@@ -916,6 +899,9 @@ nav ul.menu {
         display: block; }
       nav ul.menu li.menu-item ul.sub-menu li {
         margin-top: 10px; }
+        @media (min-width: 992px) {
+          nav ul.menu li.menu-item ul.sub-menu li:first-child {
+            margin-top: 0px; } }
         nav ul.menu li.menu-item ul.sub-menu li a {
           color: var(--text-color-black-2); }
       @media (min-width: 992px) {
@@ -1002,8 +988,7 @@ nav ul.menu {
 .substructure {
   padding: 50px 0px;
   text-align: center;
-  background: var(--bg-white-3);
-  cursor: pointer; }
+  background: var(--bg-white-3); }
   .substructure > * {
     margin-bottom: 20px; }
   .substructure > h2 {
@@ -1047,7 +1032,8 @@ nav ul.menu {
         -ms-flex-align: center;
             align-items: center;
     overflow: hidden;
-    position: relative; }
+    position: relative;
+    cursor: pointer; }
     .substructure-item:hover .substructure-item-content {
       bottom: 0px; }
     .substructure-item:hover .substructure-item-img {
@@ -1062,6 +1048,7 @@ nav ul.menu {
       -webkit-transition: all 0.5s;
       transition: all 0.5s; }
       .substructure-item-img.grayscale img {
+        width: 100%;
         height: 400px;
         -o-object-fit: cover;
            object-fit: cover;
