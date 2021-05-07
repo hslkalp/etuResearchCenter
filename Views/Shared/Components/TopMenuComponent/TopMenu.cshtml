@@ -1,4 +1,4 @@
-@model IEnumerable<WebProject.Models.UstMenu>
+@model IEnumerable<WebProject.Models.TopMenu>
 
 <ul class="menu animate__animated" id="menu">
     <li class="menu-item">
@@ -11,7 +11,7 @@
             <li class="menu-item">
                 @if (item.ParentId == null && Model.Where(a => a.ParentId == item.Id).Any())
                 {
-                    <a href="@item.Adi">@item.Adi</a>
+                    <a href="@item.Link">@item.Adi</a>
                 }
                 else if (item.ParentId == null && Model.Where(a => a.ParentId != item.Id).Any())
                 {
@@ -19,6 +19,7 @@
                     if (!String.IsNullOrEmpty(item.Link))
                     {
                         link = item.Link;
+                        <a href="@link">@item.Adi</a>
                     }
                     else
                     {
@@ -40,7 +41,7 @@
                         {
                             var link = "";
                             if (item1.Link != null && item1.Link != "") { link = item1.Link; }
-                            else { link = "/Anasayfa/SayfaDetay/" + item1.Adi + "-" + item1.Id; }
+                            else { link = @item.Adi + "/" + item1.Adi; }
 
                             if (item1.YeniSayfadaAc == false)
                             {

@@ -15,6 +15,11 @@
     @await Html.PartialAsync("_SocialMedia")
     <main role="main">
         @RenderBody()
+        <div id="settings">
+            <p v-for="setting in settings">
+                {{setting.adres}}
+            </p>
+        </div>
     </main>
     @await Html.PartialAsync("_footer")
 
@@ -23,6 +28,36 @@
     <script src="~/node/axios/dist/axios.min.js" asp-append-version="true"></script>
     <script src="~/js/index.js" asp-append-version="true"></script>
     <script src="~/js/slider.js" asp-append-version="true"></script>
+
+    <script>
+        var settings = new Vue({
+            el: '#settings',
+            data: {
+                settings: []
+            },
+            mounted: function () {
+                this.getSettings();
+            },
+            methods: {
+                getSettings: function () {
+                    var vm = this;
+                    axios({
+                        method: 'post',
+                        url: '/GenSettings/GetSettings',
+                        data: {
+                            settings: []
+                        }
+                    }).then(function (response) {
+                        vm.settings = response.data.settingsData;
+                        console.log(vm.settings);
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            }
+
+        });
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 

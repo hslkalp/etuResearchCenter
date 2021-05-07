@@ -1080,6 +1080,8 @@ nav ul.menu {
         position: absolute;
         top: 0px;
         left: 50%;
+        -webkit-transform: translate(-50%, 0);
+                transform: translate(-50%, 0);
         width: 0px;
         height: 0px;
         margin-top: -10px;

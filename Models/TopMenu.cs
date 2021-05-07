@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebProject.Models
 {
-    public class UstMenu
+    public class TopMenu
     {
         [Key]
         public int Id { get; set; }

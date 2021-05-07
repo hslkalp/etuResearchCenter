@@ -7,8 +7,10 @@ namespace WebProject.Data
         public ETURContext(DbContextOptions<ETURContext> options) : base(options) { }
 
 
-        public DbSet<WebProject.Models.UstMenu> UstMenu { get; set; }
+        public DbSet<WebProject.Models.TopMenu> TopMenu { get; set; }
 
         public DbSet<WebProject.Models.Slider> Slider { get; set; }
+
+        public DbSet<WebProject.Models.GenSetting> GenSetting { get; set; }
     }
 }
