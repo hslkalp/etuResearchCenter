@@ -1,7 +1,6 @@
 using WebProject.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ETUDDO.ViewComponents
 {

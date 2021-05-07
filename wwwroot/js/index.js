@@ -9,7 +9,6 @@ const subMenu = document.querySelectorAll('.sub-menu-icon');
  * * slider variable
  */
 
-const slides = document.querySelectorAll('.slide');
 const prev = document.getElementById('slider-prev-btn');
 const next = document.getElementById('slider-next-btn');
 const auto = true;
@@ -55,6 +54,7 @@ const nextSlide = () => {
   if (activeSlide.nextElementSibling) {
     activeSlide.nextElementSibling.classList.add('active');
   } else {
+    const slides = document.querySelectorAll('.slide');
     slides[0].classList.add('active');
   }
 };
@@ -65,6 +65,7 @@ const prevSlide = () => {
   if (activeSlide.previousElementSibling) {
     activeSlide.previousElementSibling.classList.add('active');
   } else {
+    const slides = document.querySelectorAll('.slide');
     slides[slides.length - 1].classList.add('active');
   }
 };

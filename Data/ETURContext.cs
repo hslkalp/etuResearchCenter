@@ -8,5 +8,7 @@ namespace WebProject.Data
 
 
         public DbSet<WebProject.Models.UstMenu> UstMenu { get; set; }
+
+        public DbSet<WebProject.Models.Slider> Slider { get; set; }
     }
 }

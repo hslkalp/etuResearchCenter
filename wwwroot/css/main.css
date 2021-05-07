@@ -673,6 +673,13 @@ body {
       opacity: 1; }
       .slider .slide.active .slide-inner {
         opacity: 1; }
+    .slider .slide-img {
+      height: 100%;
+      width: 100%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed; }
     .slider .slide-inner {
       z-index: 99;
       opacity: 0;
@@ -709,10 +716,6 @@ body {
           .slider .slide-inner p {
             font-size: 1.2em;
             line-height: 1.5rem; } }
-    .slider .slide > img {
-      height: 100%;
-      width: 100%;
-      background-size: cover; }
 
 p.arrow {
   position: absolute;
