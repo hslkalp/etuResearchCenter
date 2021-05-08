@@ -19,8 +19,8 @@ namespace WebProject.Controllers
         {
             try
             {
-                var sliders = db.Slider.Where(a => a.AktifMi).OrderBy(a => a.Sira);
-                return Json(new { gelendata = sliders, Result = true, Message = "Başarılı" });
+                var sliders = db.Slider.Where(a => a.IsActive).OrderBy(a => a.Queue);
+                return Json(new { sliderData = sliders, Result = true, Message = "Success!" });
             }
             catch (Exception ex)
             {

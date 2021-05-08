@@ -7,15 +7,15 @@ namespace WebProject.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Baslik { get; set; }
-        public string Resim { get; set; }
-        public string Aciklama { get; set; }
-        public int EkleyenKisiID { get; set; }
-        public DateTime EklemeTarihi { get; set; }
+        public string Title { get; set; }
+        public string Picture { get; set; }
+        public string Description { get; set; }
+        public int AddUserID { get; set; }
+        public DateTime AdditionDate { get; set; }
         public string Language { get; set; }
-        public string AltBaslik { get; set; }
-        public Nullable<int> Sira { get; set; }
-        public bool AktifMi { get; set; }
+        public string SubTitle { get; set; }
+        public Nullable<int> Queue { get; set; }
+        public bool IsActive { get; set; }
         public string Link { get; set; }
     }
 }

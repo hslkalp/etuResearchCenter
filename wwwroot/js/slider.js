@@ -5,7 +5,7 @@
 var slider = new Vue({
   el: '#slider',
   data: {
-    sliderVerisi: []
+    sliderData: []
   },
   mounted: function () {
     this.getirSlider();
@@ -17,12 +17,12 @@ var slider = new Vue({
         method: 'post',
         url: 'Slider/GetirSlider',
         data: {
-          sliderVerisi: []
+          sliderData: []
         }
       })
         .then(function (response) {
-          vm.sliderVerisi = response.data.gelendata;
-          console.log(vm.sliderVerisi);
+          vm.sliderData = response.data.sliderData;
+          console.log(vm.sliderData);
         })
         .catch(function (error) {
           console.log(error);

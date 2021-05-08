@@ -14419,11 +14419,6 @@
   "RootNamespace": "WebProject",
   "Documents": [
     {
-      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Shared\\Components\\UstMenuComponent\\TopMenu.cshtml",
-      "TargetPath": "Views\\Shared\\Components\\UstMenuComponent\\TopMenu.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Shared\\_Header.cshtml",
       "TargetPath": "Views\\Shared\\_Header.cshtml",
       "FileKind": "mvc"
@@ -14446,6 +14441,11 @@
     {
       "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\_ViewImports.cshtml",
       "TargetPath": "Views\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Shared\\Components\\TopMenuComponent\\TopMenu.cshtml",
+      "TargetPath": "Views\\Shared\\Components\\TopMenuComponent\\TopMenu.cshtml",
       "FileKind": "mvc"
     },
     {

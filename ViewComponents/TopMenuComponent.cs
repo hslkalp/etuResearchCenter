@@ -16,8 +16,8 @@ namespace ETUDDO.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            var menuler = db.TopMenu.Where(a => a.AktifMi && a.Language == "tr-TR").OrderBy(a => a.Sira);
-            return View("TopMenu", menuler);
+            var menus = db.TopMenu.Where(a => a.IsActive && a.Language == "tr-TR").OrderBy(a => a.Queue);
+            return View("TopMenu", menus);
         }
 
     }

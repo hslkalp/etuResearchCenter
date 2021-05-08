@@ -7,9 +7,9 @@ namespace WebProject.Models
     {
         [Key]
         public int Id { get; set; }
-        public int EkleyenKisiID { get; set; }
-        public DateTime EklemeTarihi { get; set; }
-        public string SiteAdi { get; set; }
+        public int AddUserID { get; set; }
+        public DateTime AdditionDate { get; set; }
+        public string WebsiteName { get; set; }
         public string MetaAuthor { get; set; }
         public string MetaKeyWords { get; set; }
         public string Facebook { get; set; }
@@ -19,14 +19,14 @@ namespace WebProject.Models
         public string LinkedIn { get; set; }
         public string Youtube { get; set; }
         public string MetaDescription { get; set; }
-        public string Tel { get; set; }
+        public string Telephone { get; set; }
         public string Email { get; set; }
         public string Fax { get; set; }
-        public string WebAdres { get; set; }
-        public int DuzenleyenKisiID { get; set; }
-        public DateTime DuzenlenmeTarihi { get; set; }
-        public string KisaTarihce { get; set; }
-        public string Adres { get; set; }
+        public string WebAddress { get; set; }
+        public int OrganizerID { get; set; }
+        public DateTime IssueDate { get; set; }
+        public string ShortHistory { get; set; }
+        public string Address { get; set; }
         public string language { get; set; }
     }
 }

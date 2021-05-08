@@ -11,7 +11,7 @@
             <li class="menu-item">
                 @if (item.ParentId == null && Model.Where(a => a.ParentId == item.Id).Any())
                 {
-                    <a href="@item.Link">@item.Adi</a>
+                    <a href="@item.Link">@item.Name</a>
                 }
                 else if (item.ParentId == null && Model.Where(a => a.ParentId != item.Id).Any())
                 {
@@ -19,12 +19,12 @@
                     if (!String.IsNullOrEmpty(item.Link))
                     {
                         link = item.Link;
-                        <a href="@link">@item.Adi</a>
+                        <a href="@link">@item.Name</a>
                     }
                     else
                     {
-                        link = item.Adi;
-                        <a href="@link">@item.Adi</a>
+                        link = item.Name;
+                        <a href="@link">@item.Name</a>
                     }
                 }
 
@@ -37,20 +37,20 @@
                     </p>
 
                     <ul class="sub-menu">
-                        @foreach (var item1 in Model.Where(a => item.Id == a.ParentId).OrderBy(x => x.Sira))
+                        @foreach (var item1 in Model.Where(a => item.Id == a.ParentId).OrderBy(x => x.Queue))
                         {
                             var link = "";
                             if (item1.Link != null && item1.Link != "") { link = item1.Link; }
-                            else { link = @item.Adi + "/" + item1.Adi; }
+                            else { link = @item.Name + "/" + item1.Name; }
 
-                            if (item1.YeniSayfadaAc == false)
+                            if (item1.TargetBlank == false)
                             {
-                                <li><a href="@link">@item1.Adi</a></li>
+                                <li><a href="@link">@item1.Name</a></li>
                             }
                             else
                             {
                                 <li>
-                                    <a target="_blank" href="@link">@item1.Adi</a>
+                                    <a target="_blank" href="@link">@item1.Name</a>
                                 </li>
                             }
                         }
