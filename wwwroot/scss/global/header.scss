@@ -15,6 +15,11 @@ header {
   &.home {
     background: var(--text-color-white-2);
     color: var(--bg-blue-3);
+    @include screen('desktop') {
+      ul.sub-menu {
+        border-top: 1px solid var(--bg-blue-3);
+      }
+    }
   }
 }
 
@@ -117,7 +122,7 @@ nav {
         }
         @include screen('desktop') {
           position: absolute;
-          top: calc(var(--header-hight) / 1.125);
+          top: calc(var(--header-hight) / 1.06);
           left: 0px;
           background: var(--bg-white);
           padding: 20px 5px;

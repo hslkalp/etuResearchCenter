@@ -3,18 +3,33 @@
 
 
 <div class="news-wrapper">
-    @foreach (var item in Model)
-    {
-        <div class="news">
-            <h3 class="news-title">
-                <a href="">@item.Title</a>
-            </h3>
-            <p class="news-content">
-                @item.ShortText
-            </p>
-            <p class="news-meta">
-                <time date-time="@item.AdditionDate">@item.AdditionDate</time>
-            </p>
+    <div class="content-block">
+        <div class="content-block1">
+            <h2 class="news-wrapper-title">
+                haberler
+                <svg class="icon icon-newspaper">
+                    <use xlink:href="#icon-newspaper"></use>
+                </svg>
+            </h2>
+            <p class="news-wrapper-sub-title">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque, est?</p>
         </div>
-    }
+        <div class="content-block2">
+            @foreach (var item in Model.Take(3))
+            {
+                <div class="news">
+                    <div role="img" class="news-img" style="background-image: url(@item.PicturePath);"></div>
+                    <h3 class="news-title">
+                        <a asp-controller="News" asp-action="NewsDetails" asp-route-id="@item.Id">@item.Title</a>
+                    </h3>
+                    <p class="news-text">
+                        @item.ShortText
+                    </p>
+                    <p class="news-meta">
+                        <time date-time="@item.AdditionDate">@item.AdditionDate</time>
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+@* * haberler *@
