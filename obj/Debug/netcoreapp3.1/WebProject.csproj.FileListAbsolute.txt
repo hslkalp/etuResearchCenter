@@ -81,3 +81,6 @@ C:\Users\hodag\source\repos\WebProject\WebProject\bin\Debug\netcoreapp3.1\runtim
 C:\Users\hodag\source\repos\WebProject\WebProject\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\hodag\source\repos\WebProject\WebProject\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\TopMenuComponent\TopMenu.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\News\NewsDetails.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\News\News.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\hakkimizda.cshtml.g.cs

@@ -9,7 +9,7 @@
     display: none;
     position: relative;
     margin-bottom: 30px;
-    color: var(--text-color-white);
+    color: var(--bg-blue-3);
     @include screen('desktop') {
       display: block;
     }
@@ -39,7 +39,7 @@
       margin-bottom: 0px;
     }
     &-link {
-      color: white;
+      color: var(--bg-blue-3);
       &:hover {
         color: aqua;
       }

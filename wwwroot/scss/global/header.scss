@@ -11,6 +11,11 @@ header {
   position: relative;
   height: var(--header-hight);
   padding: var(--mobile-padding-gap);
+  z-index: 90;
+  &.home {
+    background: var(--text-color-white-2);
+    color: var(--bg-blue-3);
+  }
 }
 
 .logo {
@@ -25,9 +30,9 @@ header {
 
 nav {
   button.mobile-menu-btn {
+    color: var(--bg-white);
     svg {
       font-size: 1.3rem;
-      fill: #fff;
     }
     @include screen('desktop') {
       display: none;
@@ -39,6 +44,7 @@ nav {
     position: absolute;
     top: var(--header-hight);
     left: 0px;
+    z-index: 999;
     width: calc(100vw / 1.333);
     padding: var(--menu-padding) 10px;
     background: var(--bg-white);
@@ -57,7 +63,7 @@ nav {
       a {
         font-size: 1.2em;
         text-transform: capitalize;
-        color: var(--defult-text-color);
+        color: var(--text-color-blue);
         font-weight: 700;
         @include screen('desktop') {
           color: var(--text-color-white);

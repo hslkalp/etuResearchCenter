@@ -15,7 +15,7 @@ namespace WebProject.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetirSlider()
+        public JsonResult GetSlider()
         {
             try
             {

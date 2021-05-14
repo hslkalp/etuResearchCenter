@@ -11,7 +11,8 @@
             <li class="menu-item">
                 @if (item.ParentId == null && Model.Where(a => a.ParentId == item.Id).Any())
                 {
-                    <a href="@item.Link">@item.Name</a>
+                    var link = "/home" + @item.Link;
+                    <a href="@link">@item.Name</a>
                 }
                 else if (item.ParentId == null && Model.Where(a => a.ParentId != item.Id).Any())
                 {

@@ -1,21 +1,20 @@
 /**
  * * slider
  */
-
 var slider = new Vue({
   el: '#slider',
   data: {
     sliderData: []
   },
   mounted: function () {
-    this.getirSlider();
+    this.getSlider();
   },
   methods: {
-    getirSlider: function () {
+    getSlider: function () {
       var vm = this;
       axios({
         method: 'post',
-        url: 'Slider/GetirSlider',
+        url: 'Slider/GetSlider',
         data: {
           sliderData: []
         }

@@ -1,0 +1,20 @@
+@model IEnumerable<WebProject.Models.News>
+
+
+
+<div class="news-wrapper">
+    @foreach (var item in Model)
+    {
+        <div class="news">
+            <h3 class="news-title">
+                <a href="">@item.Title</a>
+            </h3>
+            <p class="news-content">
+                @item.ShortText
+            </p>
+            <p class="news-meta">
+                <time date-time="@item.AdditionDate">@item.AdditionDate</time>
+            </p>
+        </div>
+    }
+</div>

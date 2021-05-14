@@ -1,7 +1,15 @@
-<header>
+@{
+    string url = Context.Request.Path.ToString();
+    var className = "";
+}
+@if (url != "/")
+{
+    className = "home";
+}
+<header class="@className">
     <div class="header-wrapper">
         <div class="logo">
-            <a href="#">
+            <a asp-controller="Home" asp-action="Index">
                 <img src="~/img/logo.svg" alt="etu logo">
             </a>
         </div>

@@ -1,4 +1,8 @@
-﻿@await Html.PartialAsync("_Slider")
+﻿@{
+    var news = (IEnumerable<WebProject.Models.News>)ViewBag.news;
+}
+
+@await Html.PartialAsync("_Slider")
 
 <div id="about" class="about-work-wrapper">
     <div class="about-work">
@@ -57,8 +61,8 @@
         <div class="row">
             <div class="col">
                 <div class="substructure-item">
-                    <div class="substructure-item-img grayscale">
-                        <img src="~/img/build.jpg" loading="lazy" alt="lab">
+                    <div class="substructure-item-img grayscale" style="background-image: url('/img/build.jpg');"
+                        loading="lazy" role="img">
                     </div>
                     <div class="substructure-item-content">
                         <h3>
@@ -72,12 +76,12 @@
             </div>
             <div class="col">
                 <div class="substructure-item">
-                    <div class="substructure-item-img grayscale">
-                        <img loading="lazy" src="~/img/chemistry.jpg" alt="lab photo">
+                    <div class="substructure-item-img grayscale" style="background-image: url('/img/chemistry.jpg');"
+                        loading="lazy" role="img">
                     </div>
                     <div class="substructure-item-content">
                         <h3>
-                            <a href="#">Kimyasal Malzeme</a>
+                            <a href="#">İnşaat Malzeme</a>
                         </h3>
                         <p>
                             Lorem ipsum dolor sit amet.
@@ -87,12 +91,12 @@
             </div>
             <div class="col">
                 <div class="substructure-item">
-                    <div class="substructure-item-img grayscale">
-                        <img loading="lazy" src="~/img/food.jpg" alt="lab photo">
+                    <div class="substructure-item-img grayscale" style="background-image: url('/img/food.jpg');"
+                        loading="lazy" role="img">
                     </div>
                     <div class="substructure-item-content">
                         <h3>
-                            <a href="#">Gıda Malzeme</a>
+                            <a href="#">İnşaat Malzeme</a>
                         </h3>
                         <p>
                             Lorem ipsum dolor sit amet.
@@ -104,3 +108,11 @@
     </div>
 </div>
 @* * alt yapi *@
+
+@await Html.PartialAsync("~/Views/News/News.cshtml", news)
+
+
+<script src="~/node/vue/dist/vue.min.js" asp-append-version="true"></script>
+<script src="~/node/axios/dist/axios.min.js" asp-append-version="true"></script>
+<script src="~/js/index.js" asp-append-version="true"></script>
+<script src="~/js/slider.js" asp-append-version="true"></script>
