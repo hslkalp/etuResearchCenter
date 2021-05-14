@@ -932,6 +932,12 @@ nav ul.menu {
           nav ul.menu li.menu-item ul.sub-menu li {
             padding: 8px 12px; } }
 
+footer[role='nav'] {
+  background: var(--bg-blue-3); }
+
+footer[role='main'] {
+  background: var(--bg-blue-2); }
+
 .about-work-wrapper {
   max-width: 1200px;
   margin: 0px auto;

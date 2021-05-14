@@ -5,8 +5,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebProject</title>
-    <link rel="stylesheet" href="~/node/animate.css/animate.min.css">
-    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/node/animate.css/animate.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" type="text/css" />
+
+    <script src="~/node/vue/dist/vue.min.js" asp-append-version="true" type="text/javascript"></script>
+    <script src="~/node/axios/dist/axios.min.js" asp-append-version="true" type="text/javascript"></script>
+    <script src="~/js/index.js" asp-append-version="true" type="text/javascript"></script>
+
+
+
+
 </head>
 
 <body>
@@ -19,7 +27,7 @@
     @await Html.PartialAsync("_footer")
 
 
-    
+
 
     @RenderSection("Scripts", required: false)
 </body>
