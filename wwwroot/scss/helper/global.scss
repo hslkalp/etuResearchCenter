@@ -53,3 +53,15 @@ body {
 .col {
   flex: 0 0 33.3333%;
 }
+
+.content-block {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  @include screen('desktop') {
+    justify-content: space-between;
+    &1 {
+      margin-right: 100px;
+    }
+  }
+}

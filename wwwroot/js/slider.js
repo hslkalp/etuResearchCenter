@@ -47,8 +47,6 @@ const aboutWork = document.querySelector('#about');
  * * arrow function
  */
 
-
-
 /**
  * * slider function
  */
@@ -96,5 +94,5 @@ if (auto) {
 }
 
 arrow.addEventListener('click', () => {
-  aboutWork.scrollIntoView();
+  document.querySelector('#about').scrollIntoView();
 });

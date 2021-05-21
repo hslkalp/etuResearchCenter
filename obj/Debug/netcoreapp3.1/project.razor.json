@@ -14469,6 +14469,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Announcements\\Announcements.cshtml",
+      "TargetPath": "Views\\Announcements\\Announcements.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Home\\hakkimizda.cshtml",
       "TargetPath": "Views\\Home\\hakkimizda.cshtml",
       "FileKind": "mvc"

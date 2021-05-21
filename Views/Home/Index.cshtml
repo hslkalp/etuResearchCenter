@@ -1,5 +1,6 @@
 ﻿@{
     var news = (IEnumerable<WebProject.Models.News>)ViewBag.news;
+    var announcements = (IEnumerable<WebProject.Models.Announcement>)ViewBag.announcements;
 }
 
 @await Html.PartialAsync("_Slider")
@@ -111,4 +112,4 @@
 
 @await Html.PartialAsync("~/Views/News/News.cshtml", news)
 
-
+@await Html.PartialAsync("~/Views/Announcements/Announcements.cshtml", announcements)

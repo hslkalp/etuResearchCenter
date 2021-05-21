@@ -11,23 +11,18 @@
     <script src="~/node/vue/dist/vue.min.js" asp-append-version="true" type="text/javascript"></script>
     <script src="~/node/axios/dist/axios.min.js" asp-append-version="true" type="text/javascript"></script>
     <script src="~/js/index.js" asp-append-version="true" type="text/javascript"></script>
-
-
-
-
 </head>
 
 <body>
+
     @await Html.PartialAsync("_Svg")
     @await Html.PartialAsync("_Header")
     @await Html.PartialAsync("_SocialMedia")
     <main role="main">
+        
         @RenderBody()
     </main>
     @await Html.PartialAsync("_footer")
-
-
-
 
     @RenderSection("Scripts", required: false)
 </body>

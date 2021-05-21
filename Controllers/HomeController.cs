@@ -23,6 +23,7 @@ namespace WebProject.Controllers
         public IActionResult Index()
         {
             ViewBag.news = db.News;
+            ViewBag.announcements = db.Announcements;
             return View();
         }
 

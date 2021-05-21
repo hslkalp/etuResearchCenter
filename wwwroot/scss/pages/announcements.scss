@@ -1,12 +1,18 @@
-.news-wrapper {
+section.section {
+  background: var(--bg-white-3);
+}
+.announcements-wrapper {
   max-width: 1200px;
   margin: 0px auto;
   padding: 50px var(--mobile-padding-gap);
+  .content-block {
+    flex-direction: row-reverse;
+  }
   &-title {
     @include flex-inline;
     font-size: 1.3em;
     margin-bottom: 20px;
-    color: var(--text-color-blue);
+    color: var(--text-color-blue-3);
     text-transform: capitalize;
     @include screen('desktop') {
       font-size: 1.9em;
@@ -26,10 +32,10 @@
   }
 }
 
-.news {
+.announcements {
   font-size: 1.5rem;
   &:not(:first-child) {
-    .news-img {
+    .announcements-img {
       width: 120px;
       height: 120px;
     }
@@ -53,7 +59,7 @@
   }
   &-title {
     font-size: 0.8em;
-    color: var(--text-color-blue-3);
+    color: var(--text-color-blue);
     a {
       text-decoration: underline;
       transition: all 0.5s;

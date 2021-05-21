@@ -1,0 +1,38 @@
+@model IEnumerable<WebProject.Models.Announcement>
+
+
+<section class="section">
+    <div class="announcements-wrapper">
+        <div class="content-block">
+            <div class="content-block1">
+                <h2 class="announcements-wrapper-title">
+                    Duyurular
+                    <svg class="icon icon-bullhorn">
+                        <use xlink:href="#icon-bullhorn"></use>
+                    </svg>
+                </h2>
+                <p class="announcements-wrapper-sub-title">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Odit,
+                    cum.</p>
+            </div>
+            <div class="content-block2">
+                @foreach (var item in Model.Take(3))
+                {
+                    <div class="announcements">
+                        <div role="img" class="announcements-img" style="background-image: url(@item.PicturePath);"></div>
+                        <h3 class="announcements-title">
+                            <a asp-controller="Announcements" asp-action="AnnouncementsDetail"
+                            asp-route-id="@item.Id">@item.Title</a>
+                        </h3>
+                        <p class="announcements-text">
+                            @item.ShortText
+                        </p>
+                        <p class="announcements-meta">
+                            <time date-time="@item.AdditionDate">@item.AdditionDate</time>
+                        </p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

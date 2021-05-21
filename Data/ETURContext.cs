@@ -14,5 +14,7 @@ namespace WebProject.Data
         public DbSet<WebProject.Models.GenSetting> GenSetting { get; set; }
 
         public DbSet<WebProject.Models.News> News { get; set; }
+
+        public DbSet<WebProject.Models.Announcement> Announcements { get; set; }
     }
 }

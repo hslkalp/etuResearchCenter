@@ -8,4 +8,4 @@
 
 include('/js/header.js');
 include('/js/socialMedia.js');
-include('/js/slider.js');
+// include('/js/slider.js');
