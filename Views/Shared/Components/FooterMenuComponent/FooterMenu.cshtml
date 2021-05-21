@@ -1,0 +1,36 @@
+@model IEnumerable<WebProject.Models.FooterMenu>
+
+@foreach (var item in Model)
+{
+    if (item.ParentId == null)
+    {
+        <ul>
+            <h3>@item.Name</h3>
+            <li>
+                @if (item.ParentId == null && Model.Where(a => a.ParentId == item.Id).Any())
+                {
+                    <ul>
+                        @foreach (var item1 in Model.Where(a => item.Id == a.ParentId).OrderBy(x => x.Queue))
+                        {
+                            var link = "";
+                            if (item1.Link != null && item1.Link != "") { link = item1.Link; }
+                            else { link = @item.Name + "/" + item1.Name; }
+
+                            if (item1.TargetBlank == false)
+                            {
+                                <li><a href="@link">@item1.Name</a></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a target="_blank" href="@link">@item1.Name</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                }
+            </li>
+        </ul>
+    }
+}

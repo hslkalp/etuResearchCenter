@@ -85,3 +85,4 @@ C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\News\News.cshtml.g.cs
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\hakkimizda.cshtml.g.cs
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Announcements\Announcements.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\FooterMenuComponent\FooterMenu.cshtml.g.cs

@@ -1,6 +1,37 @@
 <footer role="nav">
-    footer navigation
+    <div class="footer-wrapper">
+        @await Component.InvokeAsync("FooterMenuComponent")
+        <div class="contact-us">
+            <h3 class="contact-us-title">
+                İletişim
+            </h3>
+            <div class="address">
+                <h4>Adres</h4>
+                <p>Ömer Nasuhi Bilmen Mah. Havaalanı Yolu Cad. Yakutiye/ERZURUM</p>
+            </div>
+            <div>
+                <h4>Mail</h4>
+                <a href="mailto:bilgi@erzurum.edu.tr">bilgi@erzurum.edu.tr</a>
+            </div>
+            <div>
+                <h4>Telefon</h4>
+                <a href="tel:+0442 444 5 388">0442 444 5 388</a>
+            </div>
+        </div>
+    </div>
 </footer>
 <footer role="main">
-    main footer
+
+    <p>
+        &copy; Hodagh All right reserved 2021
+    </p>
+
+    <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Cookies Policy</a></li>
+        <li><a href="#">Copyright</a></li>
+        <li><a href="#">Site Map</a></li>
+    </ul>
+
+
 </footer>
