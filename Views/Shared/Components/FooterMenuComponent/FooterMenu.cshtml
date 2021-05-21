@@ -13,8 +13,14 @@
                         @foreach (var item1 in Model.Where(a => item.Id == a.ParentId).OrderBy(x => x.Queue))
                         {
                             var link = "";
-                            if (item1.Link != null && item1.Link != "") { link = item1.Link; }
-                            else { link = @item.Name + "/" + item1.Name; }
+                            if (item1.Link != null && item1.Link != "")
+                            {
+                                link = item1.Link;
+                            }
+                            else
+                            {
+                                link = @item.Name + "/" + item1.Name;
+                            }
 
                             if (item1.TargetBlank == false)
                             {

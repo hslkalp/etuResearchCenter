@@ -7,6 +7,9 @@ section.section {
   padding: 50px var(--mobile-padding-gap);
   .content-block {
     flex-direction: row-reverse;
+    &1 {
+      margin-right: 0px;
+    }
   }
   &-title {
     @include flex-inline;

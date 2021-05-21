@@ -32,6 +32,32 @@ namespace WebProject.Controllers
             return View();
         }
 
+        public IActionResult iletisim()
+        {
+            return View();
+        }
+
+        public IActionResult altyapi()
+        {
+            return View();
+        }
+
+        public IActionResult makaleler()
+        {
+            return View();
+        }
+
+        public IActionResult bildiriler()
+        {
+            return View();
+        }
+
+        public IActionResult projeler()
+        {
+            return View();
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

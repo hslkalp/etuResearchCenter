@@ -86,3 +86,10 @@ C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\hakkimizda.cshtml.g.cs
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Announcements\Announcements.cshtml.g.cs
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\FooterMenuComponent\FooterMenu.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Announcements\AnnouncementsDetail.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\iletisim.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Hakkimizda\yonetim.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\altyapi.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\bildiriler.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\makaleler.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\projeler.cshtml.g.cs

@@ -2,7 +2,7 @@
     string url = Context.Request.Path.ToString();
     var className = "";
 }
-@if (url != "/")
+@if (url != "/" && url != "/home")
 {
     className = "home";
 }

@@ -14436,8 +14436,23 @@
   "RootNamespace": "WebProject",
   "Documents": [
     {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Announcements\\AnnouncementsDetail.cshtml",
+      "TargetPath": "Views\\Announcements\\AnnouncementsDetail.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Shared\\_Header.cshtml",
       "TargetPath": "Views\\Shared\\_Header.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Home\\projeler.cshtml",
+      "TargetPath": "Views\\Home\\projeler.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Home\\makaleler.cshtml",
+      "TargetPath": "Views\\Home\\makaleler.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -14451,8 +14466,23 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Home\\bildiriler.cshtml",
+      "TargetPath": "Views\\Home\\bildiriler.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Hakkimizda\\yonetim.cshtml",
+      "TargetPath": "Views\\Hakkimizda\\yonetim.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\_ViewStart.cshtml",
       "TargetPath": "Views\\_ViewStart.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Home\\iletisim.cshtml",
+      "TargetPath": "Views\\Home\\iletisim.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -14488,6 +14518,11 @@
     {
       "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\News\\NewsDetails.cshtml",
       "TargetPath": "Views\\News\\NewsDetails.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Home\\altyapi.cshtml",
+      "TargetPath": "Views\\Home\\altyapi.cshtml",
       "FileKind": "mvc"
     },
     {
