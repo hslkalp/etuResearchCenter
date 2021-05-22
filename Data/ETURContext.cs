@@ -8,19 +8,15 @@ namespace WebProject.Data
 
 
         public DbSet<WebProject.Models.TopMenu> TopMenu { get; set; }
-
         public DbSet<WebProject.Models.Slider> Slider { get; set; }
-
         public DbSet<WebProject.Models.GenSetting> GenSetting { get; set; }
-
         public DbSet<WebProject.Models.News> News { get; set; }
-
         public DbSet<WebProject.Models.Announcement> Announcements { get; set; }
-
         public DbSet<WebProject.Models.FooterMenu> FooterMenu { get; set; }
-
         public DbSet<WebProject.Models.Management> Management { get; set; }
-
         public DbSet<WebProject.Models.Substructure> Substructure { get; set; }
+        public DbSet<WebProject.Models.Articles> Articles { get; set; }
+        public DbSet<WebProject.Models.Notification> Notification { get; set; }
+        public DbSet<WebProject.Models.Project> Projects { get; set; }
     }
 }

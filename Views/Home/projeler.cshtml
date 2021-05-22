@@ -1,1 +1,22 @@
-<h2>Projeler</h2>
+@model IEnumerable<WebProject.Models.Project>
+
+<div class="project-wrapper">
+    <div class="project">
+        <div class="project-title">
+            <h1>Projeler</h1>
+        </div>
+        <ul class="project-list">
+            @foreach (var item in Model)
+            {
+                <li>
+                    <p>
+                        <svg class="icon icon-files-empty">
+                            <use xlink:href="#icon-files-empty"></use>
+                        </svg>
+                        <i>@item.Name</i>, @item.Description
+                    </p>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

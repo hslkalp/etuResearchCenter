@@ -1,1 +1,24 @@
-<h2>Bildiriler</h2>
+@model IEnumerable<WebProject.Models.Notification>
+
+
+
+<div class="notification-wrapper">
+    <div class="notification">
+        <div class="notification-title">
+            <h1>Bildiriler</h1>
+        </div>
+        <ul class="notification-list">
+            @foreach (var item in Model)
+            {
+                <li>
+                    <p>
+                        <svg class="icon icon-notification">
+                            <use xlink:href="#icon-notification"></use>
+                        </svg>
+                        <i>@item.Name</i>, @item.Description
+                    </p>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

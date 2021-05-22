@@ -1,0 +1,34 @@
+.articles-wrapper {
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 50px var(--mobile-padding-gap);
+}
+
+.articles {
+  &-title {
+    h1 {
+      color: var(--text-color-blue);
+      margin-bottom: 20px;
+    }
+    margin-bottom: 80px;
+    &::after {
+      content: '';
+      display: block;
+      height: 1px;
+      background: var(--text-color-black-2);
+    }
+  }
+  &-list {
+    li {
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+      p {
+        @include flex-inline;
+        svg {
+          margin-right: 20px;
+        }
+      }
+    }
+  }
+}

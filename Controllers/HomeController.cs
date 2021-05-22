@@ -50,17 +50,20 @@ namespace WebProject.Controllers
 
         public IActionResult makaleler()
         {
-            return View();
+            var article = db.Articles;
+            return View(article);
         }
 
         public IActionResult bildiriler()
         {
-            return View();
+            var notification = db.Notification;
+            return View(notification);
         }
 
         public IActionResult projeler()
         {
-            return View();
+            var project = db.Projects;
+            return View(project);
         }
 
 
