@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FlQ3Bg29FEMY+gJpXvjFyJX3r7vrMMx60ykgmT1exkWEg2I4RqRgCGO33CvQXAhiJky4RKEvBsaHUXT4e8D74A==",
+  "dgSpecHash": "S3ACEWflKYi0XsLEH+6ibQ2kIi08IdR2afqV8Ss82ztqNDVR0nSJTohOE5gj6KVe/cVf0R51Ek6qkJJazRmwEg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj",
+  "projectFilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hodag\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.0\\microsoft.bcl.asyncinterfaces.1.1.0.nupkg.sha512",
     "C:\\Users\\hodag\\.nuget\\packages\\microsoft.bcl.hashcode\\1.1.0\\microsoft.bcl.hashcode.1.1.0.nupkg.sha512",

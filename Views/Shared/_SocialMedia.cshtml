@@ -1,10 +1,19 @@
+@{
+    string url = Context.Request.Path.ToString();
+    var className = "";
+}
+@if (url != "/" && url != "/home")
+{
+    className = "home";
+}
+
 <div class="social-media-wrapper">
     <button id="social-media-btn" class="btn social-media-btn circle-anim" type="button" title="Social Media">
         <svg class="icon icon-rss">
             <use xlink:href="#icon-rss"></use>
         </svg>
     </button>
-    <ul class="social-media animate__animated" id="social-media-menu">
+    <ul class="social-media @className animate__animated" id="social-media-menu">
         <li class="social-media-item">
             <a href="#" class="social-media-item-link link-instagram">
                 <svg class="icon icon-instagram">

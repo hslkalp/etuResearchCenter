@@ -1,1 +1,130 @@
-<h1>İletişim</h1>
+@model IEnumerable<WebProject.Models.GenSetting>
+
+<div class="contact-wrapper">
+    <div class="contact">
+        <div class="contact-title">
+            <h1>İletişim</h1>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div id="map"></div>
+            <div class="content-block">
+                <div class="content-block1">
+                    <div class="contact-address">
+                        <div class="title">
+                            <h3>
+                                <svg class="icon icon-compass2">
+                                    <use xlink:href="#icon-compass2"></use>
+                                </svg>
+                                Adres
+                            </h3>
+                        </div>
+                        <p>@item.Address</p>
+                    </div>
+                    <div class="contact-telephone">
+                        <div class="title">
+                            <h3>
+                                <svg class="icon icon-phone">
+                                    <use xlink:href="#icon-phone"></use>
+                                </svg>
+                                Telefon ve Fax
+                            </h3>
+                        </div>
+                        <a href="tel:+@item.Telephone">@item.Telephone</a>
+                        <p>@item.Fax <b>Faks</b></p>
+                    </div>
+                    <div class="contact-email">
+                        <div class="title">
+                            <h3>
+                                <svg class="icon icon-envelop">
+                                    <use xlink:href="#icon-envelop"></use>
+                                </svg>
+                                Eposta Adresi
+                            </h3>
+                        </div>
+                        <a href="mailto:@item.Email">@item.Email</a>
+                    </div>
+                </div>
+                <div class="content-block2">
+                    <div class="contact-social">
+                        <div class="title">
+                            <h3>
+                                <svg class="icon icon-share2">
+                                    <use xlink:href="#icon-share2"></use>
+                                </svg>
+                                Sosyal Medya Hesaplarımız
+                            </h3>
+                            <ul class="contact-social-list">
+                                <li>
+                                    <a href="@item.Twitter" target="_blank">
+                                        <svg class="icon icon-twitter">
+                                            <use xlink:href="#icon-twitter"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@item.Facebook" target="_blank">
+                                        <svg class="icon icon-facebook2">
+                                            <use xlink:href="#icon-facebook2"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@item.GooglePlus" target="_blank">
+                                        <svg class="icon icon-google-plus2">
+                                            <use xlink:href="#icon-google-plus2"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@item.Instagram" target="_blank">
+                                        <svg class="icon icon-instagram">
+                                            <use xlink:href="#icon-instagram"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@item.LinkedIn" target="_blank">
+                                        <svg class="icon icon-linkedin">
+                                            <use xlink:href="#icon-linkedin"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@item.Youtube" target="_blank">
+                                        <svg class="icon icon-youtube">
+                                            <use xlink:href="#icon-youtube"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    // Initialize and add the map
+    function initMap() {
+        // The location of etu
+        const etu = { lat: 39.918401211489936, lng: 41.24115589344249 };
+        // The map, centered at Uluru
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 14,
+            center: etu,
+        });
+        // The marker, positioned at Uluru
+        const marker = new google.maps.Marker({
+            position: etu,
+            map: map,
+        });
+    }
+</script>
+
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2qKRc9yopaJWISw745FSX-7eIVb9_gvQ&callback=initMap&libraries=&v=weekly"
+    async></script>

@@ -34,7 +34,8 @@ namespace WebProject.Controllers
 
         public IActionResult iletisim()
         {
-            return View();
+            var genSettings = db.GenSetting;
+            return View(genSettings);
         }
 
         public IActionResult altyapi()

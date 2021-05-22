@@ -8,8 +8,8 @@
   button.social-media-btn {
     display: none;
     position: relative;
-    margin-bottom: 30px;
-    color: var(--bg-blue-3);
+    margin-bottom: 50px;
+    color: var(--text-color-white);
     @include screen('desktop') {
       display: block;
     }
@@ -30,6 +30,16 @@
 .social-media {
   max-height: 0px;
   overflow: hidden;
+  &.home {
+    .social-media-item {
+      &-link {
+        color: var(--text-color-blue);
+        &:hover {
+          color: var(--bg-blue-2);
+        }
+      }
+    }
+  }
   &.social-menu-active {
     max-height: 100%;
   }
@@ -39,9 +49,9 @@
       margin-bottom: 0px;
     }
     &-link {
-      color: var(--bg-blue-3);
+      color: var(--text-color-white);
       &:hover {
-        color: aqua;
+        color: var(--bg-blue-2);
       }
     }
   }

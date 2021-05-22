@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj": {}
+    "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj": {
+    "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj",
+        "projectUniqueName": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj",
         "projectName": "WebProject",
-        "projectPath": "C:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj",
+        "projectPath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj",
         "packagesPath": "C:\\Users\\hodag\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\obj\\",
+        "outputPath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
