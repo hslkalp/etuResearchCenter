@@ -1,0 +1,42 @@
+.management-wrapper {
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 50px var(--mobile-padding-gap);
+  min-height: calc(100vh - 100px);
+}
+
+.management {
+  &-title {
+    h1 {
+      color: var(--text-color-blue);
+      margin-bottom: 20px;
+    }
+    margin-bottom: 80px;
+    &::after {
+      content: '';
+      display: block;
+      height: 1px;
+      background: var(--text-color-black-2);
+    }
+  }
+  &-staff {
+    .content-block {
+      gap: 1.5rem;
+      &:first-child {
+        justify-content: center;
+      }
+      .card {
+        &-img {
+          border-radius: 100%;
+          width: 180px;
+          height: auto;
+          margin: 0px auto;
+          border: 5px solid var(--bg-blue-3);
+        }
+        &-body {
+          text-align: center;
+        }
+      }
+    }
+  }
+}

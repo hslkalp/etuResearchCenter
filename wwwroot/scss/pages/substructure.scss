@@ -1,0 +1,33 @@
+.substructure-lab-wrapper {
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 50px var(--mobile-padding-gap);
+}
+
+.substructure-lab {
+  &-title {
+    h1 {
+      color: var(--text-color-blue);
+      margin-bottom: 20px;
+    }
+    margin-bottom: 80px;
+    &::after {
+      content: '';
+      display: block;
+      height: 1px;
+      background: var(--text-color-black-2);
+    }
+  }
+  .content-block {
+    gap: 1.5rem;
+    .card {
+      @include screen('tablet') {
+        flex: 0 0 25%;
+      }
+      &-body {
+        text-align: center;
+        margin: 0px auto;
+      }
+    }
+  }
+}

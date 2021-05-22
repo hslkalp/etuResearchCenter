@@ -1,1 +1,25 @@
-<h2>Yönetim</h2>
+@model IEnumerable<WebProject.Models.Management>
+
+<div class="management-wrapper">
+    <div class="management">
+        <div class="management-title">
+            <h1>Yönetim</h1>
+        </div>
+        <div class="management-staff">
+            @foreach (var item in Model.Take(4))
+            {
+                <div class="content-block">
+                    <div class="card">
+                        <img src="@item.Picture" alt="Alpgiray HAŞLAK" class="card-img">
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <a href="@item.Link" target="_blank">@item.FullName</a>
+                            </h3>
+                            <p class="card-text">@item.Status</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -14546,6 +14546,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Home\\altyapiDetay.cshtml",
+      "TargetPath": "Views\\Home\\altyapiDetay.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\Views\\Home\\Index.cshtml",
       "TargetPath": "Views\\Home\\Index.cshtml",
       "FileKind": "mvc"

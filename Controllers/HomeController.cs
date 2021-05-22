@@ -39,7 +39,13 @@ namespace WebProject.Controllers
 
         public IActionResult altyapi()
         {
-            return View();
+            var substructure = db.Substructure;
+            return View(substructure);
+        }
+        public IActionResult altyapiDetay(int id)
+        {
+            var substructures = db.Substructure.FirstOrDefault(a => a.Id == id);
+            return View(substructures);
         }
 
         public IActionResult makaleler()

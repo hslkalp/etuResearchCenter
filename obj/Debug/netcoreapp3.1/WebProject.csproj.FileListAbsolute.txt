@@ -93,3 +93,4 @@ C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\bildiriler.cshtml.g.cs
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\makaleler.cshtml.g.cs
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\projeler.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Home\altyapiDetay.cshtml.g.cs

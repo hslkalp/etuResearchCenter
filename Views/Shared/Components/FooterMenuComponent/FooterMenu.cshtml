@@ -15,11 +15,11 @@
                             var link = "";
                             if (item1.Link != null && item1.Link != "")
                             {
-                                link = item1.Link;
+                                link = item1.Link.Replace(" ", "-");
                             }
                             else
                             {
-                                link = @item.Name + "/" + item1.Name;
+                                link = @item.Name + "/" + item1.Name.Replace(" ", "-");
                             }
 
                             if (item1.TargetBlank == false)

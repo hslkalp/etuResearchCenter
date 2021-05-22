@@ -1,17 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
+using WebProject.Data;
 
 namespace WebProject.Controllers
 {
     public class HakkimizdaController : Controller
     {
-        public IActionResult yonetim()
+        private readonly ETURContext db;
+
+        public HakkimizdaController(ETURContext context)
         {
-            return View();
+            db = context;
         }
 
-        public IActionResult misyonVeVizyon()
+        public IActionResult yonetim()
         {
-            return View();
+            var management = db.Management;
+            return View(management);
         }
+
+
     }
 }

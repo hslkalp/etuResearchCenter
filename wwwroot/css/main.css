@@ -1404,7 +1404,8 @@ section.section {
 .about-us-wrapper {
   max-width: 1200px;
   margin: 0px auto;
-  padding: 50px var(--mobile-padding-gap); }
+  padding: 50px var(--mobile-padding-gap);
+  min-height: calc(100vh - 100px); }
 
 .about-us-title {
   margin-bottom: 80px; }
@@ -1439,3 +1440,62 @@ section.section {
   .about-us .content-block2 img {
     height: 100%;
     width: 100%; }
+
+.management-wrapper {
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 50px var(--mobile-padding-gap);
+  min-height: calc(100vh - 100px); }
+
+.management-title {
+  margin-bottom: 80px; }
+  .management-title h1 {
+    color: var(--text-color-blue);
+    margin-bottom: 20px; }
+  .management-title::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: var(--text-color-black-2); }
+
+.management-staff .content-block {
+  gap: 1.5rem; }
+  .management-staff .content-block:first-child {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+  .management-staff .content-block .card-img {
+    border-radius: 100%;
+    width: 180px;
+    height: auto;
+    margin: 0px auto;
+    border: 5px solid var(--bg-blue-3); }
+  .management-staff .content-block .card-body {
+    text-align: center; }
+
+.substructure-lab-wrapper {
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 50px var(--mobile-padding-gap); }
+
+.substructure-lab-title {
+  margin-bottom: 80px; }
+  .substructure-lab-title h1 {
+    color: var(--text-color-blue);
+    margin-bottom: 20px; }
+  .substructure-lab-title::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: var(--text-color-black-2); }
+
+.substructure-lab .content-block {
+  gap: 1.5rem; }
+  @media (min-width: 768px) {
+    .substructure-lab .content-block .card {
+      -webkit-box-flex: 0;
+          -ms-flex: 0 0 25%;
+              flex: 0 0 25%; } }
+  .substructure-lab .content-block .card-body {
+    text-align: center;
+    margin: 0px auto; }

@@ -1,1 +1,23 @@
-<h2>Altyapi</h2>
+@model IEnumerable<WebProject.Models.Substructure>
+
+<div class="substructure-lab-wrapper">
+    <div class="substructure-lab">
+        <div class="substructure-lab-title">
+            <h1>Altyapi</h1>
+        </div>
+        <div class="content-block">
+            @foreach (var item in Model)
+            {
+                <div class="card">
+                    <img src="@item.PicturePath" alt="alt yapi resim" class="card-img">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <a asp-controller="Home" asp-action="altyapiDetay" asp-route-id="@item.Id">@item.Name</a>
+                        </h3>
+                        <p class="card-text">@item.Description</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

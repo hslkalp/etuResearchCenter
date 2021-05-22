@@ -18,5 +18,9 @@ namespace WebProject.Data
         public DbSet<WebProject.Models.Announcement> Announcements { get; set; }
 
         public DbSet<WebProject.Models.FooterMenu> FooterMenu { get; set; }
+
+        public DbSet<WebProject.Models.Management> Management { get; set; }
+
+        public DbSet<WebProject.Models.Substructure> Substructure { get; set; }
     }
 }
