@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebProject.Data;
+using WebProject.Filter;
 
 namespace WebProject
 {
@@ -30,9 +31,12 @@ namespace WebProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSession();
             services.AddMvc();
             services.AddDbContext<ETURContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("ETURContext")));
+
+            services.AddScoped<AdminUserSecurityAttribute>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +66,7 @@ namespace WebProject
 
             app.UseAuthorization();
 
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

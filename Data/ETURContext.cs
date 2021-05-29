@@ -18,5 +18,6 @@ namespace WebProject.Data
         public DbSet<WebProject.Models.Articles> Articles { get; set; }
         public DbSet<WebProject.Models.Notification> Notification { get; set; }
         public DbSet<WebProject.Models.Project> Projects { get; set; }
+        public DbSet<WebProject.Models.Users> Users { get; set; }
     }
 }

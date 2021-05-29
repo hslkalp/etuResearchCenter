@@ -1,0 +1,120 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/main.css">
+
+    <title>Yönetici Giriş Sayfası</title>
+</head>
+
+<body class="login-body">
+    @* SVG *@
+    <svg width="0" height="0" display="none" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+            <symbol id="icon-enter" viewBox="0 0 32 32">
+                <path d="M12 16h-10v-4h10v-4l6 6-6 6zM32 0v26l-12 6v-6h-12v-8h2v6h10v-18l8-4h-18v8h-2v-10z"></path>
+            </symbol>
+            <symbol id="icon-warning" viewBox="0 0 32 32">
+                <path
+                    d="M16 2.899l13.409 26.726h-26.819l13.409-26.726zM16 0c-0.69 0-1.379 0.465-1.903 1.395l-13.659 27.222c-1.046 1.86-0.156 3.383 1.978 3.383h27.166c2.134 0 3.025-1.522 1.978-3.383h0l-13.659-27.222c-0.523-0.93-1.213-1.395-1.903-1.395v0z">
+                </path>
+                <path d="M18 26c0 1.105-0.895 2-2 2s-2-0.895-2-2c0-1.105 0.895-2 2-2s2 0.895 2 2z"></path>
+                <path d="M16 22c-1.105 0-2-0.895-2-2v-6c0-1.105 0.895-2 2-2s2 0.895 2 2v6c0 1.105-0.895 2-2 2z"></path>
+            </symbol>
+        </defs>
+    </svg>
+    <div class="login-wrapper" id="loginCtrl">
+        <div class="login">
+            <div class="login-block">
+                <div class="login-block1">
+                    <div class="login-body">
+                        <div class="login-title">
+                            <h3>Giriş</h3>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" v-model="login.Email" name="Email"
+                                placeholder="Email Adresi">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" v-model="login.Password" name="Password"
+                                placeholder="Şifre">
+                        </div>
+                        <div class="form-group">
+                            <button v-on:click="loginQuery()" class="form-btn signIn">
+                                <svg class="icon icon-enter">
+                                    <use xlink:href="#icon-enter"></use>
+                                </svg>
+                                Giriş
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <div class="login-subtitle">
+                                <svg class="icon icon-warning">
+                                    <use xlink:href="#icon-warning"></use>
+                                </svg>
+                                <p id="loginResult">
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="login-footer">
+                            <p>
+                                &copy; Hodagh All right reserved 2021
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="login-block2">
+                    <div class="login-logo">
+                        <img src="~/img/logo.svg" alt="etü logo">
+                    </div>
+                    <div class="login-title">
+                        <h3>Erzurum Teknik Üniversitesi Araştırma Merkezi</h3>
+                        <a asp-controller="Home" asp-action="Index" class="login-link">Ana Sayfa</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/node/vue/dist/vue.min.js" asp-append-version="true" type="text/javascript"></script>
+    <script src="~/node/axios/dist/axios.min.js" asp-append-version="true" type="text/javascript"></script>
+
+    <script>
+        var loginCtrl = new Vue({
+            el: '#loginCtrl',
+            data: {
+                login: {}
+            },
+            mounted: function () {
+                this.loginQuery()
+            },
+            methods: {
+                loginQuery: function () {
+                    var vm = this;
+                    axios.post("/Admin/loginQuery", vm.login)
+                        .then(function (response) {
+                            document.getElementById('loginResult').innerHTML = response.data.message;
+                            if (response.data.result) {
+                                window.location.href = response.data.url;
+                            }
+                        })
+                        .catch(function (error) {
+                            document.getElementById('logiResult').innerHTML = error.data.message;
+                        })
+                }
+            }
+        })
+    </script>
+
+
+</body>
+
+</html>

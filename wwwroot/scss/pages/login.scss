@@ -1,0 +1,127 @@
+body.login-body {
+  background: #f6f5f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.login-wrapper {
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 50px var(--mobile-padding-gap);
+}
+
+.login {
+  background: var(--bg-white);
+  box-shadow: 0px 0px 20px gray;
+  border-radius: 8px;
+  &-block {
+    display: flex;
+    flex-flow: row nowrap;
+    &1 {
+      padding: 50px;
+      width: 400px;
+    }
+    &2 {
+      padding: 0px 50px;
+      background: var(--bg-pink-2);
+      .login-title {
+        max-width: 400px;
+        h3 {
+          font-size: 1.2rem;
+          color: var(--text-color-white);
+        }
+      }
+    }
+  }
+  &-body {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+  }
+  &-logo {
+    width: 200px;
+    height: auto;
+    padding: 20px 0px;
+    @include margin-auto;
+    img {
+      @include max-size;
+    }
+  }
+  &-title {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  &-footer {
+    font-size: 0.7rem;
+    margin-top: 20px;
+    text-align: center;
+  }
+  &-link {
+    @include flex-inline;
+    gap: 0.5rem;
+    font-size: 0.93rem;
+    margin-top: 20px;
+    padding: 12px 21px;
+    color: var(--text-color-white);
+    border-radius: 50px;
+    border: 1px solid var(--bg-white);
+    transition: all 0.5s;
+    &:hover {
+      border-color: var(--bg-white);
+      background: var(--bg-white);
+      color: var(--bg-pink-2);
+    }
+  }
+  &-subtitle {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 0.5rem;
+
+    font-size: 1rem;
+    margin-top: 15px;
+    padding: 8px;
+    background: var(--bg-yellow);
+    color: var(--text-color-brown);
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  width: 100%;
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}
+.form-control {
+  font-size: 0.83rem;
+  padding: 12px 21px;
+  border: none;
+  background: var(--bg-gray);
+}
+
+.form-btn {
+  font-size: 0.93rem;
+  padding: 12px 21px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  color: var(--text-color-white);
+  transition: all 0.5s;
+  @include flex-inline;
+  gap: 0.5rem;
+  &:active {
+    transform: scale(0.95);
+  }
+  &.signIn {
+    background: var(--bg-orange-2);
+  }
+  &.signOut {
+    background: var(--bg-pink);
+  }
+}
