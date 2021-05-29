@@ -21,7 +21,7 @@ namespace WebProject.Controllers
             return View();
         }
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+        // [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         public IActionResult Home()
         {
             return View();
