@@ -66,12 +66,22 @@ nav {
       margin-bottom: 30px;
       max-width: 240px;
       a {
-        font-size: 1.2em;
+        font-size: 1em;
         text-transform: capitalize;
         color: var(--text-color-blue);
         font-weight: 700;
         @include screen('desktop') {
           color: var(--text-color-white);
+        }
+        &.login-btn {
+          padding: 8px 12px;
+          border: 2px solid var(--bg-blue-3);
+          transition: all 0.5s ease;
+          &:hover {
+            border-color: var(--bg-pink-2);
+            background: var(--bg-pink-2);
+            color: var(--text-color-blue);
+          }
         }
       }
 

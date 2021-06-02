@@ -1,0 +1,183 @@
+@{
+    Layout = "~/Views/Admin/_Layout.cshtml";
+}
+
+@model GenSetting
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="EditGenSettings" asp-controller="Admin" class="needs-validation" novalidate method="POST">
+            <div class="form-group">
+                <label asp-for="WebsiteName">Site Adı</label>
+                <input asp-for="WebsiteName" type="text" class="form-control" placeholder="Site Adı" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MetaAuthor">MetaAuthor</label>
+                <input asp-for="MetaAuthor" type="text" class="form-control" placeholder="MetaAuthor" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MetaKeyWords">MetaKeyWords</label>
+                <input asp-for="MetaKeyWords" type="text" class="form-control" placeholder="MetaKeyWords" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MetaDescription">MetaDescription</label>
+                <input asp-for="MetaDescription" type="text" class="form-control" placeholder="MetaDescription"
+                    required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Telephone">Telephone</label>
+                <input asp-for="Telephone" type="text" class="form-control" placeholder="Telephone" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" type="text" class="form-control" placeholder="Email" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Fax">Fax</label>
+                <input asp-for="Fax" type="text" class="form-control" placeholder="Fax" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MetaDescription">MetaDescription</label>
+                <input asp-for="MetaDescription" type="text" class="form-control" placeholder="MetaDescription"
+                    required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="WebAddress">WebAddress</label>
+                <input asp-for="WebAddress" type="text" class="form-control" placeholder="WebAddress" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ShortHistory">ShortHistory</label>
+                <textarea class="form-control" id="summernote" asp-for="ShortHistory" required></textarea>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address">Address</label>
+                <input asp-for="Address" type="text" class="form-control" placeholder="Address" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="language">Language</label>
+                <input asp-for="language" type="text" class="form-control" placeholder="Language" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Twitter">Twitter</label>
+                <input asp-for="Twitter" type="text" class="form-control" placeholder="Twitter" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Facebook">Facebook</label>
+                <input asp-for="Facebook" type="text" class="form-control" placeholder="Facebook" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="GooglePlus">GooglePlus</label>
+                <input asp-for="GooglePlus" type="text" class="form-control" placeholder="GooglePlus" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Instagram">Instagram</label>
+                <input asp-for="Instagram" type="text" class="form-control" placeholder="Instagram" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LinkedIn">LinkedIn</label>
+                <input asp-for="LinkedIn" type="text" class="form-control" placeholder="LinkedIn" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Youtube">Youtube</label>
+                <input asp-for="Youtube" type="text" class="form-control" placeholder="Youtube" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>

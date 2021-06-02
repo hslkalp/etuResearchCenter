@@ -1,0 +1,71 @@
+@model string
+
+<ul class="list-group">
+    <li class="list-group-item disabled active text-center text-uppercase" aria-disabled="true" aria-current="true">
+        <h4>lütfen Okuyunuz!</h4>
+    </li>
+    @if (Model == "Duyuru")
+    {
+        <li class="list-group-item list-group-item-warning p-3">
+            <i class="fas fa-exclamation-triangle"></i>
+            ETÜ Araştırma Merkezi Anasayfasında bulunan <strong>@Model</strong> verisidir.
+        </li>
+    }
+    else if (Model == "Yönetici")
+    {
+        <li class="list-group-item list-group-item-warning p-3">
+            <i class="fas fa-exclamation-triangle"></i>
+            ETÜ Araştırma Merkezi <strong>@Model</strong> kadrosudur.
+        </li>
+    }
+    else if (Model == "Kullanıcı")
+    {
+        <li class="list-group-item list-group-item-warning p-3">
+            <i class="fas fa-exclamation-triangle"></i>
+            ETÜ Araştırma Merkezi Web Sitesinin <strong>@Model</strong> üyeleridir belirli verileri sisteme girirler.
+        </li>
+    }
+    else if (Model == "Altyapı")
+    {
+        <li class="list-group-item list-group-item-warning p-3">
+            <i class="fas fa-exclamation-triangle"></i>
+            ETÜ Araştırma Merkezi <strong>@Model</strong> bilgisidir.
+        </li>
+    }
+    else if (Model == "Haber")
+    {
+        <li class="list-group-item list-group-item-warning p-3">
+            <i class="fas fa-exclamation-triangle"></i>
+            ETÜ Araştırma Merkezi <strong>@Model</strong> bilgisidir Web Sitenin Ana sayfasında gözükür.
+        </li>
+    }
+    else if (Model == "Makale")
+    {
+        <li class="list-group-item list-group-item-warning p-3">
+            <i class="fas fa-exclamation-triangle"></i>
+            ETÜ Araştırma Merkezi <strong>@Model</strong> bilgisidir. Araştırmacılar tarafından sisteme girilir.
+        </li>
+    }
+    else if (Model == "Bildiri")
+    {
+        <li class="list-group-item list-group-item-warning p-3">
+            <i class="fas fa-exclamation-triangle"></i>
+            ETÜ Araştırma Merkezi <strong>@Model</strong> bilgisidir. Araştırmacılar tarafından sisteme girilir.
+        </li>
+    }
+    else if (Model == "Proje")
+    {
+        <li class="list-group-item list-group-item-warning p-3">
+            <i class="fas fa-exclamation-triangle"></i>
+            ETÜ Araştırma Merkezi <strong>@Model</strong> bilgisidir. Araştırmacılar tarafından sisteme girilir.
+        </li>
+    }
+    <li class="list-group-item list-group-item-warning p-3">
+        <i class="fas fa-exclamation-triangle"></i>
+        Form Eksiksiz doldurulmalıdır aksi taktirde kayıt yapılmaz.
+    </li>
+    <li class="list-group-item list-group-item-warning p-3">
+        <i class="fas fa-exclamation-triangle"></i>
+        İlgili Form elemanlarına doğru bilgi girdiğinizden lütfen emin olunuz.
+    </li>
+</ul>

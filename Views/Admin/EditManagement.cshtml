@@ -1,0 +1,84 @@
+@model Management
+@{
+    Layout = "~/Views/Admin/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="EditManagement" asp-controller="Admin" method="POST" class="needs-validation" novalidate>
+            <div class="form-group">
+                <label asp-for="FullName">İsim soyisim</label>
+                <input type="text" class="form-control" asp-for="FullName" placeholder="Başlık Giriniz" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <input type="text" class="form-control" asp-for="Email" placeholder="Email" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Picture">Picture</label>
+                <input type="text" class="form-control" asp-for="Picture" placeholder="Dil" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Link">Link</label>
+                <input type="text" class="form-control" asp-for="Link" placeholder="Link" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status">Status</label>
+                <input type="text" class="form-control" asp-for="Status" placeholder="Resim" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="StaffStatus">StaffStatus</label>
+                <input type="text" class="form-control" asp-for="StaffStatus" placeholder="Resim" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status">Queue</label>
+                <input type="text" class="form-control" asp-for="Queue" placeholder="Queue" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>

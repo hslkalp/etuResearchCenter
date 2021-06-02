@@ -37,6 +37,7 @@ namespace WebProject
                    options.UseSqlServer(Configuration.GetConnectionString("ETURContext")));
 
             services.AddScoped<AdminUserSecurityAttribute>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
