@@ -1078,5 +1078,140 @@ namespace WebProject.Controllers
 
             return RedirectToAction("Projects");
         }
+
+        // * laboratuvar
+
+        [HttpGet]
+        public IActionResult labs()
+        {
+            ViewData["Title"] = "Laboratuvarlar";
+            var labs = db.Labs;
+            return View(labs);
+        }
+
+        // * laboratuvar ekle
+        [HttpGet]
+        public IActionResult AddLab()
+        {
+            ViewData["Title"] = "Laboratuvar Ekle";
+            // * dil ayarları
+            var languages = db.Language.ToList();
+            ViewBag.languages = languages;
+
+            // * altyapı ayarları
+
+            var substructure = db.Substructure.ToList();
+            ViewBag.substructure = substructure;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddLabAsync(Labs labs, IFormFile PicturePath)
+        {
+
+            labs.AddUserID = 2;
+            labs.AdditionDate = DateTime.Now;
+
+            // * resim yolu
+            if (PicturePath != null)
+
+            {
+                string imageExtension = Path.GetExtension(PicturePath.FileName);
+
+                string imageName = Guid.NewGuid() + imageExtension;
+
+                string path = Path.Combine($"wwwroot/img/Labs/{imageName}");
+
+                using var stream = new FileStream(path, FileMode.Create);
+
+                await PicturePath.CopyToAsync(stream);
+
+                labs.PicturePath = path;
+
+                labs.PicturePath = labs.PicturePath.Substring(labs.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+
+            }
+
+            db.Labs.Add(labs);
+            db.SaveChanges();
+
+
+
+            return RedirectToAction("Labs");
+        }
+
+
+        // *laboratuvar güncelleme
+
+        [HttpGet]
+        public IActionResult EditLab(int? id)
+        {
+
+            // * dil ayarları
+            var languages = db.Language.ToList();
+            ViewBag.languages = languages;
+
+            // * altyapı ayarları
+
+            var substructure = db.Substructure.ToList();
+            ViewBag.substructure = substructure;
+
+
+            var foundLab = db.Labs.Where(labs => labs.Id == id).FirstOrDefault();
+            return View(foundLab);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditLabAsync(int? id, Labs labs, IFormFile PicturePath)
+        {
+
+            var foundLab = db.Labs.Where(labs => labs.Id == id).FirstOrDefault();
+
+            foundLab.Name = labs.Name;
+            foundLab.Description = labs.Description;
+            foundLab.AddUserID = 2;
+            foundLab.AdditionDate = DateTime.Now;
+            foundLab.Language = labs.Language;
+            foundLab.SubstructureID = labs.SubstructureID;
+
+            // * resim yolu
+            if (PicturePath != null)
+
+            {
+                string imageExtension = Path.GetExtension(PicturePath.FileName);
+
+                string imageName = Guid.NewGuid() + imageExtension;
+
+                string path = Path.Combine($"wwwroot/img/Labs/{imageName}");
+
+                using var stream = new FileStream(path, FileMode.Create);
+
+                await PicturePath.CopyToAsync(stream);
+
+                labs.PicturePath = path;
+
+                labs.PicturePath = labs.PicturePath.Substring(labs.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+
+            }
+
+            foundLab.PicturePath = labs.PicturePath;
+
+            db.Labs.Update(foundLab);
+            db.SaveChanges();
+
+            return RedirectToAction("Labs");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteLab(int? id)
+        {
+            var foundLab = db.Labs.Where(labs => labs.Id == id).FirstOrDefault();
+
+            db.Labs.Remove(foundLab);
+            db.SaveChanges();
+
+            return RedirectToAction("Labs");
+        }
     }
 }

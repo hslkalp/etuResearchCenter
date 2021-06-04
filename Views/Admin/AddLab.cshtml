@@ -1,0 +1,82 @@
+@model Labs
+@{
+    Layout = "~/Views/Admin/_Layout.cshtml";
+    var title = ViewData["Title"];
+}
+
+<h1>
+    @title
+</h1>
+<hr>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="AddLab" asp-controller="Admin" method="POST" class="needs-validation"
+            enctype="multipart/form-data" novalidate>
+            <div class="form-group">
+                <label asp-for="Name">İsim</label>
+                <input type="text" class="form-control" asp-for="Name" placeholder="İsim giriniz" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description">Açıklama</label>
+                <input type="text" class="form-control" asp-for="Description" placeholder="Açıklama" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="PicturePath" class="form-label">Resim Seç</label>
+                <input asp-for="PicturePath" class="form-control" type="file" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Language">Dil</label>
+                @* dil değeri name olarak atandı *@
+                <select asp-for="Language" asp-items="@(new SelectList(ViewBag.languages,"Name","Name"))"
+                    class="form-select" aria-label="Default select example">
+                    <option selected>Lütfen dil seçiniz</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubstructureID">Altyapı</label>
+                @* dil değeri name olarak atandı *@
+                <select asp-for="SubstructureID" asp-items="@(new SelectList(ViewBag.substructure,"Id","Name"))"
+                    class="form-select" aria-label="Default select example">
+                    <option selected>Lütfen Altyapı seçiniz</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Ekle</button>
+        </form>
+    </div>
+    <div class="col-md-4 ml-auto">
+        @await Html.PartialAsync("_PleaseRead", "Laboratuvar")
+    </div>
+</div>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
