@@ -3,26 +3,99 @@
 @model ViewUsers
 @{
     Layout = "~/Views/Admin/_Layout.cshtml";
-    @* string fullName = HttpContextAccessor.HttpContext.Session.GetString("Name") +
-        HttpContextAccessor.HttpContext.Session.GetString("Surname");
-        string picturePath = HttpContextAccessor.HttpContext.Session.GetString("PicturePath");
-        string institution = HttpContextAccessor.HttpContext.Session.GetString("Institution"); *@
+    string fullName = HttpContextAccessor.HttpContext.Session.GetString("Name") + " " +
+    HttpContextAccessor.HttpContext.Session.GetString("Surname");
+    string picturePath = HttpContextAccessor.HttpContext.Session.GetString("PicturePath");
+    string institution = HttpContextAccessor.HttpContext.Session.GetString("Institution");
+    int roleId = 0;
+    DateTime hour = DateTime.Now;
 }
 
 <!-- #Sisteme Giriş yapan kişi kart -->
 
 
-
-@foreach (var item in @Model.loggedUsers)
-{
-    <div class="card" style="width: 18rem;">
-        <img src="~/@item.user.PicturePath" class="card-img-top" alt="@item.user.Name fotoğrafı">
-        <div class="card-body">
-            <h5 class="card-title">@item.user.Name @item.user.Surname</h5>
-            <p class="card-text">@item.role.Name @item.role.Description</p>
-            <p class="card-text">
-                @item.user.Institution
-            </p>
+<div class="row">
+    <div class="col-md-8">
+        <div class="card  bg-dark text-white">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <img src="~/img/default/profileX.svg" class="card-img-top" alt="profil svg">
+                    </div>
+                    @* kimlik *@
+                    <div class="col">
+                        @foreach (var item in @Model.loggedUsers)
+                        {
+                            roleId = item.role.Id;
+                            <div class="row p-3">
+                                <div class="col-md-7">
+                                    <h5 class="card-title">@item.user.Name @item.user.Surname</h5>
+                                    <p class="card-text"><b><i>@item.role.Name</i></b> </p>
+                                    <p class="card-text">@item.role.Description</p>
+                                    <p class="card-text">
+                                        @item.user.Institution
+                                    </p>
+                                </div>
+                                <div class="col-md-5">
+                                    <img style="max-width: 200px; height: auto;" src="~/@item.user.PicturePath"
+                                    class="card-img-top" alt="@item.user.Name fotoğrafı">
+                                </div>
+                            </div>
+                        }
+                        @* yetki bilgilendirme *@
+                        <ul class="list-group mt-3 mr-auto">
+                            @if (roleId == 1) //* öğretim görevlisi kısıtlı veri girme
+                            {
+                                <li class="list-group-item list-group-item-warning p-3">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Yapabileceğiniz işlemler sol tarafta bulunan admin panalinde gösterilmiştir sırasıyla;
+                                    <strong><i>Makaleler</i></strong>,
+                                    <strong><i>Bildiriler</i></strong>,
+                                    <strong><i>Projeler</i></strong>
+                                </li>
+                            }
+                            else if (roleId == 2)
+                            {
+                                <li class="list-group-item list-group-item-warning p-3">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Yapabileceğiniz işlemler sol tarafta bulunan admin panalinde gösterilmiştir sırasıyla;
+                                    <strong><i>Genel Ayarlar</i></strong>,
+                                    <strong><i>Duyurular</i></strong>,
+                                    <strong><i>Haberler</i></strong>,
+                                    <strong><i>Yönetim</i></strong>,
+                                    <strong><i>Kullanıcılar</i></strong>,
+                                    <strong><i>Altyapı</i></strong>,
+                                    <strong><i>Laboratuvarlar</i></strong>,
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-}
+    <div class="col-md-4">
+        @* Vakit Bilgilendirme *@
+        <div class="card bg-dark text-white">
+            @if (hour.ToString("tt").ToLower() == "am")
+            {
+                <img src="~/img/default/moonlight.svg" alt="kart resmi" class="card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        İyi geceler <b>@fullName</b>
+                    </h3>
+                </div>
+            }
+            else if (hour.ToString("tt").ToLower() == "pm")
+            {
+                <img src="~/img/default/working.svg" alt="kart resmi" class="card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        İyi çalışmalar <b>@fullName</b>
+                    </h3>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

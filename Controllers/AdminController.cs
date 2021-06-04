@@ -17,6 +17,8 @@ namespace WebProject.Controllers
     {
         private readonly ETURContext db;
 
+        private int logedUserID;
+
         public AdminController(ETURContext context)
         {
             db = context;
@@ -26,7 +28,7 @@ namespace WebProject.Controllers
             return View();
         }
 
-        //[ServiceFilter(typeof(AdminUserSecurityAttribute))]
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         public IActionResult Home()
         {
             // * inner join ile giriş yapan kullanıcın bilgileri diğer tablo ile birleştirildi
@@ -43,6 +45,8 @@ namespace WebProject.Controllers
             return View(viewModel);
         }
 
+
+        // * giriş işlemi
         [HttpPost]
         [Route("/Admin/loginQuery")]
         public JsonResult LoginQuery([FromBody] Users data)
@@ -80,7 +84,9 @@ namespace WebProject.Controllers
                     HttpContext.Session.SetInt32("UserRole", user.Role);
                     HttpContext.Session.SetInt32("AdminRole", user.Role);
                     HttpContext.Session.SetString("Institution", user.Institution);
-                    // HttpContext.Session.SetString("Email", user.Email); ?
+
+                    // * giriş yapan kişi id eşitlendi
+                    logedUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
                     return Json(new { Result = true, Message = "Başarıyla Giriş Yaptınız. Yönlendiriliyorsunuz..", Url = "/Admin/Home" });
                 }
@@ -92,6 +98,8 @@ namespace WebProject.Controllers
             }
         }
 
+        // * çıkış işlemi
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public IActionResult logOut()
         {
@@ -99,7 +107,9 @@ namespace WebProject.Controllers
             return RedirectToAction("Login");
         }
 
-        //[ServiceFilter(typeof(AdminUserSecurityAttribute))]
+
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * Duyurular
         public IActionResult Announcements()
         {
@@ -108,7 +118,7 @@ namespace WebProject.Controllers
             return View(announcement);
         }
 
-        //[ServiceFilter(typeof(AdminUserSecurityAttribute))]
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * Duyuru ekeleme
         [HttpGet]
         public IActionResult AddAnnouncements()
@@ -119,6 +129,8 @@ namespace WebProject.Controllers
             ViewBag.languages = languages;
             return View();
         }
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> AddAnnouncementsAsync(Announcement announcement, IFormFile PicturePath)
         {
@@ -141,17 +153,17 @@ namespace WebProject.Controllers
                 announcement.PicturePath = announcement.PicturePath.Substring(announcement.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
             }
-
             announcement.AdditionDate = DateTime.Now;
-            // announcement.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            announcement.AddUserID = 2;
-            // * resim wwwroot siliyoruz
+
+            announcement.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
             db.Announcements.Add(announcement);
-            // Inner Join yapılacak
             db.SaveChanges();
+
             return RedirectToAction("Announcements");
         }
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * Duyuru güncelleme
         [HttpGet]
         public IActionResult EditAnnouncements(int? id)
@@ -162,6 +174,7 @@ namespace WebProject.Controllers
             return View(foundAnnouncement);
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> EditAnnouncementsAsync(int? id, Announcement announcement, IFormFile PicturePath)
         {
@@ -169,7 +182,7 @@ namespace WebProject.Controllers
 
             var foundAnnouncement = db.Announcements.Where(a => a.Id == id).FirstOrDefault();
             foundAnnouncement.AdditionDate = DateTime.Now;
-            foundAnnouncement.AddUserID = 2;
+            foundAnnouncement.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             foundAnnouncement.Title = announcement.Title;
             foundAnnouncement.Content = announcement.Content;
             foundAnnouncement.ShortText = announcement.ShortText;
@@ -200,8 +213,10 @@ namespace WebProject.Controllers
             db.SaveChanges();
             return RedirectToAction("Announcements");
         }
-        // * duyuru silme
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+        // * duyuru silme
         [HttpPost]
         public IActionResult DeleteAnnouncements(int id)
         {
@@ -219,6 +234,8 @@ namespace WebProject.Controllers
             }
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * Genel Ayarlar
         [HttpGet]
         public IActionResult GenSettings()
@@ -228,12 +245,15 @@ namespace WebProject.Controllers
             return View(genSettings);
         }
 
-        //* Genel Ayar güncelleme
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+        //* Genel Ayar güncelleme
         [HttpGet]
         public IActionResult EditGenSettings(int? id)
         {
             var foundGenSettings = db.GenSetting.Where(a => a.Id == id).FirstOrDefault();
+
             // * dil ayarları
             var languages = db.Language.ToList();
             ViewBag.languages = languages;
@@ -241,11 +261,12 @@ namespace WebProject.Controllers
             return View(foundGenSettings);
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public IActionResult EditGenSettings(int? id, GenSetting genSetting)
         {
             var defaultGenSettings = db.GenSetting.Where(gen => gen.Id == id).FirstOrDefault();
-            defaultGenSettings.AddUserID = 2;
+            defaultGenSettings.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             defaultGenSettings.AdditionDate = DateTime.Now;
             defaultGenSettings.WebsiteName = genSetting.WebsiteName;
             defaultGenSettings.MetaAuthor = genSetting.MetaAuthor;
@@ -261,7 +282,7 @@ namespace WebProject.Controllers
             defaultGenSettings.Email = genSetting.Email;
             defaultGenSettings.Fax = genSetting.Fax;
             defaultGenSettings.WebAddress = genSetting.WebAddress;
-            defaultGenSettings.OrganizerID = 2;
+            defaultGenSettings.OrganizerID = (int)HttpContext.Session.GetInt32("User_ID");
             defaultGenSettings.IssueDate = DateTime.Now;
             defaultGenSettings.ShortHistory = genSetting.ShortHistory;
             defaultGenSettings.Address = genSetting.Address;
@@ -272,7 +293,7 @@ namespace WebProject.Controllers
         }
 
         // * yönetim
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult Management()
         {
@@ -281,6 +302,7 @@ namespace WebProject.Controllers
             return View(management);
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * yönetim ekeleme
         [HttpGet]
         public IActionResult AddManagement()
@@ -288,6 +310,8 @@ namespace WebProject.Controllers
             ViewData["Title"] = "Yönetici Ekle";
             return View();
         }
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> AddManagementAsync(Management management, IFormFile Picture)
         {
@@ -310,9 +334,9 @@ namespace WebProject.Controllers
 
             }
 
-            management.AddUserID = 2;
+            management.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             management.AdditionDate = DateTime.Now;
-            management.OrganizerID = 2;
+            management.OrganizerID = (int)HttpContext.Session.GetInt32("User_ID");
             management.IssueDate = DateTime.Now;
             management.IsStaff = true;
             db.Management.Add(management);
@@ -321,6 +345,7 @@ namespace WebProject.Controllers
         }
 
         // * yönetim güncelleme
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult EditManagement(int? id)
         {
@@ -328,6 +353,7 @@ namespace WebProject.Controllers
             return View(foundManagement);
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> EditManagementAsync(int? id, Management management, IFormFile Picture)
         {
@@ -339,7 +365,8 @@ namespace WebProject.Controllers
             foundManagement.Status = management.Status;
             foundManagement.Queue = management.Queue;
             foundManagement.StaffStatus = management.StaffStatus;
-
+            foundManagement.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+            foundManagement.OrganizerID = (int)HttpContext.Session.GetInt32("User_ID");
             // * resim yolu
             if (Picture != null)
 
@@ -367,8 +394,8 @@ namespace WebProject.Controllers
             return RedirectToAction("Management");
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * yönetim silme
-
         [HttpPost]
         public IActionResult DeleteManagement(int id)
         {
@@ -386,8 +413,8 @@ namespace WebProject.Controllers
             }
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * kullanıcılar
-
         [HttpGet]
         public IActionResult Users()
         {
@@ -396,6 +423,8 @@ namespace WebProject.Controllers
             return View(users);
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * Kullanıcı ekle
         [HttpGet]
         public IActionResult AddUsers()
@@ -408,6 +437,7 @@ namespace WebProject.Controllers
             return View();
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> AddUsersAsync(Users user, IFormFile PicturePath)
         {
@@ -433,16 +463,15 @@ namespace WebProject.Controllers
 
             }
 
-
-
             user.AdditionDate = DateTime.Now;
+
             db.Users.Add(user);
             db.SaveChanges();
             return RedirectToAction("Users");
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * Kullanıcı Güncelleme
-
         [HttpGet]
         public IActionResult EditUsers(int? id)
         {
@@ -455,6 +484,8 @@ namespace WebProject.Controllers
             return View(foundUser);
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> EditUsersAsync(int? id, Users user, IFormFile PicturePath)
         {
@@ -493,6 +524,8 @@ namespace WebProject.Controllers
             return RedirectToAction("Users");
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public IActionResult DeleteUser(int? id)
         {
@@ -504,7 +537,7 @@ namespace WebProject.Controllers
 
 
         // * altyapi
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult Substructure()
         {
@@ -514,7 +547,7 @@ namespace WebProject.Controllers
         }
 
         // * altyapi ekle
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult AddSubstructure()
         {
@@ -526,10 +559,11 @@ namespace WebProject.Controllers
             return View();
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> AddSubstructureAsync(Substructure substructure, IFormFile PicturePath)
         {
-            substructure.AddUserID = 2;
+            substructure.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             substructure.AdditionDate = DateTime.Now;
 
             // * resim yolu
@@ -558,6 +592,7 @@ namespace WebProject.Controllers
             return RedirectToAction("Substructure");
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult EditSubstructure(int? id)
         {
@@ -569,13 +604,15 @@ namespace WebProject.Controllers
             return View(foundSubstructure);
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> EditSubstructureAsync(int? id, Substructure substructure, IFormFile PicturePath)
         {
             var foundSubstructure = db.Substructure.Where(subs => subs.Id == id).FirstOrDefault();
             foundSubstructure.Name = substructure.Name;
             foundSubstructure.Description = substructure.Description;
-            foundSubstructure.AddUserID = 2;
+            foundSubstructure.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             foundSubstructure.AdditionDate = DateTime.Now;
             foundSubstructure.Language = substructure.Language;
 
@@ -606,6 +643,8 @@ namespace WebProject.Controllers
             return RedirectToAction("Substructure");
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public IActionResult DeleteSubstructure(int? id)
         {
@@ -617,6 +656,8 @@ namespace WebProject.Controllers
 
         // * haberler
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult News()
         {
@@ -626,7 +667,7 @@ namespace WebProject.Controllers
         }
 
         // * haber ekle
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult AddNews()
         {
@@ -638,10 +679,12 @@ namespace WebProject.Controllers
             return View();
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> AddNewsAsync(News news, IFormFile PicturePath)
         {
-            news.AddUserID = 2;
+            news.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             news.AdditionDate = DateTime.Now;
 
             // * resim yolu
@@ -671,7 +714,7 @@ namespace WebProject.Controllers
         }
 
         // * haber güncelleme
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult EditNews(int? id)
         {
@@ -683,6 +726,7 @@ namespace WebProject.Controllers
             return View(foundNews);
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> EditNewsAsync(int? id, News news, IFormFile PicturePath)
         {
@@ -711,17 +755,18 @@ namespace WebProject.Controllers
             }
 
             foundNews.PicturePath = news.PicturePath;
-
-
-            foundNews.AddUserID = 2;
+            foundNews.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             foundNews.AdditionDate = DateTime.Now;
             foundNews.Language = news.Language;
             foundNews.ShortText = news.ShortText;
+
             db.News.Update(foundNews);
             db.SaveChanges();
+
             return RedirectToAction("News");
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public IActionResult DeleteNews(int? id)
         {
@@ -732,7 +777,7 @@ namespace WebProject.Controllers
         }
 
         // * makaleler
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult Articles()
         {
@@ -741,6 +786,7 @@ namespace WebProject.Controllers
             return View(articles);
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult AddArticles()
         {
@@ -752,10 +798,11 @@ namespace WebProject.Controllers
             return View();
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> AddArticlesAsync(Articles articles, IFormFile PicturePath)
         {
-            articles.AddUserID = 2;
+            articles.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             articles.AdditionDate = DateTime.Now;
 
             // * resim yolu
@@ -784,6 +831,8 @@ namespace WebProject.Controllers
             db.SaveChanges();
             return RedirectToAction("Articles");
         }
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult EditArticles(int? id)
         {
@@ -795,6 +844,7 @@ namespace WebProject.Controllers
             return View(foundArticle);
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> EditArticlesAsync(int? id, Articles articles, IFormFile PicturePath)
         {
@@ -824,7 +874,7 @@ namespace WebProject.Controllers
 
 
             foundArticle.PicturePath = articles.PicturePath;
-            foundArticle.AddUserID = 2;
+            foundArticle.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             foundArticle.AdditionDate = foundArticle.AdditionDate;
             foundArticle.Language = articles.Language;
 
@@ -834,6 +884,8 @@ namespace WebProject.Controllers
             return RedirectToAction("Articles");
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public IActionResult DeleteArticle(int? id)
         {
@@ -844,7 +896,7 @@ namespace WebProject.Controllers
         }
 
         // * bildiriler
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult Notifications()
         {
@@ -852,6 +904,8 @@ namespace WebProject.Controllers
             ViewData["Title"] = "Bildiriler";
             return View(notifications);
         }
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * ekle
         [HttpGet]
         public IActionResult AddNotification()
@@ -865,10 +919,11 @@ namespace WebProject.Controllers
         }
 
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> AddNotificationAsync(Notification notification, IFormFile PicturePath)
         {
-            notification.AddUserID = 2;
+            notification.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             notification.AdditionDate = DateTime.Now;
 
             // * resim yolu
@@ -896,6 +951,8 @@ namespace WebProject.Controllers
             return RedirectToAction("Notifications");
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult EditNotification(int? id)
         {
@@ -907,6 +964,7 @@ namespace WebProject.Controllers
             return View(foundNotification);
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> EditNotificationAsync(int? id, Notification notification, IFormFile PicturePath)
         {
@@ -938,7 +996,7 @@ namespace WebProject.Controllers
             foundNotification.PicturePath = notification.PicturePath;
             foundNotification.Language = notification.Language;
             foundNotification.AdditionDate = DateTime.Now; // * aynı format olacak
-            foundNotification.AddUserID = 2;
+            foundNotification.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
             db.Notification.Update(foundNotification);
             db.SaveChanges();
@@ -946,6 +1004,7 @@ namespace WebProject.Controllers
             return RedirectToAction("Notifications");
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public IActionResult DeleteNotification(int? id)
         {
@@ -957,7 +1016,7 @@ namespace WebProject.Controllers
         }
 
         // * Projeler
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult Projects()
         {
@@ -967,7 +1026,7 @@ namespace WebProject.Controllers
         }
 
         // * ekle
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult AddProject()
         {
@@ -979,11 +1038,11 @@ namespace WebProject.Controllers
             return View();
         }
 
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> AddProjectAsync(Project project, IFormFile PicturePath)
         {
-            project.AddUserID = 2;
+            project.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             project.AdditionDate = DateTime.Now;
 
             // * resim yolu
@@ -1012,6 +1071,7 @@ namespace WebProject.Controllers
             return RedirectToAction("Projects");
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * güncelleme
         [HttpGet]
         public IActionResult EditProject(int? id)
@@ -1024,6 +1084,7 @@ namespace WebProject.Controllers
             return View(foundProject);
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> EditProjectAsync(int? id, Project project, IFormFile PicturePath)
         {
@@ -1056,7 +1117,7 @@ namespace WebProject.Controllers
 
 
             foundProject.PicturePath = project.PicturePath;
-            foundProject.AddUserID = 2;
+            foundProject.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             foundProject.AdditionDate = DateTime.Now;
             foundProject.Language = project.Language;
 
@@ -1066,6 +1127,8 @@ namespace WebProject.Controllers
             return RedirectToAction("Projects");
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * silme
 
         [HttpPost]
@@ -1080,7 +1143,7 @@ namespace WebProject.Controllers
         }
 
         // * laboratuvar
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult labs()
         {
@@ -1089,6 +1152,7 @@ namespace WebProject.Controllers
             return View(labs);
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         // * laboratuvar ekle
         [HttpGet]
         public IActionResult AddLab()
@@ -1106,11 +1170,12 @@ namespace WebProject.Controllers
             return View();
         }
 
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> AddLabAsync(Labs labs, IFormFile PicturePath)
         {
 
-            labs.AddUserID = 2;
+            labs.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             labs.AdditionDate = DateTime.Now;
 
             // * resim yolu
@@ -1143,7 +1208,7 @@ namespace WebProject.Controllers
 
 
         // *laboratuvar güncelleme
-
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpGet]
         public IActionResult EditLab(int? id)
         {
@@ -1162,6 +1227,8 @@ namespace WebProject.Controllers
             return View(foundLab);
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public async Task<IActionResult> EditLabAsync(int? id, Labs labs, IFormFile PicturePath)
         {
@@ -1170,7 +1237,7 @@ namespace WebProject.Controllers
 
             foundLab.Name = labs.Name;
             foundLab.Description = labs.Description;
-            foundLab.AddUserID = 2;
+            foundLab.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             foundLab.AdditionDate = DateTime.Now;
             foundLab.Language = labs.Language;
             foundLab.SubstructureID = labs.SubstructureID;
@@ -1203,6 +1270,8 @@ namespace WebProject.Controllers
             return RedirectToAction("Labs");
         }
 
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
         [HttpPost]
         public IActionResult DeleteLab(int? id)
         {

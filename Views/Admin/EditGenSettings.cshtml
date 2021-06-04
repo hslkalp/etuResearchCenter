@@ -5,7 +5,8 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="EditGenSettings" asp-controller="Admin" class="needs-validation" novalidate method="POST">
+        <form asp-action="EditGenSettings" asp-controller="Admin" class="needs-validation" novalidate
+            enctype="multipart/form-data" method="POST">
             <div class="form-group">
                 <label asp-for="WebsiteName">Site Adı</label>
                 <input asp-for="WebsiteName" type="text" class="form-control" placeholder="Site Adı" required>

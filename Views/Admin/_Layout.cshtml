@@ -109,7 +109,7 @@
             <!-- Brand Logo -->
             <a asp-action="Home" asp-controller="Admin" class="brand-link">
                 <img src="~/img/logo.svg" alt="etü Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">ETÜ</span>
+                <span class="brand-text font-weight-light">ETÜR YÖNETİM</span>
             </a>
 
             <!-- Sidebar -->
@@ -144,232 +144,261 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
+                        @* bilgi işlem adminin yapabileceği işlemler *@
+                        @if (roleId == 2)
+                        {
+                            @* genel ayarlar *@
+                            <li class="nav-item ">
+                                <a class="nav-link">
+                                    <i class="fas fa-cogs nav-icon"></i>
+                                    <p>
+                                        Genel Ayarlar
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="GenSettings" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-eye nav-icon"></i>
+                                            <p>Görüntüle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @* duyurular *@
+                            <li class="nav-item">
+                                <a class="nav-link ">
+                                    <i class="fas fa-bullhorn nav-icon"></i>
+                                    <p>
+                                        Duyurular
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="Announcements" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-database nav-icon"></i>
+                                            <p>Listele</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="AddAnnouncements" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-plus nav-icon"></i>
+                                            <p>Ekle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @* haberler *@
+                            <li class="nav-item ">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-newspaper nav-icon"></i>
+                                    <p>
+                                        Haberler
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="Admin" asp-action="News" class="nav-link">
+                                            <i class="fas fa-database nav-icon"></i>
+                                            <p>Listele</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Admin" asp-action="AddNews" class="nav-link">
+                                            <i class="fas fa-plus nav-icon"></i>
+                                            <p>Ekle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @* yönetim *@
+                            <li class="nav-item ">
+                                <a class="nav-link">
+                                    <i class="fas fa-network-wired nav-icon"></i>
+                                    <p>
+                                        Yönetim
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="Management" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-database nav-icon"></i>
+                                            <p>Listesi</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="AddManagement" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-plus nav-icon"></i>
+                                            <p>Ekle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @* kullanıcılar *@
+                            <li class="nav-item ">
+                                <a class="nav-link">
+                                    <i class="fas fa-users nav-icon"></i>
+                                    <p>
+                                        Kullanıcılar
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="Users" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-database nav-icon"></i>
+                                            <p>Listele</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="AddUsers" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-plus nav-icon"></i>
+                                            <p>Ekle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @* altyapı *@
+                            <li class="nav-item ">
+                                <a class="nav-link">
+                                    <i class="fas fa-hard-hat nav-icon"></i>
+                                    <p>
+                                        Altyapı
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="Substructure" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-database nav-icon"></i>
+                                            <p>Listele</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="AddSubstructure" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-plus nav-icon"></i>
+                                            <p>Ekle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link ">
-                                <i class="fas fa-bullhorn nav-icon"></i>
-                                <p>
-                                    Duyurular
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-action="Announcements" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-database nav-icon"></i>
-                                        <p>Listele</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="AddAnnouncements" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Ekle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link">
-                                <i class="fas fa-cogs nav-icon"></i>
-                                <p>
-                                    Genel Ayarlar
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-action="GenSettings" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-eye nav-icon"></i>
-                                        <p>Görüntüle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item "> @* lab kaldı sonra*@
-                            <a class="nav-link">
-                                <i class="fas fa-vials nav-icon"></i>
-                                <p>
-                                    Laboratuvarlar
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-controller="Admin" asp-action="labs" class="nav-link">
-                                        <i class="fas fa-database nav-icon"></i>
-                                        <p>Listele</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Admin" asp-action="Addlab" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Ekle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link">
-                                <i class="fas fa-network-wired nav-icon"></i>
-                                <p>
-                                    Yönetim
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-action="Management" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-database nav-icon"></i>
-                                        <p>Listesi</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="AddManagement" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Ekle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link">
-                                <i class="fas fa-users nav-icon"></i>
-                                <p>
-                                    Kullanıcılar
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-action="Users" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-database nav-icon"></i>
-                                        <p>Listele</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="AddUsers" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Ekle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link">
-                                <i class="fas fa-hard-hat nav-icon"></i>
-                                <p>
-                                    Altyapı
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-action="Substructure" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-database nav-icon"></i>
-                                        <p>Listele</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="AddSubstructure" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Ekle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item ">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-newspaper nav-icon"></i>
-                                <p>
-                                    Haberler
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-controller="Admin" asp-action="News" class="nav-link">
-                                        <i class="fas fa-database nav-icon"></i>
-                                        <p>Listele</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Admin" asp-action="AddNews" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Ekle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            @* laboratuvarlar *@
+                            <li class="nav-item ">
+                                <a class="nav-link">
+                                    <i class="fas fa-vials nav-icon"></i>
+                                    <p>
+                                        Laboratuvarlar
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="Admin" asp-action="labs" class="nav-link">
+                                            <i class="fas fa-database nav-icon"></i>
+                                            <p>Listele</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Admin" asp-action="Addlab" class="nav-link">
+                                            <i class="fas fa-plus nav-icon"></i>
+                                            <p>Ekle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else if (roleId == 1)
+                        {
+                            @* makaleler *@
+                            <li class="nav-item ">
+                                <a class="nav-link">
+                                    <i class="fas fa-file-word nav-icon"></i>
+                                    <p>
+                                        Makaleler
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="Admin" asp-action="Articles" class="nav-link">
+                                            <i class="fas fa-database nav-icon"></i>
+                                            <p>Listele</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Admin" asp-action="AddArticles" class="nav-link">
+                                            <i class="fas fa-plus nav-icon"></i>
+                                            <p>Ekle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        <li class="nav-item ">
-                            <a class="nav-link">
-                                <i class="fas fa-file-word nav-icon"></i>
-                                <p>
-                                    Makaleler
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-controller="Admin" asp-action="Articles" class="nav-link">
-                                        <i class="fas fa-database nav-icon"></i>
-                                        <p>Listele</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Admin" asp-action="AddArticles" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Ekle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link">
-                                <i class="fas fa-exclamation-circle nav-icon"></i>
-                                <p>
-                                    Bildiriler
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-action="Notifications" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-database nav-icon"></i>
-                                        <p>Listele</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="AddNotification" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Ekle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link">
-                                <i class="fas fa-pen-nib nav-icon"></i>
-                                <p>
-                                    Projeler
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-action="Projects" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-database nav-icon"></i>
-                                        <p>Listele</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="AddProject" asp-controller="Admin" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Ekle</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            @* bildiriler *@
+                            <li class="nav-item ">
+                                <a class="nav-link">
+                                    <i class="fas fa-exclamation-circle nav-icon"></i>
+                                    <p>
+                                        Bildiriler
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="Notifications" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-database nav-icon"></i>
+                                            <p>Listele</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="AddNotification" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-plus nav-icon"></i>
+                                            <p>Ekle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            @* projeler *@
+                            <li class="nav-item ">
+                                <a class="nav-link">
+                                    <i class="fas fa-pen-nib nav-icon"></i>
+                                    <p>
+                                        Projeler
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="Projects" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-database nav-icon"></i>
+                                            <p>Listele</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="AddProject" asp-controller="Admin" class="nav-link">
+                                            <i class="fas fa-plus nav-icon"></i>
+                                            <p>Ekle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+
+
+
+
+
+
+
+
+
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
