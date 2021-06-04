@@ -18,7 +18,6 @@ var slider = new Vue({
       })
         .then(function (response) {
           vm.sliderData = response.data.sliderData;
-          console.log(vm.sliderData);
         })
         .catch(function (error) {
           console.log(error);

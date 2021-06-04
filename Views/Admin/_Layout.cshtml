@@ -23,11 +23,9 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/Admin/plugins/fontawesome-free/css/all.min.css" asp-append-version="true">
     <!-- IonIcons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
-        asp-append-version="true">
+    <link rel="stylesheet" href="~/css/ionicons.min.css" asp-append-version="true">
     @* table *@
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"
-        asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/datatables.min.css" asp-append-version="true" />
     <!-- Theme style -->
     <link rel="stylesheet" href="~/Admin/dist/css/adminlte.min.css" asp-append-version="true">
     <link rel="stylesheet" href="~/node/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true">
@@ -413,8 +411,10 @@
 
         @* table *@
 
-        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"
-            asp-append-version="true"></script>
+        @* <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"
+            asp-append-version="true"></script> *@
+
+        <script type="text/javascript" src="~/js/datatables.min.js" asp-append-version="true"></script>
 
         @* editör *@
 
@@ -423,7 +423,7 @@
             type="text/javascript"></script>
 
         <script src="~/js/admin.js" type="text/javascript"></script>
-
+        @* table *@
         <script>
             $(document).ready(function () {
                 $("#table").dataTable({
@@ -443,7 +443,7 @@
                 });
             });
         </script>
-
+        @* editör *@
         <script>
             $(document).ready(function () {
                 $('#summernote').summernote({
