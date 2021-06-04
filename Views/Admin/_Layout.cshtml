@@ -37,6 +37,8 @@
 
 
 
+
+
     <title>Admin Yönetim Panali</title>
 </head>
 
@@ -414,7 +416,11 @@
         <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"
             asp-append-version="true"></script>
 
+        @* editör *@
+
         <script src="~/editor/summernote-lite.js" asp-append-version="true" type="text/javascript"></script>
+        <script src="~/editor/plugin/language/summernote-tr-TR.min.js" asp-append-version="true"
+            type="text/javascript"></script>
 
         <script src="~/js/admin.js" type="text/javascript"></script>
 
@@ -444,6 +450,7 @@
                     placeholder: 'Editör',
                     tabsize: 2,
                     height: 120,
+                    lang: 'tr-TR',
                     toolbar: [
                         ['style', ['style']],
                         ['font', ['bold', 'underline', 'clear']],
