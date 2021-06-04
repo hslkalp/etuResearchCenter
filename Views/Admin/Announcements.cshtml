@@ -1,6 +1,7 @@
 @{
     Layout = "~/Views/Admin/_Layout.cshtml";
     var title = ViewData["Title"];
+    var cultureInfo = new System.Globalization.CultureInfo("tr-TR");
 }
 
 @model IEnumerable<WebProject.Models.Announcement>
@@ -21,11 +22,9 @@
         <tr>
             <th>İd</th>
             <th>Başlık</th>
-            <th>İçerik</th>
             <th>Kısa Yazı</th>
             <th>Resim Yolu</th>
             <th>Dil</th>
-            <th>Ekleyen Kisi Id</th>
             <th>Eklenme Tarihi</th>
             <th>İşlem</th>
         </tr>
@@ -36,12 +35,10 @@
             <tr>
                 <td>@item.Id</td>
                 <td>@item.Title</td>
-                <td>@item.Content</td>
                 <td>@item.ShortText</td>
                 <td>@item.PicturePath</td>
                 <td>@item.Language</td>
-                <td>@item.AddUserID</td>
-                <td>@item.AdditionDate.ToString("dddd, dd MMMM yyyy")</td>
+                <td>@item.AdditionDate.ToString(cultureInfo.DateTimeFormat.LongDatePattern,cultureInfo)</td>
                 <td>
                     <form asp-controller="Admin" asp-action="DeleteAnnouncements" asp-route-id="@item.Id" method="POST"
                     onclick="return confirm('@item.Title  Silmek istediğinize emin misiniz?')">

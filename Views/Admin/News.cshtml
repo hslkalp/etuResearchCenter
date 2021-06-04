@@ -16,7 +16,7 @@
         <tr>
             <th>İd</th>
             <th>Başlık</th>
-            <th>İçerik</th>
+            @* <th>İçerik</th> *@
             <th>Kısa Yazı</th>
             <th>Resim Yolu</th>
             <th>Dil</th>
@@ -31,8 +31,27 @@
             <tr>
                 <td>@item.Id</td>
                 <td>@item.Title</td>
-                <td>@item.Content</td>
-                <td>@item.ShortText</td>
+                @* content gösteriminde genişlik ayarlanmıyor *@
+                @* <td>
+                    @if (item.Content.Length >= 150)
+                    {
+                    @item.Content.Substring(0,@item.Content.Length / 4)
+                    }
+                    else
+                    {
+                    @item.Content
+                    }
+                    </td> *@
+                <td>
+                    @if (item.ShortText.Length >= 100)
+                    {
+                        @item.ShortText.Substring(0, @item.ShortText.Length / 3)
+                    }
+                    else
+                    {
+                        @item.ShortText
+                    }
+                </td>
                 <td>@item.PicturePath</td>
                 <td>@item.Language</td>
                 <td>@item.AddUserID</td>

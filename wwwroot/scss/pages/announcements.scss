@@ -5,6 +5,9 @@ section.section {
   max-width: 1200px;
   margin: 0px auto;
   padding: 50px var(--mobile-padding-gap);
+  .content-block {
+    flex-direction: row-reverse;
+  }
   &-title {
     @include flex-inline;
     font-size: 1.3em;
@@ -30,6 +33,8 @@ section.section {
 }
 
 .announcements {
+  max-width: 500px;
+  overflow: hidden;
   font-size: 1.5rem;
   &:not(:first-child) {
     .announcements-img {
@@ -55,7 +60,7 @@ section.section {
     background-attachment: unset;
   }
   &-title {
-    font-size: 0.8em;
+    font-size: 0.7em;
     color: var(--text-color-blue);
     a {
       text-decoration: underline;

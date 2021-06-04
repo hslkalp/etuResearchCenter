@@ -3,19 +3,25 @@ using WebProject.Data;
 
 namespace WebProject.Controllers
 {
-    public class HakkimizdaController : Controller
+    public class AboutUsController : Controller
     {
         private readonly ETURContext db;
 
-        public HakkimizdaController(ETURContext context)
+        public AboutUsController(ETURContext context)
         {
             db = context;
         }
 
-        public IActionResult yonetim()
+        public IActionResult management()
         {
             var management = db.Management;
             return View(management);
+        }
+
+        [Route("/aboutUs/misyon-ve-vizyon")]
+        public IActionResult vision()
+        {
+            return View();
         }
 
 

@@ -25,7 +25,14 @@
                             asp-route-id="@item.Id">@item.Title</a>
                         </h3>
                         <p class="announcements-text">
-                            @item.ShortText
+                            @if (item.ShortText.Length >= 50)
+                            {
+                                @item.ShortText.Substring(0,@item.ShortText.Length / 3)
+                            }
+                            else
+                            {
+                                @item.ShortText
+                            }
                         </p>
                         <p class="announcements-meta">
                             <time date-time="@item.AdditionDate">@item.AdditionDate</time>

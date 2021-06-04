@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="top-of-site">
 
 <head>
     <meta charset="utf-8" />
@@ -24,6 +24,17 @@
     @await Html.PartialAsync("_footer")
 
     @RenderSection("Scripts", required: false)
+
+    <script>
+        const topLinkBtn = document.getElementById('top-link-btn');
+        window.onscroll = () => {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                topLinkBtn.style.display = "block"
+            } else {
+                topLinkBtn.style.display = "none"
+            }
+        }
+    </script>
 </body>
 
 </html>

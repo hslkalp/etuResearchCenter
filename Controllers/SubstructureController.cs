@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebProject.Controllers
 {
-    public class AltyapiController : Controller
+    public class SubstructureController : Controller
     {
 
-        public IActionResult altyapi()
+        public IActionResult Substructure()
         {
             return View();
         }

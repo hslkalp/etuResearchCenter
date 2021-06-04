@@ -5,7 +5,8 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="EditNews" asp-controller="Admin" method="POST" class="needs-validation" novalidate>
+        <form asp-action="EditNews" asp-controller="Admin" method="POST" class="needs-validation"
+            enctype="multipart/form-data" novalidate>
             <div class="form-group">
                 <label asp-for="Title">Başlık</label>
                 <input type="text" class="form-control" asp-for="Title" placeholder="Başlık Giriniz" required>
@@ -22,10 +23,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Language">Dil</label>
-                <input type="text" class="form-control" asp-for="Language" placeholder="Dil" required>
-                <div class="invalid-feedback">
-                    Lütfen Kontrol Ediniz!
-                </div>
+                @* dil değeri name olarak atandı *@
+                <select asp-for="Language" asp-items="@(new SelectList(ViewBag.languages,"Name","Name"))"
+                    class="form-select" aria-label="Default select example">
+                    <option selected>Lütfen dil seçiniz</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="ShortText">Kısa Metin</label>
@@ -35,8 +37,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="PicturePath">Resim</label>
-                <input type="text" class="form-control" asp-for="PicturePath" placeholder="Resim" required>
+                <label asp-for="PicturePath" class="form-label">Resim Seç</label>
+                <input class="form-control mb-3" type="text" asp-for="PicturePath" aria-label="readonly input example"
+                    readonly>
+                <input asp-for="PicturePath" class="form-control" type="file" required>
                 <div class="invalid-feedback">
                     Lütfen Kontrol Ediniz!
                 </div>

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebProject.Models
@@ -14,5 +15,6 @@ namespace WebProject.Models
         public string Language { get; set; }
         public string PicturePath { get; set; }
         public string ShortText { get; set; }
+
     }
 }

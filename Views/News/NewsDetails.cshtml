@@ -1,4 +1,16 @@
 @model WebProject.Models.News
-<p>
-    @Model.Title
-</p>
+
+<div class="news-wrapper">
+    <div class="row-2">
+        <div class="col-2">
+            <h1>@Model.Title</h1>
+            <hr>
+            <div class="img-wrapper">
+                <img src="@Model.PicturePath" alt="Haber resim">
+            </div>
+            <div>
+                @Html.Raw(Model.Content)
+            </div>
+        </div>
+    </div>
+</div>

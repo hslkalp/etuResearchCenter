@@ -54,6 +54,16 @@ body {
   flex: 0 0 33.3333%;
 }
 
+.row-2 {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1.5rem;
+}
+
+.col-2 {
+  flex: 1 0 0%;
+}
+
 .content-block {
   display: flex;
   flex-flow: row wrap;
@@ -63,5 +73,12 @@ body {
     &1 {
       margin-right: 100px;
     }
+  }
+}
+
+.img-wrapper {
+  margin-bottom: 50px;
+  img {
+    @include max-size;
   }
 }

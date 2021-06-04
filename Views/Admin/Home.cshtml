@@ -1,23 +1,28 @@
 @using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+@model ViewUsers
 @{
     Layout = "~/Views/Admin/_Layout.cshtml";
-    string fullName = HttpContextAccessor.HttpContext.Session.GetString("Name") +
-    HttpContextAccessor.HttpContext.Session.GetString("Surname");
-    string picturePath = HttpContextAccessor.HttpContext.Session.GetString("PicturePath");
-    string institution = HttpContextAccessor.HttpContext.Session.GetString("Institution");
+    @* string fullName = HttpContextAccessor.HttpContext.Session.GetString("Name") +
+        HttpContextAccessor.HttpContext.Session.GetString("Surname");
+        string picturePath = HttpContextAccessor.HttpContext.Session.GetString("PicturePath");
+        string institution = HttpContextAccessor.HttpContext.Session.GetString("Institution"); *@
 }
 
 <!-- #Sisteme Giriş yapan kişi kart -->
 
-<div class="card" style="width: 18rem;">
-    <img src="~/@picturePath" class="card-img-top" alt="@fullName fotoğrafı">
-    <div class="card-body">
-        <h5 class="card-title">@fullName</h5>
-        <p class="card-text">
-            @institution
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, placeat!
-        </p>
+
+
+@foreach (var item in @Model.loggedUsers)
+{
+    <div class="card" style="width: 18rem;">
+        <img src="~/@item.user.PicturePath" class="card-img-top" alt="@item.user.Name fotoğrafı">
+        <div class="card-body">
+            <h5 class="card-title">@item.user.Name @item.user.Surname</h5>
+            <p class="card-text">@item.role.Name @item.role.Description</p>
+            <p class="card-text">
+                @item.user.Institution
+            </p>
+        </div>
     </div>
-</div>
+}

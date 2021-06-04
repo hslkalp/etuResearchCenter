@@ -1,8 +1,7 @@
+@model GenSetting
 @{
     Layout = "~/Views/Admin/_Layout.cshtml";
 }
-
-@model GenSetting
 
 <div class="row">
     <div class="col-md-6">
@@ -41,8 +40,8 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Telephone">Telephone</label>
-                <input asp-for="Telephone" type="text" class="form-control" placeholder="Telephone" required>
+                <label asp-for="Telephone">Telefon</label>
+                <input asp-for="Telephone" type="text" class="form-control" placeholder="Telefon" required>
                 <div class="invalid-feedback">
                     Lütfen Kontrol Ediniz!
                 </div>
@@ -57,32 +56,24 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Fax">Fax</label>
-                <input asp-for="Fax" type="text" class="form-control" placeholder="Fax" required>
+                <label asp-for="Fax">Faks</label>
+                <input asp-for="Fax" type="text" class="form-control" placeholder="Faks" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="WebAddress">Web Sitesi Adresi</label>
+                <input asp-for="WebAddress" type="text" class="form-control" placeholder="Web Sitesi Adresi" required>
                 <div class="invalid-feedback">
                     Lütfen Kontrol Ediniz!
                 </div>
             </div>
 
             <div class="form-group">
-                <label asp-for="MetaDescription">MetaDescription</label>
-                <input asp-for="MetaDescription" type="text" class="form-control" placeholder="MetaDescription"
-                    required>
-                <div class="invalid-feedback">
-                    Lütfen Kontrol Ediniz!
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="WebAddress">WebAddress</label>
-                <input asp-for="WebAddress" type="text" class="form-control" placeholder="WebAddress" required>
-                <div class="invalid-feedback">
-                    Lütfen Kontrol Ediniz!
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ShortHistory">ShortHistory</label>
+                <label asp-for="ShortHistory">Kısa Tarihçe</label>
                 <textarea class="form-control" id="summernote" asp-for="ShortHistory" required></textarea>
                 <div class="invalid-feedback">
                     Lütfen Kontrol Ediniz!
@@ -90,7 +81,7 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Address">Address</label>
+                <label asp-for="Address">Adres</label>
                 <input asp-for="Address" type="text" class="form-control" placeholder="Address" required>
                 <div class="invalid-feedback">
                     Lütfen Kontrol Ediniz!
@@ -98,11 +89,12 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="language">Language</label>
-                <input asp-for="language" type="text" class="form-control" placeholder="Language" required>
-                <div class="invalid-feedback">
-                    Lütfen Kontrol Ediniz!
-                </div>
+                <label asp-for="language">Dil</label>
+                @* dil değeri name olarak atandı *@
+                <select asp-for="language" asp-items="@(new SelectList(ViewBag.languages,"Name","Name"))"
+                    class="form-select" aria-label="Default select example">
+                    <option selected>Lütfen dil seçiniz</option>
+                </select>
             </div>
 
             <div class="form-group">

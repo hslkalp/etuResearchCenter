@@ -27,41 +27,45 @@ namespace WebProject.Controllers
             return View();
         }
 
-        public IActionResult hakkimizda()
+        public IActionResult aboutUs()
         {
             return View();
         }
 
-        public IActionResult iletisim()
+        public IActionResult contact()
         {
             var genSettings = db.GenSetting;
             return View(genSettings);
         }
 
-        public IActionResult altyapi()
+        public IActionResult substructure()
         {
             var substructure = db.Substructure;
             return View(substructure);
         }
-        public IActionResult altyapiDetay(int id)
+        public IActionResult substructureDetail(int id)
         {
             var substructures = db.Substructure.FirstOrDefault(a => a.Id == id);
+            
+            var labs = db.Labs.Where(labs => labs.SubstructureID == id);
+            ViewBag.labs = labs;
+
             return View(substructures);
         }
 
-        public IActionResult makaleler()
+        public IActionResult articles()
         {
             var article = db.Articles;
             return View(article);
         }
 
-        public IActionResult bildiriler()
+        public IActionResult notifications()
         {
             var notification = db.Notification;
             return View(notification);
         }
 
-        public IActionResult projeler()
+        public IActionResult projects()
         {
             var project = db.Projects;
             return View(project);

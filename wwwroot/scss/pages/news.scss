@@ -27,6 +27,8 @@
 }
 
 .news {
+  max-width: 500px;
+  overflow: hidden;
   font-size: 1.5rem;
   &:not(:first-child) {
     .news-img {
@@ -52,7 +54,7 @@
     background-attachment: unset;
   }
   &-title {
-    font-size: 0.8em;
+    font-size: 0.7em;
     color: var(--text-color-blue-3);
     a {
       text-decoration: underline;

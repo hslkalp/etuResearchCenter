@@ -6,7 +6,7 @@ namespace WebProject.Models
     public class Users
     {
         [Key]
-        public int Id { get; set; }
+        public int UserID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Institution { get; set; }
