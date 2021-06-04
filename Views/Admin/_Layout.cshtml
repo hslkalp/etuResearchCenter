@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="~/Admin/dist/css/adminlte.min.css" asp-append-version="true">
     <link rel="stylesheet" href="~/node/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true">
 
-
+    @* editör *@
     <link rel="stylesheet" href="~/editor/summernote-lite.css">
 
 
@@ -186,7 +186,7 @@
                             </ul>
                         </li>
                         <li class="nav-item "> @* lab kaldı sonra*@
-                            <a href="#" class="nav-link">
+                            <a class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Laboratuvarlar
@@ -195,21 +195,15 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./index.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v1</p>
+                                    <a asp-controller="Admin" asp-action="labs" class="nav-link">
+                                        <i class="fas fa-database nav-icon"></i>
+                                        <p>Listele</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v2</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v3</p>
+                                    <a asp-controller="Admin" asp-action="Addlab" class="nav-link">
+                                        <i class="fas fa-plus nav-icon"></i>
+                                        <p>Ekle</p>
                                     </a>
                                 </li>
                             </ul>
@@ -416,21 +410,16 @@
         <script src="~/Admin/plugins/bootstrap/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
         <!-- AdminLTE -->
         <script src="~/Admin/dist/js/adminlte.js" asp-append-version="true"></script>
-
         <!-- OPTIONAL SCRIPTS -->
         <script src="~/Admin/plugins/chart.js/Chart.min.js" asp-append-version="true"></script>
-        <!-- AdminLTE for demo purposes -->
-        <script src="~/Admin/dist/js/demo.js" asp-append-version="true"></script>
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="~/Admin/dist/js/pages/dashboard3.js" asp-append-version="true"></script>
 
         @* table *@
 
         <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"
             asp-append-version="true"></script>
 
+        <script src="~/editor/summernote-lite.js" asp-append-version="true" type="text/javascript"></script>
 
-        <script src="~/editor/summernote-lite.js"></script>
 
         <script>
             $(document).ready(function () {
@@ -455,7 +444,18 @@
         <script>
             $(document).ready(function () {
                 $('#summernote').summernote({
-                    placeholder: 'İçerik'
+                    placeholder: 'Editör',
+                    tabsize: 2,
+                    height: 120,
+                    toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['fullscreen', 'codeview', 'help']]
+                    ]
                 });
             });
         </script>
