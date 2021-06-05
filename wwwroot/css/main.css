@@ -599,7 +599,7 @@ body {
         margin-right: 100px; } }
 
 .img-wrapper {
-  margin-bottom: 50px; }
+  margin-bottom: 20px; }
   .img-wrapper img {
     height: 100%;
     width: 100%; }
@@ -1123,14 +1123,14 @@ a.btn-top-link {
       -webkit-transform: scale(1.1) translateY(-10px);
               transform: scale(1.1) translateY(-10px); }
     .about-work .card > img {
-      width: 120px;
-      height: auto;
+      width: 150px;
+      height: 150px;
       margin: 0px auto;
       -webkit-transition: all 1s ease;
       transition: all 1s ease; }
       .about-work .card > img:hover {
-        background: var(--bg-blue-2);
-        border-radius: 100%; }
+        background: var(--bg-blue-3);
+        border-radius: 20%; }
     .about-work .card-title {
       text-transform: capitalize;
       color: var(--text-color-blue); }
@@ -1503,7 +1503,7 @@ section.section {
   min-height: calc(100vh - 100px); }
 
 .management-title {
-  margin-bottom: 80px; }
+  margin-bottom: 20px; }
   .management-title h1 {
     color: var(--text-color-blue);
     margin-bottom: 20px; }
@@ -1519,14 +1519,23 @@ section.section {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center; }
-  .management-staff .content-block .card-img {
-    border-radius: 100%;
-    width: 180px;
-    height: auto;
-    margin: 0px auto;
-    border: 5px solid var(--bg-blue-3); }
-  .management-staff .content-block .card-body {
-    text-align: center; }
+  .management-staff .content-block:not(:first-child) {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex; }
+    @media (min-width: 992px) {
+      .management-staff .content-block:not(:first-child):not(:last-child) {
+        margin-right: 150px; } }
+  .management-staff .content-block .card {
+    margin-top: 30px; }
+    .management-staff .content-block .card-img {
+      border-radius: 100%;
+      width: 180px;
+      height: auto;
+      margin: 0px auto;
+      border: 5px solid var(--bg-blue-3); }
+    .management-staff .content-block .card-body {
+      text-align: center; }
 
 .substructure-lab-wrapper {
   max-width: 1200px;
@@ -1546,14 +1555,40 @@ section.section {
 
 .substructure-lab .content-block {
   gap: 1.5rem; }
-  @media (min-width: 768px) {
-    .substructure-lab .content-block .card {
-      -webkit-box-flex: 0;
-          -ms-flex: 0 0 25%;
-              flex: 0 0 25%; } }
-  .substructure-lab .content-block .card-body {
-    text-align: center;
-    margin: 0px auto; }
+  .substructure-lab .content-block .card {
+    background: var(--bg-white-3);
+    border: 2px solid var(--bg-white-2);
+    cursor: pointer;
+    -webkit-transition: -webkit-transform 1s ease;
+    transition: -webkit-transform 1s ease;
+    transition: transform 1s ease;
+    transition: transform 1s ease, -webkit-transform 1s ease; }
+    .substructure-lab .content-block .card.bg-gradient {
+      background: -webkit-gradient(linear, left top, left bottom, from(white), to(white)) padding-box, -webkit-gradient(linear, left top, right top, from(#0277bd), to(#262261)) border-box;
+      background: linear-gradient(white, white) padding-box, linear-gradient(90deg, #0277bd, #262261) border-box;
+      border-width: 6px;
+      border-style: solid;
+      border-color: transparent; }
+    .substructure-lab .content-block .card:focus, .substructure-lab .content-block .card:hover {
+      -webkit-transform: scale(1.1) translateY(-10px);
+              transform: scale(1.1) translateY(-10px); }
+    .substructure-lab .content-block .card-title {
+      color: var(--text-color-blue);
+      -webkit-transition: 1s all ease;
+      transition: 1s all ease; }
+      .substructure-lab .content-block .card-title:hover {
+        color: var(--text-color-blue-2); }
+    .substructure-lab .content-block .card-text {
+      font-size: 0.8em;
+      color: var(--text-color-gray-3); }
+    @media (min-width: 768px) {
+      .substructure-lab .content-block .card {
+        -webkit-box-flex: 0;
+            -ms-flex: 0 0 25%;
+                flex: 0 0 25%; } }
+    .substructure-lab .content-block .card-body {
+      text-align: center;
+      margin: 0px auto; }
 
 .articles-wrapper {
   max-width: 1200px;
@@ -1894,3 +1929,14 @@ body.login-body {
   max-width: 1200px;
   margin: 0px auto;
   padding: 50px var(--mobile-padding-gap); }
+
+.col-2 h4 {
+  color: var(--text-color-blue);
+  margin-bottom: 20px; }
+
+.col-2 p {
+  font-size: 0.9em;
+  line-height: 1.2rem;
+  max-width: 440px;
+  margin-bottom: 20px;
+  color: var(--text-color-gray-3); }

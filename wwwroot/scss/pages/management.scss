@@ -11,7 +11,7 @@
       color: var(--text-color-blue);
       margin-bottom: 20px;
     }
-    margin-bottom: 80px;
+    margin-bottom: 20px;
     &::after {
       content: '';
       display: block;
@@ -25,7 +25,16 @@
       &:first-child {
         justify-content: center;
       }
+      &:not(:first-child) {
+        display: inline-flex;
+        &:not(:last-child) {
+          @include screen('desktop') {
+            margin-right: 150px;
+          }
+        }
+      }
       .card {
+        margin-top: 30px;
         &-img {
           border-radius: 100%;
           width: 180px;

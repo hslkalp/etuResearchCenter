@@ -3,3 +3,17 @@
   margin: 0px auto;
   padding: 50px var(--mobile-padding-gap);
 }
+
+.col-2 {
+  h4 {
+    color: var(--text-color-blue);
+    margin-bottom: 20px;
+  }
+  p {
+    font-size: 0.9em;
+    line-height: 1.2rem;
+    max-width: 440px;
+    margin-bottom: 20px;
+    color: var(--text-color-gray-3);
+  }
+}

@@ -307,6 +307,10 @@ namespace WebProject.Controllers
         [HttpGet]
         public IActionResult AddManagement()
         {
+            // * aktif ayarları
+            var isActive = db.IsActive.ToList();
+            ViewBag.isActive = isActive;
+
             ViewData["Title"] = "Yönetici Ekle";
             return View();
         }
@@ -338,7 +342,6 @@ namespace WebProject.Controllers
             management.AdditionDate = DateTime.Now;
             management.OrganizerID = (int)HttpContext.Session.GetInt32("User_ID");
             management.IssueDate = DateTime.Now;
-            management.IsStaff = true;
             db.Management.Add(management);
             db.SaveChanges();
             return RedirectToAction("Management");
@@ -349,6 +352,10 @@ namespace WebProject.Controllers
         [HttpGet]
         public IActionResult EditManagement(int? id)
         {
+            // * aktif ayarları
+            var isActive = db.IsActive.ToList();
+            ViewBag.isActive = isActive;
+
             var foundManagement = db.Management.Where(a => a.Id == id).FirstOrDefault();
             return View(foundManagement);
         }
@@ -365,6 +372,7 @@ namespace WebProject.Controllers
             foundManagement.Status = management.Status;
             foundManagement.Queue = management.Queue;
             foundManagement.StaffStatus = management.StaffStatus;
+            foundManagement.IsStaff = management.IsStaff;
             foundManagement.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
             foundManagement.OrganizerID = (int)HttpContext.Session.GetInt32("User_ID");
             // * resim yolu
@@ -1426,7 +1434,7 @@ namespace WebProject.Controllers
 
             db.Slider.Remove(foundSlider);
             db.SaveChanges();
-            
+
             return RedirectToAction("Slider");
         }
 

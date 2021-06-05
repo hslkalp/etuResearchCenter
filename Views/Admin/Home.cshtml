@@ -20,19 +20,21 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <img src="~/img/default/profileX.svg" class="card-img-top" alt="profil svg">
+                        <img src="~/img/default/idCard.svg" class="card-img-top" alt="profil svg">
+                        <div class="row">
+                            <div class="col"></div>
+                        </div>
                     </div>
                     @* kimlik *@
-                    <div class="col">
+                    <div class="col" style="border-left: 1px solid white;">
                         @foreach (var item in @Model.loggedUsers)
                         {
                             roleId = item.role.Id;
-                            <div class="row p-3">
+                            <div class="row p-3" style="border-bottom: 1px solid white;">
                                 <div class="col-md-7">
-                                    <h5 class="card-title">@item.user.Name @item.user.Surname</h5>
-                                    <p class="card-text"><b><i>@item.role.Name</i></b> </p>
-                                    <p class="card-text">@item.role.Description</p>
-                                    <p class="card-text">
+                                    <h5 class="card-title text-black">@item.user.Name @item.user.Surname</h5>
+                                    <p class="card-text text-muted">@item.role.Description</p>
+                                    <p class="card-text text-info">
                                         @item.user.Institution
                                     </p>
                                 </div>
@@ -78,21 +80,21 @@
     <div class="col-md-4">
         @* Vakit Bilgilendirme *@
         <div class="card bg-dark text-white">
-            @if (hour.ToString("tt").ToLower() == "am")
+            @if (hour.ToString("tt").ToLower() == "am" && 22 <= hour.Hour && hour.Hour <= 5)
             {
                 <img src="~/img/default/moonlight.svg" alt="kart resmi" class="card-img-top">
                 <div class="card-body">
                     <h3 class="card-title">
-                        İyi geceler <b>@fullName</b>
+                        <span style='font-size: 2rem;'>&#127761;</span> İyi geceler <b>@fullName</b>
                     </h3>
                 </div>
             }
-            else if (hour.ToString("tt").ToLower() == "pm")
+            else if (hour.ToString("tt").ToLower() == "pm" && 6 <= hour.Hour && hour.Hour <= 20)
             {
                 <img src="~/img/default/working.svg" alt="kart resmi" class="card-img-top">
                 <div class="card-body">
                     <h3 class="card-title">
-                        İyi çalışmalar <b>@fullName</b>
+                        <span style="font-size: 2rem;">&#127774;</span> İyi çalışmalar <b>@fullName</b>
                     </h3>
                 </div>
             }

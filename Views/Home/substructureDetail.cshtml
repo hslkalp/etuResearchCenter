@@ -5,16 +5,21 @@
     <hr>
     <div class="row-2">
         <div class="col-2">
-            <p>@Model.Description</p>
-            <br>
-            <div class="img-wrapper" style="max-width: 500px;">
-                <img src="@Model.PicturePath" alt="@Model.Name resmi">
+            <div class="row-2">
+                <div class="col-2">
+                    <div class="img-wrapper" style="max-width: 500px;">
+                        <img src="@Model.PicturePath" alt="@Model.Name resmi">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <p>@Model.Description</p>
+                    <br>
+                </div>
             </div>
         </div>
 
-
     </div>
-    <h3>Laboratuvarlar</h3>
+    <h4>Laboratuvarlar</h4>
     <hr>
     <div class="row-2">
         @if (ViewBag.labs != null)
@@ -25,7 +30,7 @@
                     <div class="img-wrapper" style="max-width: 330px;">
                         <img src="@item.PicturePath" alt="@item.Name resmi">
                     </div>
-                    <p>@item.Name</p>
+                    <p><b>@item.Name</b></p>
                     <p>@item.Description</p>
                 </div>
             }

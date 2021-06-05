@@ -36,18 +36,26 @@
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="Status">Status</label>
+                <label asp-for="Status">Mevki</label>
                 <input type="text" class="form-control" asp-for="Status" placeholder="Resim" required>
                 <div class="invalid-feedback">
                     Lütfen Kontrol Ediniz!
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="StaffStatus">StaffStatus</label>
+                <label asp-for="StaffStatus">İş tanımı</label>
                 <input type="text" class="form-control" asp-for="StaffStatus" placeholder="Resim" required>
                 <div class="invalid-feedback">
                     Lütfen Kontrol Ediniz!
                 </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsStaff">Personel mi?</label>
+                @* dil değeri name olarak atandı *@
+                <select asp-for="IsStaff" asp-items="@(new SelectList(ViewBag.isActive,"Value","Name"))"
+                    class="form-select" aria-label="Default select example">
+                    <option selected>Lütfen personel durumunu seçiniz</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Status">Queue</label>

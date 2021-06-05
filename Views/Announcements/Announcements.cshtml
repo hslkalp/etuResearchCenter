@@ -1,6 +1,7 @@
 @model IEnumerable<WebProject.Models.Announcement>
-
-
+@{
+    var cultureInfo = new System.Globalization.CultureInfo("tr-TR");
+}
 <section class="section">
     <div class="announcements-wrapper">
         <div class="content-block">
@@ -19,7 +20,8 @@
                 @foreach (var item in Model.Take(3))
                 {
                     <div class="announcements">
-                        <div role="img" class="announcements-img" style="background-image: url(@item.PicturePath);"></div>
+                        @* <div role="img" class="announcements-img" style="background-image:
+                            url(@item.PicturePath);"></div> *@
                         <h3 class="announcements-title">
                             <a asp-controller="Announcements" asp-action="AnnouncementsDetail"
                             asp-route-id="@item.Id">@item.Title</a>
@@ -35,7 +37,8 @@
                             }
                         </p>
                         <p class="announcements-meta">
-                            <time date-time="@item.AdditionDate">@item.AdditionDate</time>
+                            <time
+                            date-time="@item.AdditionDate">@item.AdditionDate.ToString(cultureInfo.DateTimeFormat.LongDatePattern,cultureInfo)</time>
                         </p>
                     </div>
                 }

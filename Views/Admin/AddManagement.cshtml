@@ -12,7 +12,8 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="AddManagement" asp-controller="Admin" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+        <form asp-action="AddManagement" asp-controller="Admin" method="POST" class="needs-validation"
+            enctype="multipart/form-data" novalidate>
             <div class="form-group">
                 <label asp-for="FullName">İsim soyisim</label>
                 <input type="text" class="form-control" asp-for="FullName" placeholder="Başlık Giriniz" required>
@@ -54,6 +55,14 @@
                 <div class="invalid-feedback">
                     Lütfen Kontrol Ediniz!
                 </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsStaff">Personel mi?</label>
+                @* dil değeri name olarak atandı *@
+                <select asp-for="IsStaff" asp-items="@(new SelectList(ViewBag.isActive,"Value","Name"))"
+                    class="form-select" aria-label="Default select example">
+                    <option selected>Lütfen personel durumunu seçiniz</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Status">Görünüm Sırası</label>

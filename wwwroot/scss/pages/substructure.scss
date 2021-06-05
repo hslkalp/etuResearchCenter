@@ -21,6 +21,32 @@
   .content-block {
     gap: 1.5rem;
     .card {
+      background: var(--bg-white-3);
+      border: 2px solid var(--bg-white-2);
+      cursor: pointer;
+      transition: transform 1s ease;
+      &.bg-gradient {
+        background: linear-gradient(white, white) padding-box,
+          linear-gradient(90deg, #0277bd, #262261) border-box;
+        border-width: 6px;
+        border-style: solid;
+        border-color: transparent;
+      }
+      &:focus,
+      &:hover {
+        transform: scale(1.1) translateY(-10px);
+      }
+      &-title {
+        color: var(--text-color-blue);
+        transition: 1s all ease;
+        &:hover {
+          color: var(--text-color-blue-2);
+        }
+      }
+      &-text {
+        font-size: 0.8em;
+        color: var(--text-color-gray-3);
+      }
       @include screen('tablet') {
         flex: 0 0 25%;
       }

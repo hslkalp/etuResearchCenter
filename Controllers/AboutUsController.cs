@@ -1,3 +1,4 @@
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebProject.Data;
 
@@ -14,7 +15,7 @@ namespace WebProject.Controllers
 
         public IActionResult management()
         {
-            var management = db.Management;
+            var management = db.Management.Where(management => management.IsStaff == true).OrderBy(management => management.Queue);
             return View(management);
         }
 

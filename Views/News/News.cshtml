@@ -1,4 +1,7 @@
 @model IEnumerable<WebProject.Models.News>
+@{
+    var cultureInfo = new System.Globalization.CultureInfo("tr-TR");
+}
 <div class="news-wrapper">
     <div class="content-block">
         <div class="content-block1">
@@ -29,7 +32,8 @@
                         }
                     </p>
                     <p class="news-meta">
-                        <time date-time="@item.AdditionDate">@item.AdditionDate</time>
+                        <time
+                        date-time="@item.AdditionDate">@item.AdditionDate.ToString(cultureInfo.DateTimeFormat.LongDatePattern,cultureInfo)</time>
                     </p>
                 </div>
             }

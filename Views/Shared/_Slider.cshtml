@@ -3,8 +3,8 @@
         <div v-for="(slide, index) in sliderData" class="slide" :class="{ 'active': index === 0 }">
             <div role="img" class="slide-img" :style="{ backgroundImage: 'url(' + slide.picture + ')' }"></div>
             <div class="slide-inner">
-                <h1>{{slide.title}}</h1>
-                <p>{{slide.subTitle}}</p>
+                <h1 class="animate__animated animate__bounceInLeft">{{slide.title}}</h1>
+                <p class="animate__animated animate__bounceInUp">{{slide.subTitle}}</p>
                 <a :href="slide.link" type="button" class="btn read-more-btn">
                     Daha Fazla
                     <svg class="icon icon-arrow-right2">

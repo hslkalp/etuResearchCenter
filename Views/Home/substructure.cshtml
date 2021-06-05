@@ -8,12 +8,12 @@
         <div class="content-block">
             @foreach (var item in Model)
             {
-                <div class="card">
-                    <img src="@item.PicturePath" alt="alt yapi resim" class="card-img">
+                <div class="card bg-gradient">
+                    <img src="@item.PicturePath" alt="@item.Name resim" class="card-img">
                     <div class="card-body">
-                        <h3 class="card-title">
+                        <h4 class="card-title">
                             <a asp-controller="Home" asp-action="substructureDetail" asp-route-id="@item.Id">@item.Name</a>
-                        </h3>
+                        </h4>
                         <p class="card-text">@item.Description</p>
                     </div>
                 </div>
