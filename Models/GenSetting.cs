@@ -27,6 +27,6 @@ namespace WebProject.Models
         public DateTime IssueDate { get; set; }
         public string ShortHistory { get; set; }
         public string Address { get; set; }
-        public string language { get; set; }
+        public string Language { get; set; }
     }
 }

@@ -252,12 +252,11 @@ namespace WebProject.Controllers
         [HttpGet]
         public IActionResult EditGenSettings(int? id)
         {
-            var foundGenSettings = db.GenSetting.Where(a => a.Id == id).FirstOrDefault();
-
             // * dil ayarları
             var languages = db.Language.ToList();
             ViewBag.languages = languages;
 
+            var foundGenSettings = db.GenSetting.Where(a => a.Id == id).FirstOrDefault();
             return View(foundGenSettings);
         }
 
@@ -286,7 +285,8 @@ namespace WebProject.Controllers
             defaultGenSettings.IssueDate = DateTime.Now;
             defaultGenSettings.ShortHistory = genSetting.ShortHistory;
             defaultGenSettings.Address = genSetting.Address;
-            defaultGenSettings.language = genSetting.language;
+            defaultGenSettings.Language = genSetting.Language;
+
             db.GenSetting.Update(defaultGenSettings);
             db.SaveChanges();
             return View();
@@ -1291,5 +1291,146 @@ namespace WebProject.Controllers
 
             return RedirectToAction("Labs");
         }
+
+        // * slider
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+        [HttpGet]
+        public IActionResult Slider()
+        {
+            ViewData["Title"] = "Slider";
+            var slider = db.Slider;
+            return View(slider);
+        }
+
+        // * ekle
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+        [HttpGet]
+        public IActionResult AddSlider()
+        {
+            // * dil ayarları
+            var languages = db.Language.ToList();
+            ViewBag.languages = languages;
+
+            // * aktif ayarları
+            var isActive = db.IsActive.ToList();
+            ViewBag.isActive = isActive;
+
+            ViewData["Title"] = "Slider Ekle";
+
+            return View();
+        }
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+        [HttpPost]
+        public async Task<IActionResult> AddSliderAsync(Slider slider, IFormFile Picture)
+        {
+            slider.AdditionDate = DateTime.Now;
+            slider.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+
+            // * resim yolu
+            if (Picture != null)
+
+            {
+                string imageExtension = Path.GetExtension(Picture.FileName);
+
+                string imageName = Guid.NewGuid() + imageExtension;
+
+                string path = Path.Combine($"wwwroot/img/Slider/{imageName}");
+
+                using var stream = new FileStream(path, FileMode.Create);
+
+                await Picture.CopyToAsync(stream);
+
+                slider.Picture = path;
+
+                slider.Picture = slider.Picture.Substring(slider.Picture.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+
+            }
+
+            db.Slider.Add(slider);
+            db.SaveChanges();
+
+            return RedirectToAction("Slider");
+        }
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+        // * güncelle slider
+        [HttpGet]
+        public IActionResult EditSlider(int? id)
+        {
+            // * dil ayarları
+            var languages = db.Language.ToList();
+            ViewBag.languages = languages;
+
+            // * aktif ayarları
+            var isActive = db.IsActive.ToList();
+            ViewBag.isActive = isActive;
+
+            var foundSlider = db.Slider.Where(slider => slider.Id == id).FirstOrDefault();
+            return View(foundSlider);
+        }
+
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+        [HttpPost]
+        public async Task<IActionResult> EditSliderAsync(int? id, Slider slider, IFormFile Picture)
+        {
+
+            var foundSlider = db.Slider.Where(slider => slider.Id == id).FirstOrDefault();
+
+            foundSlider.AdditionDate = DateTime.Now;
+            foundSlider.AddUserID = (int)HttpContext.Session.GetInt32("User_ID"); ;
+
+            // * resim yolu
+            if (Picture != null)
+
+            {
+                string imageExtension = Path.GetExtension(Picture.FileName);
+
+                string imageName = Guid.NewGuid() + imageExtension;
+
+                string path = Path.Combine($"wwwroot/img/Slider/{imageName}");
+
+                using var stream = new FileStream(path, FileMode.Create);
+
+                await Picture.CopyToAsync(stream);
+
+                slider.Picture = path;
+
+                slider.Picture = slider.Picture.Substring(slider.Picture.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+
+            }
+
+            foundSlider.Picture = slider.Picture;
+            foundSlider.Description = slider.Description;
+            foundSlider.Title = slider.Title;
+            foundSlider.SubTitle = slider.SubTitle;
+            foundSlider.Language = slider.Language;
+            foundSlider.Queue = slider.Queue;
+            foundSlider.IsActive = slider.IsActive;
+            foundSlider.Link = slider.Link;
+
+            db.Slider.Update(foundSlider);
+            db.SaveChanges();
+
+
+            return RedirectToAction("Slider");
+        }
+
+        //* slider silme
+        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+        [HttpPost]
+        public IActionResult DeleteSlider(int? id)
+        {
+            var foundSlider = db.Slider.Where(slider => slider.Id == id).FirstOrDefault();
+
+            db.Slider.Remove(foundSlider);
+            db.SaveChanges();
+            
+            return RedirectToAction("Slider");
+        }
+
+
+
     }// * admin controller end
 }// * controller end

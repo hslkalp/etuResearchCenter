@@ -285,7 +285,6 @@
                                     </li>
                                 </ul>
                             </li>
-
                             @* laboratuvarlar *@
                             <li class="nav-item ">
                                 <a class="nav-link">
@@ -304,6 +303,30 @@
                                     </li>
                                     <li class="nav-item">
                                         <a asp-controller="Admin" asp-action="Addlab" class="nav-link">
+                                            <i class="fas fa-plus nav-icon"></i>
+                                            <p>Ekle</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @* Slider *@
+                            <li class="nav-item ">
+                                <a class="nav-link">
+                                    <i class="fas fa-sliders-h nav-icon"></i>
+                                    <p>
+                                        Slider
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-controller="Admin" asp-action="Slider" class="nav-link">
+                                            <i class="fas fa-database nav-icon"></i>
+                                            <p>Listele</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Admin" asp-action="AddSlider" class="nav-link">
                                             <i class="fas fa-plus nav-icon"></i>
                                             <p>Ekle</p>
                                         </a>

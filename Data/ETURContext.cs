@@ -22,6 +22,7 @@ namespace WebProject.Data
         public DbSet<WebProject.Models.Role> Role { get; set; }
         public DbSet<WebProject.Models.Language> Language { get; set; }
         public DbSet<WebProject.Models.Labs> Labs { get; set; }
+        public DbSet<WebProject.Models.IsActive> IsActive { get; set; }
 
 
     }

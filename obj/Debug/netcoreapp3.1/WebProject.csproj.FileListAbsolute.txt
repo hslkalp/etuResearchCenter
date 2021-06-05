@@ -129,3 +129,6 @@ C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Admin\labs.cshtml.g.cs
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Admin\AddLab.cshtml.g.cs
 C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Admin\EditLab.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Slider.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Admin\AddSlider.cshtml.g.cs
+C:\Users\hodag\source\repos\WebProject\WebProject\obj\Debug\netcoreapp3.1\Razor\Views\Admin\EditSlider.cshtml.g.cs

@@ -89,13 +89,20 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="language">Dil</label>
-                @* dil değeri name olarak atandı *@
-                <select asp-for="language" asp-items="@(new SelectList(ViewBag.languages,"Name","Name"))"
-                    class="form-select" aria-label="Default select example">
-                    <option selected>Lütfen dil seçiniz</option>
+            @* <div class="form-group">
+                <label asp-for="Language">Dil</label>
+                <select asp-for="Language" asp-items="@(new SelectList(ViewBag.languages,"Name","Name"))"
+                class="form-select" aria-label="Default select example">
+                <option selected>Lütfen dil seçiniz</option>
                 </select>
+                </div> *@
+
+            <div class="form-group">
+                <label asp-for="Language">Dil</label>
+                <input asp-for="Language" type="text" class="form-control" placeholder="Language" required>
+                <div class="invalid-feedback">
+                    Lütfen Kontrol Ediniz!
+                </div>
             </div>
 
             <div class="form-group">
@@ -149,6 +156,9 @@
             <button type="submit" class="btn btn-primary">Kaydet</button>
         </form>
 
+    </div>
+    <div class="col-md-4 ml-auto">
+        @await Html.PartialAsync("_PleaseRead", "Genel Ayarlar")
     </div>
 </div>
 
