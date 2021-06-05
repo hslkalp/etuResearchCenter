@@ -1,6 +1,7 @@
 @{
     Layout = "~/Views/Admin/_Layout.cshtml";
     var title = ViewData["Title"];
+    var cultureInfo = new System.Globalization.CultureInfo("tr-TR");
 }
 
 <h1>
@@ -33,7 +34,7 @@
                 <td>@item.Description</td>
                 <td>@item.PicturePath</td>
                 <td>@item.Language</td>
-                <td>@item.AdditionDate.ToString("dddd, dd MMMM yyyy")</td>
+                <td>@item.AdditionDate.ToString(cultureInfo.DateTimeFormat.LongDatePattern,cultureInfo)</td>
                 <td>
                     <form asp-controller="Admin" asp-action="DeleteArticle" asp-route-id="@item.Id" method="POST"
                     onclick="return confirm('@item.Name  Silmek istediğinize emin misiniz?')">

@@ -781,7 +781,10 @@ namespace WebProject.Controllers
         [HttpGet]
         public IActionResult Articles()
         {
-            var articles = db.Articles;
+            int AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+
+            var articles = db.Articles.Where(articles => articles.AddUserID == AddUserID);
+
             ViewData["Title"] = "Makaleler";
             return View(articles);
         }
@@ -900,7 +903,10 @@ namespace WebProject.Controllers
         [HttpGet]
         public IActionResult Notifications()
         {
-            var notifications = db.Notification;
+            int AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+
+            var notifications = db.Notification.Where(notifications => notifications.AddUserID == AddUserID);
+
             ViewData["Title"] = "Bildiriler";
             return View(notifications);
         }
@@ -1020,7 +1026,10 @@ namespace WebProject.Controllers
         [HttpGet]
         public IActionResult Projects()
         {
-            var projects = db.Projects;
+            int AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+
+            var projects = db.Projects.Where(projects => projects.AddUserID == AddUserID);
+
             ViewData["Title"] = "Projeler";
             return View(projects);
         }
@@ -1282,5 +1291,5 @@ namespace WebProject.Controllers
 
             return RedirectToAction("Labs");
         }
-    }
-}
+    }// * admin controller end
+}// * controller end
