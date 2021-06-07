@@ -17,12 +17,11 @@
         <tr>
             <th>İd</th>
             <th>Başlık</th>
-            @* <th>İçerik</th> *@
             <th>Kısa Yazı</th>
             <th>Resim Yolu</th>
             <th>Dil</th>
-            <th>Ekleyen Kisi Id</th>
             <th>Eklenme Tarihi</th>
+            <th>Ekleyen Kişi</th>
             <th>İşlem</th>
         </tr>
     </thead>
@@ -32,17 +31,6 @@
             <tr>
                 <td>@item.Id</td>
                 <td>@item.Title</td>
-                @* content gösteriminde genişlik ayarlanmıyor *@
-                @* <td>
-                    @if (item.Content.Length >= 150)
-                    {
-                    @item.Content.Substring(0,@item.Content.Length / 4)
-                    }
-                    else
-                    {
-                    @item.Content
-                    }
-                    </td> *@
                 <td>
                     @if (item.ShortText.Length >= 100)
                     {
@@ -55,8 +43,8 @@
                 </td>
                 <td>@item.PicturePath</td>
                 <td>@item.Language</td>
-                <td>@item.AddUserID</td>
                 <td>@item.AdditionDate.ToString(cultureInfo.DateTimeFormat.LongDatePattern,cultureInfo)</td>
+                <td>@item.Users.Name @item.Users.Surname</td>
                 <td>
                     <form asp-controller="Admin" asp-action="DeleteNews" asp-route-id="@item.Id" method="POST"
                     onclick="return confirm('@item.Title  Silmek istediğinize emin misiniz?')">

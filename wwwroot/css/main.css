@@ -1337,7 +1337,7 @@ a.btn-top-link {
         font-size: 1.3em; } }
 
 .news {
-  max-width: 500px;
+  min-width: 500px;
   overflow: hidden;
   font-size: 1.5rem; }
   .news:not(:first-child) .news-img {
@@ -1471,7 +1471,13 @@ section.section {
     content: '';
     display: block;
     height: 1px;
-    background: var(--text-color-black-2); }
+    background: var(--text-color-gray-3); }
+
+.about-us p {
+  font-size: 0.9em;
+  word-spacing: 0.5em;
+  letter-spacing: 0.01rem;
+  color: var(--text-color-black-2); }
 
 .about-us .content-block {
   -webkit-box-pack: justify;

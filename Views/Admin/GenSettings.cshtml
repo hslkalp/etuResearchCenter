@@ -18,6 +18,7 @@
             <th>Website Adı</th>
             <th>Merkez Adresi</th>
             <th>Website Adresi</th>
+            <th>Ekleyen Kişi</th>
             <th>İşlem</th>
         </tr>
     </thead>
@@ -29,6 +30,7 @@
                 <td>@item.WebsiteName</td>
                 <td>@item.Address</td>
                 <td>@item.WebAddress</td>
+                <td>@item.Users.Name @item.Users.Surname</td>
                 <td>
                     <a asp-controller="Admin" asp-action="EditGenSettings" asp-route-id="@item.Id"
                     class="btn btn-warning btn-sm">

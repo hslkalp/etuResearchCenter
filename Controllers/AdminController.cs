@@ -115,6 +115,10 @@ namespace WebProject.Controllers
         {
             ViewData["Title"] = "Duyurular";
             var announcement = db.Announcements;
+
+            // * foreign key için users listesi
+            ViewBag.users = db.Users.ToList();
+
             return View(announcement);
         }
 
@@ -242,6 +246,10 @@ namespace WebProject.Controllers
         {
             var genSettings = db.GenSetting;
             ViewData["Title"] = "Genel Ayarlar";
+
+            // * foreign key için users listesi
+            ViewBag.users = db.Users.ToList();
+
             return View(genSettings);
         }
 
@@ -299,6 +307,10 @@ namespace WebProject.Controllers
         {
             var management = db.Management;
             ViewData["Title"] = "Yönetim";
+
+            // * foreign key için users listesi
+            ViewBag.users = db.Users.ToList();
+
             return View(management);
         }
 
@@ -551,6 +563,10 @@ namespace WebProject.Controllers
         {
             var substructure = db.Substructure;
             ViewData["Title"] = "Altyapı";
+
+            // * foreign key için users listesi
+            ViewBag.users = db.Users.ToList();
+
             return View(substructure);
         }
 
@@ -671,6 +687,10 @@ namespace WebProject.Controllers
         {
             var news = db.News;
             ViewData["Title"] = "Haberler";
+
+            // * foreign key için users listesi
+            ViewBag.users = db.Users.ToList();
+
             return View(news);
         }
 
@@ -794,6 +814,10 @@ namespace WebProject.Controllers
             var articles = db.Articles.Where(articles => articles.AddUserID == AddUserID);
 
             ViewData["Title"] = "Makaleler";
+
+            // * foreign key için users listesi
+            ViewBag.users = db.Users.ToList();
+
             return View(articles);
         }
 
@@ -916,6 +940,10 @@ namespace WebProject.Controllers
             var notifications = db.Notification.Where(notifications => notifications.AddUserID == AddUserID);
 
             ViewData["Title"] = "Bildiriler";
+
+            // * foreign key için users listesi
+            ViewBag.users = db.Users.ToList();
+
             return View(notifications);
         }
 
@@ -1039,6 +1067,10 @@ namespace WebProject.Controllers
             var projects = db.Projects.Where(projects => projects.AddUserID == AddUserID);
 
             ViewData["Title"] = "Projeler";
+
+            // * foreign key için users listesi
+            ViewBag.users = db.Users.ToList();
+
             return View(projects);
         }
 
@@ -1166,6 +1198,10 @@ namespace WebProject.Controllers
         {
             ViewData["Title"] = "Laboratuvarlar";
             var labs = db.Labs;
+
+            // * foreign key için users listesi
+            ViewBag.users = db.Users.ToList();
+
             return View(labs);
         }
 
@@ -1308,6 +1344,10 @@ namespace WebProject.Controllers
         {
             ViewData["Title"] = "Slider";
             var slider = db.Slider;
+
+            // * foreign key için users listesi
+            ViewBag.users = db.Users.ToList();
+
             return View(slider);
         }
 

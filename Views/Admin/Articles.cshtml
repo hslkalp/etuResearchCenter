@@ -22,6 +22,7 @@
             <th>Resim</th>
             <th>Dil</th>
             <th>Eklenme Tarihi</th>
+            <th>Ekleyen Kişi</th>
             <th>İşlem</>
         </tr>
     </thead>
@@ -35,6 +36,7 @@
                 <td>@item.PicturePath</td>
                 <td>@item.Language</td>
                 <td>@item.AdditionDate.ToString(cultureInfo.DateTimeFormat.LongDatePattern,cultureInfo)</td>
+                <td>@item.Users.Name @item.Users.Surname</td>
                 <td>
                     <form asp-controller="Admin" asp-action="DeleteArticle" asp-route-id="@item.Id" method="POST"
                     onclick="return confirm('@item.Name  Silmek istediğinize emin misiniz?')">

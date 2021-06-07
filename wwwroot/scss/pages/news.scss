@@ -27,7 +27,7 @@
 }
 
 .news {
-  max-width: 500px;
+  min-width: 500px;
   overflow: hidden;
   font-size: 1.5rem;
   &:not(:first-child) {

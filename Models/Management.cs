@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebProject.Models
 {
@@ -14,11 +15,15 @@ namespace WebProject.Models
         public string Link { get; set; }
         public string Status { get; set; }
         public int Queue { get; set; }
-        public int AddUserID { get; set; }
+
         public DateTime AdditionDate { get; set; }
         public int OrganizerID { get; set; }
         public DateTime IssueDate { get; set; }
         public bool IsStaff { get; set; }
         public string StaffStatus { get; set; }
+        public int AddUserID { get; set; }
+        [ForeignKey("AddUserID")]
+        public Users Users { get; set; }
+
     }
 }
