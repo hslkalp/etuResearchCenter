@@ -30,9 +30,9 @@ namespace WebProject.Controllers
             }
         }
 
-        public IActionResult NewsDetails(int id)
+        public IActionResult NewsDetails(int? id)
         {
-            var news = db.News.FirstOrDefault(a => a.Id == id);
+            var news = db.News.Where(news => news.Id == id).FirstOrDefault();
             return View(news);
         }
     }

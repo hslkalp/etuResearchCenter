@@ -735,7 +735,6 @@ namespace WebProject.Controllers
 
             }
 
-
             db.News.Add(news);
             db.SaveChanges();
             return RedirectToAction("News");

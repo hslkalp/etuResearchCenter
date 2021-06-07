@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "x1PI0VMrnUjYRgSe1Un7K5ml/Zlmn1X7/OaC2hMdstlMExS5MULSBtgiXQot+MkW2CtceLQg8dZACC2rmSrymQ==",
+  "dgSpecHash": "NwjaTy8AXFneICoUIKvCQpymZfFCroyHyP1ICFUlDbLgXHMbXKvSWON6kKQhHY3ovTWJ1f2z99ZoBlujIxx7PA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj",
+  "projectFilePath": "c:\\Users\\hodag\\source\\repos\\WebProject\\WebProject\\WebProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hodag\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\hodag\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
