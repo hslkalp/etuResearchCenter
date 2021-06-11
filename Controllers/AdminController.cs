@@ -88,7 +88,7 @@ namespace WebProject.Controllers
                     // * giriş yapan kişi id eşitlendi
                     logedUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
-                    return Json(new { Result = true, Message = "Başarıyla Giriş Yaptınız. Yönlendiriliyorsunuz..", Url = "/Admin/Home" });
+                    return Json(new { Result = true, Message = "Başarıyla Giriş Yaptınız. Yönlendiriliyorsunuz..", Url = "/Admin/Home", Delay = 1000 });
                 }
             }
             catch (Exception ex)
@@ -163,7 +163,6 @@ namespace WebProject.Controllers
 
             db.Announcements.Add(announcement);
             db.SaveChanges();
-
             return RedirectToAction("Announcements");
         }
 

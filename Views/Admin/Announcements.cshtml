@@ -23,7 +23,7 @@
             <th>İd</th>
             <th>Başlık</th>
             <th>Kısa Yazı</th>
-            <th>Resim Yolu</th>
+            <th>Resim</th>
             <th>Dil</th>
             <th>Eklenme Tarihi</th>
             <th>Ekleyen kişi</th>
@@ -37,7 +37,11 @@
                 <td>@item.Id</td>
                 <td>@item.Title</td>
                 <td>@item.ShortText</td>
-                <td>@item.PicturePath</td>
+                <td>
+                    <div class="img-wrapper small">
+                        <img src="@item.PicturePath" alt="@item.Title resmi">
+                    </div>
+                </td>
                 <td>@item.Language</td>
                 <td>@item.AdditionDate.ToString(cultureInfo.DateTimeFormat.LongDatePattern,cultureInfo)</td>
                 <td>@item.Users.Name @item.Users.Surname</td>

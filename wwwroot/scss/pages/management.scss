@@ -21,26 +21,32 @@
   }
   &-staff {
     .content-block {
-      gap: 1.5rem;
       &:first-child {
         justify-content: center;
       }
       &:not(:first-child) {
         display: inline-flex;
-        &:not(:last-child) {
-          @include screen('desktop') {
-            margin-right: 150px;
-          }
+        @include screen('desktop') {
+          margin-top: 40px;
+          margin-right: 40px;
         }
       }
+
       .card {
-        margin-top: 30px;
+        flex-flow: row nowrap;
+        align-items: center;
+        border: 1px solid var();
+        &.bg-gradient {
+          background: linear-gradient(white, white) padding-box,
+            linear-gradient(90deg, #0277bd, #262261) border-box;
+          border-width: 3px;
+          border-style: solid;
+          border-color: transparent;
+        }
         &-img {
-          border-radius: 100%;
-          width: 180px;
+          width: 150px;
           height: auto;
           margin: 0px auto;
-          border: 5px solid var(--bg-blue-3);
         }
         &-body {
           text-align: center;

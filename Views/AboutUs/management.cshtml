@@ -6,10 +6,10 @@
             <h1>Yönetim</h1>
         </div>
         <div class="management-staff">
-            @foreach (var item in Model.Take(4))
+            @foreach (var item in Model)
             {
                 <div class="content-block">
-                    <div class="card">
+                    <div class="card bg-gradient">
                         <img src="@item.Picture" alt="@item.FullName Resmi" class="card-img">
                         <div class="card-body">
                             <h3 class="card-title">
@@ -20,6 +20,7 @@
                     </div>
                 </div>
             }
+
         </div>
     </div>
 </div>

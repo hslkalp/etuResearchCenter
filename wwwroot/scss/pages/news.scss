@@ -27,7 +27,6 @@
 }
 
 .news {
-  min-width: 500px;
   overflow: hidden;
   font-size: 1.5rem;
   &:not(:first-child) {
@@ -38,6 +37,7 @@
   }
   @include screen('desktop') {
     font-size: 2rem;
+    min-width: 500px;
   }
   &:not(:last-child) {
     margin-bottom: 20px;

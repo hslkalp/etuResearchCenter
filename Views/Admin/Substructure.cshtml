@@ -32,7 +32,11 @@
                 <td>@item.Id</td>
                 <td>@item.Name</td>
                 <td>@item.Description</td>
-                <td>@item.PicturePath</td>
+                <td>
+                    <div class="img-wrapper small">
+                        <img src="@item.PicturePath" alt="@item.Name resmi">
+                    </div>
+                </td>
                 <td>@item.AdditionDate.ToString(cultureInfo.DateTimeFormat.LongDatePattern,cultureInfo)</td>
                 <td>@item.Users.Name @item.Users.Surname</td>
                 <td>

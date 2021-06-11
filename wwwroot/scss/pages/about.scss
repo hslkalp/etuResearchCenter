@@ -3,6 +3,7 @@
   margin: 0px auto;
   padding: 50px var(--mobile-padding-gap);
   min-height: calc(100vh - 100px);
+  font-family: var(--font-open-sans);
 }
 
 .about-us {
@@ -21,9 +22,10 @@
   }
   p {
     font-size: 0.9em;
+    font-weight: 400;
     word-spacing: 0.5em;
     letter-spacing: 0.01rem;
-    color: var(--text-color-black-2);
+    color: var(--text-color-black-3);
   }
   .content-block {
     justify-content: space-between;
@@ -36,12 +38,12 @@
         }
       }
       @include screen('desktop') {
-        flex: 0 0 33.333%;
+        flex: 0 0 43.333%;
       }
     }
     &2 {
       @include screen('desktop') {
-        flex: 0 0 53.333%;
+        flex: 0 0 46.333%;
       }
       img {
         @include max-size;

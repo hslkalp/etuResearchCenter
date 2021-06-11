@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="~/css/main.css">
 
     <title>Yönetici Giriş Sayfası</title>
+
+    @* alertifyjs *@
+    <link rel="stylesheet" href="~/node/alertifyjs/build/css/alertify.min.css">
+    <link rel="stylesheet" href="~/node/alertifyjs/build/css/themes/default.min.css">
+
 </head>
 
 <body class="login-body">
@@ -103,7 +108,12 @@
                         .then(function (response) {
                             document.getElementById('loginResult').innerHTML = response.data.message;
                             if (response.data.result) {
-                                window.location.href = response.data.url;
+                                alertify.success(response.data.message);
+                                setTimeout(() => {
+                                    window.location.href = response.data.url;
+                                }, response.data.delay)
+                            } else {
+                                alertify.error(response.data.message);
                             }
                         })
                         .catch(function (error) {
@@ -113,6 +123,9 @@
             }
         })
     </script>
+
+    @* alertify js *@
+    <script src="~/node/alertifyjs/build/alertify.min.js" type="text/javascript"></script>
 
 
 </body>

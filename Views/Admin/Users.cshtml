@@ -21,6 +21,7 @@
             <th>Enstitü</th>
             <th>E mail</th>
             <th>Eklenme Tarihi</th>
+            <th>Resim</th>
             <th>İşlem</th>
         </tr>
     </thead>
@@ -34,6 +35,11 @@
                 <td>@item.Institution</td>
                 <td>@item.Email</td>
                 <td>@item.AdditionDate.ToString(cultureInfo.DateTimeFormat.LongDatePattern,cultureInfo)</td>
+                <th>
+                    <div class="img-wrapper small">
+                        <img src="@item.PicturePath" alt="@item.Name resmi">
+                    </div>
+                </th>
                 <td>
                     <form asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@item.UserID" method="POST"
                     onclick="return confirm('@item.Name @item.Surname  Silmek istediğinize emin misiniz?')">

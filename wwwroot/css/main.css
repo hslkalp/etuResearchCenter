@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 :root {
   --default-font: 'Montserrat', sans-serif;
+  --font-open-sans: 'Open Sans', sans-serif;
   --default-bg-color: transparent;
   --bg-black: #000;
   --bg-blue-2: #77acd4;
@@ -16,6 +18,7 @@
   --bg-yellow: #fff3cd;
   --defult-text-color: #000;
   --text-color-black-2: #2b2321;
+  --text-color-black-3: #2b2b2b;
   --text-color-white: #fff;
   --text-color-white-2: #d8e3e7;
   --text-color-gray: #777;
@@ -25,7 +28,7 @@
   --text-color-blue: #262261;
   --text-color-blue-2: #77acd4;
   --text-color-blue-3: #0277bd;
-  --text-color-brown:  #856404;
+  --text-color-brown: #856404;
   --mobile-padding-gap: 10px;
   --menu-padding: 30px;
   --header-hight: 110px; }
@@ -600,6 +603,9 @@ body {
 
 .img-wrapper {
   margin-bottom: 20px; }
+  .img-wrapper.small {
+    width: 100px;
+    height: auto; }
   .img-wrapper img {
     height: 100%;
     width: 100%; }
@@ -1337,7 +1343,6 @@ a.btn-top-link {
         font-size: 1.3em; } }
 
 .news {
-  min-width: 500px;
   overflow: hidden;
   font-size: 1.5rem; }
   .news:not(:first-child) .news-img {
@@ -1345,7 +1350,8 @@ a.btn-top-link {
     height: 120px; }
   @media (min-width: 992px) {
     .news {
-      font-size: 2rem; } }
+      font-size: 2rem;
+      min-width: 500px; } }
   .news:not(:last-child) {
     margin-bottom: 20px; }
   .news > * {
@@ -1460,7 +1466,8 @@ section.section {
   max-width: 1200px;
   margin: 0px auto;
   padding: 50px var(--mobile-padding-gap);
-  min-height: calc(100vh - 100px); }
+  min-height: calc(100vh - 100px);
+  font-family: var(--font-open-sans); }
 
 .about-us-title {
   margin-bottom: 80px; }
@@ -1475,9 +1482,10 @@ section.section {
 
 .about-us p {
   font-size: 0.9em;
+  font-weight: 400;
   word-spacing: 0.5em;
   letter-spacing: 0.01rem;
-  color: var(--text-color-black-2); }
+  color: var(--text-color-black-3); }
 
 .about-us .content-block {
   -webkit-box-pack: justify;
@@ -1491,13 +1499,13 @@ section.section {
     @media (min-width: 992px) {
       .about-us .content-block1 {
         -webkit-box-flex: 0;
-            -ms-flex: 0 0 33.333%;
-                flex: 0 0 33.333%; } }
+            -ms-flex: 0 0 43.333%;
+                flex: 0 0 43.333%; } }
   @media (min-width: 992px) {
     .about-us .content-block2 {
       -webkit-box-flex: 0;
-          -ms-flex: 0 0 53.333%;
-              flex: 0 0 53.333%; } }
+          -ms-flex: 0 0 46.333%;
+              flex: 0 0 46.333%; } }
   .about-us .content-block2 img {
     height: 100%;
     width: 100%; }
@@ -1519,29 +1527,41 @@ section.section {
     height: 1px;
     background: var(--text-color-black-2); }
 
-.management-staff .content-block {
-  gap: 1.5rem; }
-  .management-staff .content-block:first-child {
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center; }
-  .management-staff .content-block:not(:first-child) {
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex; }
-    @media (min-width: 992px) {
-      .management-staff .content-block:not(:first-child):not(:last-child) {
-        margin-right: 150px; } }
-  .management-staff .content-block .card {
-    margin-top: 30px; }
-    .management-staff .content-block .card-img {
-      border-radius: 100%;
-      width: 180px;
-      height: auto;
-      margin: 0px auto;
-      border: 5px solid var(--bg-blue-3); }
-    .management-staff .content-block .card-body {
-      text-align: center; }
+.management-staff .content-block:first-child {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+.management-staff .content-block:not(:first-child) {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex; }
+  @media (min-width: 992px) {
+    .management-staff .content-block:not(:first-child) {
+      margin-top: 40px;
+      margin-right: 40px; } }
+
+.management-staff .content-block .card {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid var(); }
+  .management-staff .content-block .card.bg-gradient {
+    background: -webkit-gradient(linear, left top, left bottom, from(white), to(white)) padding-box, -webkit-gradient(linear, left top, right top, from(#0277bd), to(#262261)) border-box;
+    background: linear-gradient(white, white) padding-box, linear-gradient(90deg, #0277bd, #262261) border-box;
+    border-width: 3px;
+    border-style: solid;
+    border-color: transparent; }
+  .management-staff .content-block .card-img {
+    width: 150px;
+    height: auto;
+    margin: 0px auto; }
+  .management-staff .content-block .card-body {
+    text-align: center; }
 
 .substructure-lab-wrapper {
   max-width: 1200px;

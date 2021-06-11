@@ -78,6 +78,10 @@ body {
 
 .img-wrapper {
   margin-bottom: 20px;
+  &.small{
+    width: 100px;
+    height: auto;
+  }
   img {
     @include max-size;
   }
