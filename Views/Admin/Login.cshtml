@@ -52,7 +52,7 @@
                                 placeholder="Şifre">
                         </div>
                         <div class="form-group">
-                            <button v-on:click="loginQuery()" class="form-btn signIn">
+                            <button id="loginBtn" v-on:click="loginQuery()" class="form-btn signIn">
                                 <svg class="icon icon-enter">
                                     <use xlink:href="#icon-enter"></use>
                                 </svg>
@@ -109,6 +109,7 @@
                             document.getElementById('loginResult').innerHTML = response.data.message;
                             if (response.data.result) {
                                 alertify.success(response.data.message);
+                                document.getElementById('loginBtn').disabled = true;
                                 setTimeout(() => {
                                     window.location.href = response.data.url;
                                 }, response.data.delay)

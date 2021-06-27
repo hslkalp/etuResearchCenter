@@ -13,1470 +13,1494 @@ using WebProject.Models;
 
 namespace WebProject.Controllers
 {
-    public class AdminController : Controller
+  public class AdminController : Controller
+  {
+    private readonly ETURContext db;
+
+    private int logedUserID;
+    public AdminController(ETURContext context)
     {
-        private readonly ETURContext db;
+      db = context;
+    }
+    public IActionResult Login()
+    {
+      return View();
+    }
 
-        private int logedUserID;
+    private string encryptToString(string encryptString)
+    {
 
-        public AdminController(ETURContext context)
-        {
-            db = context;
-        }
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        public IActionResult Home()
-        {
-            // * inner join ile giriş yapan kullanıcın bilgileri diğer tablo ile birleştirildi
-            var userId = HttpContext.Session.GetInt32("User_ID");
-            var query = from users in db.Users
-                        join roles in db.Role on users.Role equals roles.Id
-                        where users.UserID == userId
-                        select new LoggedUser
-                        {
-                            user = users,
-                            role = roles
-                        };
-            var viewModel = new ViewUsers { loggedUsers = query.ToList() };
-            return View(viewModel);
-        }
-
-
-        // * giriş işlemi
-        [HttpPost]
-        [Route("/Admin/loginQuery")]
-        public JsonResult LoginQuery([FromBody] Users data)
-        {
-            try
-            {
-                string Email = data.Email;
-                string Password = data.Password;
-
-                if (string.IsNullOrEmpty(Password) && string.IsNullOrEmpty(Email))
-                {
-                    return Json(new { Result = false, Message = "Kullanıcı Adınızı ve Şifrenizi Girmediniz!" });
-                }
-                else if (string.IsNullOrEmpty(Email))
-                {
-                    return Json(new { Result = false, Message = "Kullanıcı Adınızı giremediniz" });
-                }
-                else if (string.IsNullOrEmpty(Password))
-                {
-                    return Json(new { Result = false, Message = "Şifrenizi Girmediniz" });
-                }
-                else
-                {
-
-                    var user = db.Users.FirstOrDefault(x => x.Email == Email && x.Password == Password);
-
-
-                    if (user == null) return Json(new { Result = false, Message = "Kullanıcı Adı veya Parola hatalı" });
-
-                    HttpContext.Session.SetInt32("User_ID", user.UserID);
-                    HttpContext.Session.SetString("Name", user.Name);
-                    HttpContext.Session.SetString("Surname", user.Surname);
-                    HttpContext.Session.SetString("PicturePath", user.PicturePath);
-                    HttpContext.Session.SetInt32("Role", user.Role);
-                    HttpContext.Session.SetInt32("UserRole", user.Role);
-                    HttpContext.Session.SetInt32("AdminRole", user.Role);
-                    HttpContext.Session.SetString("Institution", user.Institution);
-
-                    // * giriş yapan kişi id eşitlendi
-                    logedUserID = (int)HttpContext.Session.GetInt32("User_ID");
-
-                    return Json(new { Result = true, Message = "Başarıyla Giriş Yaptınız. Yönlendiriliyorsunuz..", Url = "/Admin/Home", Delay = 1000 });
-                }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Result = false, Message = ex.Message });
-
-            }
-        }
-
-        // * çıkış işlemi
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public IActionResult logOut()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToAction("Login");
-        }
+      encryptString = createMd5.createMd5Password(encryptString);
+      encryptString = createSh1.HashSh1(encryptString);
+      encryptString = createMd5.createMd5Password(encryptString);
+      encryptString = createSh1.HashSh1(encryptString);
+      encryptString = createSh1.HashSh1(encryptString);
+      encryptString = createMd5.createMd5Password(encryptString);
+      encryptString = createSh1.HashSh1(encryptString);
 
+      return encryptString;
+    }
 
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    public IActionResult Home()
+    {
+      // * inner join ile giriş yapan kullanıcın bilgileri diğer tablo ile birleştirildi
+      var userId = HttpContext.Session.GetInt32("User_ID");
+      var query = from users in db.Users
+                  join roles in db.Role on users.Role equals roles.Id
+                  where users.UserID == userId
+                  select new LoggedUser
+                  {
+                    user = users,
+                    role = roles
+                  };
+      var viewModel = new ViewUsers { loggedUsers = query.ToList() };
+      return View(viewModel);
+    }
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * Duyurular
-        public IActionResult Announcements()
-        {
-            ViewData["Title"] = "Duyurular";
-            var announcement = db.Announcements;
 
-            // * foreign key için users listesi
-            ViewBag.users = db.Users.ToList();
+    // * giriş işlemi
+    [HttpPost]
+    [Route("/Admin/loginQuery")]
+    public JsonResult LoginQuery([FromBody] Users data)
+    {
+      try
+      {
+        string Email = data.Email;
 
-            return View(announcement);
-        }
+        string Password = data.Password;
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * Duyuru ekeleme
-        [HttpGet]
-        public IActionResult AddAnnouncements()
+        if (string.IsNullOrEmpty(Password) && string.IsNullOrEmpty(Email))
         {
-            ViewData["Title"] = "Duyuru ekle";
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-            return View();
+          return Json(new { Result = false, Message = "Kullanıcı Adınızı ve Şifrenizi Girmediniz!" });
         }
-
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> AddAnnouncementsAsync(Announcement announcement, IFormFile PicturePath)
+        else if (string.IsNullOrEmpty(Email))
         {
-
-            // *  resim yolu
-            if (PicturePath != null)
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
-
-                string imageName = Guid.NewGuid() + imageExtension;
-
-                string path = Path.Combine($"wwwroot/img/Announcements/{imageName}");
-
-                using var stream = new FileStream(path, FileMode.Create);
-
-                await PicturePath.CopyToAsync(stream);
-
-                announcement.PicturePath = path;
-
-                announcement.PicturePath = announcement.PicturePath.Substring(announcement.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
-
-            }
-            announcement.AdditionDate = DateTime.Now;
-
-            announcement.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-
-            db.Announcements.Add(announcement);
-            db.SaveChanges();
-            return RedirectToAction("Announcements");
+          return Json(new { Result = false, Message = "Kullanıcı Adınızı giremediniz" });
         }
-
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * Duyuru güncelleme
-        [HttpGet]
-        public IActionResult EditAnnouncements(int? id)
+        else if (string.IsNullOrEmpty(Password))
         {
-            var foundAnnouncement = db.Announcements.Where(a => a.Id == id).FirstOrDefault();
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-            return View(foundAnnouncement);
+          return Json(new { Result = false, Message = "Şifrenizi Girmediniz" });
         }
-
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> EditAnnouncementsAsync(int? id, Announcement announcement, IFormFile PicturePath)
+        else
         {
-
-
-            var foundAnnouncement = db.Announcements.Where(a => a.Id == id).FirstOrDefault();
-            foundAnnouncement.AdditionDate = DateTime.Now;
-            foundAnnouncement.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            foundAnnouncement.Title = announcement.Title;
-            foundAnnouncement.Content = announcement.Content;
-            foundAnnouncement.ShortText = announcement.ShortText;
-            foundAnnouncement.Language = announcement.Language;
-
-            // * resim yolu
-            if (PicturePath != null)
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
-
-                string imageName = Guid.NewGuid() + imageExtension;
-
-                string path = Path.Combine($"wwwroot/img/Announcements/{imageName}");
-
-                using var stream = new FileStream(path, FileMode.Create);
-
-                await PicturePath.CopyToAsync(stream);
-
-                announcement.PicturePath = path;
-
-                announcement.PicturePath = announcement.PicturePath.Substring(announcement.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
-
-            }
 
-            foundAnnouncement.PicturePath = announcement.PicturePath;
+          Password = encryptToString(Password);
 
-            db.Announcements.Update(foundAnnouncement);
-            db.SaveChanges();
-            return RedirectToAction("Announcements");
-        }
-
-
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * duyuru silme
-        [HttpPost]
-        public IActionResult DeleteAnnouncements(int id)
-        {
-            try
-            {
-                var foundAnnouncement = db.Announcements.Where(a => a.Id == id).FirstOrDefault();
-                db.Announcements.Remove(foundAnnouncement);
-                db.SaveChanges();
-                return RedirectToAction("Announcements");
-            }
-            catch (System.Exception)
-            {
-
-                throw;
-            }
-        }
+          var user = db.Users.FirstOrDefault(x => x.Email == Email && x.Password == Password);
 
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * Genel Ayarlar
-        [HttpGet]
-        public IActionResult GenSettings()
-        {
-            var genSettings = db.GenSetting;
-            ViewData["Title"] = "Genel Ayarlar";
-
-            // * foreign key için users listesi
-            ViewBag.users = db.Users.ToList();
+          if (user == null) return Json(new { Result = false, Message = "Kullanıcı Adı veya Parola hatalı" });
 
-            return View(genSettings);
-        }
+          HttpContext.Session.SetInt32("User_ID", user.UserID);
+          HttpContext.Session.SetString("Name", user.Name);
+          HttpContext.Session.SetString("Surname", user.Surname);
+          HttpContext.Session.SetString("PicturePath", user.PicturePath);
+          HttpContext.Session.SetInt32("Role", user.Role);
+          HttpContext.Session.SetInt32("UserRole", user.Role);
+          HttpContext.Session.SetInt32("AdminRole", user.Role);
+          HttpContext.Session.SetString("Institution", user.Institution);
 
+          // * giriş yapan kişi id eşitlendi
+          logedUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
+          return Json(new { Result = true, Message = "Başarıyla Giriş Yaptınız. Yönlendiriliyorsunuz..", Url = "/Admin/Home", Delay = 1000 });
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        //* Genel Ayar güncelleme
-        [HttpGet]
-        public IActionResult EditGenSettings(int? id)
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            var foundGenSettings = db.GenSetting.Where(a => a.Id == id).FirstOrDefault();
-            return View(foundGenSettings);
-        }
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public IActionResult EditGenSettings(int? id, GenSetting genSetting)
-        {
-            var defaultGenSettings = db.GenSetting.Where(gen => gen.Id == id).FirstOrDefault();
-            defaultGenSettings.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            defaultGenSettings.AdditionDate = DateTime.Now;
-            defaultGenSettings.WebsiteName = genSetting.WebsiteName;
-            defaultGenSettings.MetaAuthor = genSetting.MetaAuthor;
-            defaultGenSettings.MetaKeyWords = genSetting.MetaKeyWords;
-            defaultGenSettings.Facebook = genSetting.Facebook;
-            defaultGenSettings.Twitter = genSetting.Twitter;
-            defaultGenSettings.GooglePlus = genSetting.GooglePlus;
-            defaultGenSettings.Instagram = genSetting.Instagram;
-            defaultGenSettings.LinkedIn = genSetting.LinkedIn;
-            defaultGenSettings.Youtube = genSetting.Youtube;
-            defaultGenSettings.Telephone = genSetting.Telephone;
-            defaultGenSettings.MetaDescription = genSetting.MetaDescription;
-            defaultGenSettings.Email = genSetting.Email;
-            defaultGenSettings.Fax = genSetting.Fax;
-            defaultGenSettings.WebAddress = genSetting.WebAddress;
-            defaultGenSettings.OrganizerID = (int)HttpContext.Session.GetInt32("User_ID");
-            defaultGenSettings.IssueDate = DateTime.Now;
-            defaultGenSettings.ShortHistory = genSetting.ShortHistory;
-            defaultGenSettings.Address = genSetting.Address;
-            defaultGenSettings.Language = genSetting.Language;
-
-            db.GenSetting.Update(defaultGenSettings);
-            db.SaveChanges();
-            return View();
         }
-
-        // * yönetim
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult Management()
-        {
-            var management = db.Management;
-            ViewData["Title"] = "Yönetim";
+      }
+      catch (Exception ex)
+      {
+        return Json(new { Result = false, Message = ex.Message });
 
-            // * foreign key için users listesi
-            ViewBag.users = db.Users.ToList();
+      }
+    }
 
-            return View(management);
-        }
+    // * çıkış işlemi
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public IActionResult logOut()
+    {
+      HttpContext.Session.Clear();
+      return RedirectToAction("Login");
+    }
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * yönetim ekeleme
-        [HttpGet]
-        public IActionResult AddManagement()
-        {
-            // * aktif ayarları
-            var isActive = db.IsActive.ToList();
-            ViewBag.isActive = isActive;
-
-            ViewData["Title"] = "Yönetici Ekle";
-            return View();
-        }
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> AddManagementAsync(Management management, IFormFile Picture)
-        {
-            // * resim yolu
-            if (Picture != null)
-            {
-                string imageExtension = Path.GetExtension(Picture.FileName);
 
-                string imageName = Guid.NewGuid() + imageExtension;
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * Duyurular
+    public IActionResult Announcements()
+    {
+      ViewData["Title"] = "Duyurular";
+      var announcement = db.Announcements;
 
-                string path = Path.Combine($"wwwroot/img/Management/{imageName}");
+      // * foreign key için users listesi
+      ViewBag.users = db.Users.ToList();
 
-                using var stream = new FileStream(path, FileMode.Create);
+      return View(announcement);
+    }
 
-                await Picture.CopyToAsync(stream);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * Duyuru ekeleme
+    [HttpGet]
+    public IActionResult AddAnnouncements()
+    {
+      ViewData["Title"] = "Duyuru ekle";
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
+      return View();
+    }
 
-                management.Picture = path;
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> AddAnnouncementsAsync(Announcement announcement, IFormFile PicturePath)
+    {
 
-                management.Picture = management.Picture.Substring(management.Picture.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+      // *  resim yolu
+      if (PicturePath != null)
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-            }
+        string imageName = Guid.NewGuid() + imageExtension;
 
-            management.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            management.AdditionDate = DateTime.Now;
-            management.OrganizerID = (int)HttpContext.Session.GetInt32("User_ID");
-            management.IssueDate = DateTime.Now;
-            db.Management.Add(management);
-            db.SaveChanges();
-            return RedirectToAction("Management");
-        }
+        string path = Path.Combine($"wwwroot/img/Announcements/{imageName}");
 
-        // * yönetim güncelleme
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult EditManagement(int? id)
-        {
-            // * aktif ayarları
-            var isActive = db.IsActive.ToList();
-            ViewBag.isActive = isActive;
-
-            var foundManagement = db.Management.Where(a => a.Id == id).FirstOrDefault();
-            return View(foundManagement);
-        }
+        using var stream = new FileStream(path, FileMode.Create);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> EditManagementAsync(int? id, Management management, IFormFile Picture)
-        {
-            var foundManagement = db.Management.Where(a => a.Id == id).FirstOrDefault();
-            foundManagement.FullName = management.FullName;
-            foundManagement.Email = management.Email;
+        await PicturePath.CopyToAsync(stream);
 
-            foundManagement.Link = management.Link;
-            foundManagement.Status = management.Status;
-            foundManagement.Queue = management.Queue;
-            foundManagement.StaffStatus = management.StaffStatus;
-            foundManagement.IsStaff = management.IsStaff;
-            foundManagement.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            foundManagement.OrganizerID = (int)HttpContext.Session.GetInt32("User_ID");
-            // * resim yolu
-            if (Picture != null)
+        announcement.PicturePath = path;
 
-            {
-                string imageExtension = Path.GetExtension(Picture.FileName);
+        announcement.PicturePath = announcement.PicturePath.Substring(announcement.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-                string imageName = Guid.NewGuid() + imageExtension;
+      }
+      announcement.AdditionDate = DateTime.Now;
 
-                string path = Path.Combine($"wwwroot/img/Management/{imageName}");
+      announcement.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
-                using var stream = new FileStream(path, FileMode.Create);
+      db.Announcements.Add(announcement);
+      db.SaveChanges();
+      return RedirectToAction("Announcements");
+    }
 
-                await Picture.CopyToAsync(stream);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * Duyuru güncelleme
+    [HttpGet]
+    public IActionResult EditAnnouncements(int? id)
+    {
+      var foundAnnouncement = db.Announcements.Where(a => a.Id == id).FirstOrDefault();
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
+      return View(foundAnnouncement);
+    }
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> EditAnnouncementsAsync(int? id, Announcement announcement, IFormFile PicturePath)
+    {
+
+
+      var foundAnnouncement = db.Announcements.Where(a => a.Id == id).FirstOrDefault();
+      foundAnnouncement.AdditionDate = DateTime.Now;
+      foundAnnouncement.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      foundAnnouncement.Title = announcement.Title;
+      foundAnnouncement.Content = announcement.Content;
+      foundAnnouncement.ShortText = announcement.ShortText;
+      foundAnnouncement.Language = announcement.Language;
+
+      // * resim yolu
+      if (PicturePath != null)
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
+
+        string imageName = Guid.NewGuid() + imageExtension;
+
+        string path = Path.Combine($"wwwroot/img/Announcements/{imageName}");
+
+        using var stream = new FileStream(path, FileMode.Create);
+
+        await PicturePath.CopyToAsync(stream);
+
+        announcement.PicturePath = path;
+
+        announcement.PicturePath = announcement.PicturePath.Substring(announcement.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+
+      }
+
+      foundAnnouncement.PicturePath = announcement.PicturePath;
+
+      db.Announcements.Update(foundAnnouncement);
+      db.SaveChanges();
+      return RedirectToAction("Announcements");
+    }
+
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * duyuru silme
+    [HttpPost]
+    public IActionResult DeleteAnnouncements(int id)
+    {
+      try
+      {
+        var foundAnnouncement = db.Announcements.Where(a => a.Id == id).FirstOrDefault();
+        db.Announcements.Remove(foundAnnouncement);
+        db.SaveChanges();
+        return RedirectToAction("Announcements");
+      }
+      catch (System.Exception)
+      {
+
+        throw;
+      }
+    }
+
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * Genel Ayarlar
+    [HttpGet]
+    public IActionResult GenSettings()
+    {
+      var genSettings = db.GenSetting;
+      ViewData["Title"] = "Genel Ayarlar";
+
+      // * foreign key için users listesi
+      ViewBag.users = db.Users.ToList();
+
+      return View(genSettings);
+    }
+
+
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    //* Genel Ayar güncelleme
+    [HttpGet]
+    public IActionResult EditGenSettings(int? id)
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
+
+      var foundGenSettings = db.GenSetting.Where(a => a.Id == id).FirstOrDefault();
+      return View(foundGenSettings);
+    }
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public IActionResult EditGenSettings(int? id, GenSetting genSetting)
+    {
+      var defaultGenSettings = db.GenSetting.Where(gen => gen.Id == id).FirstOrDefault();
+      defaultGenSettings.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      defaultGenSettings.AdditionDate = DateTime.Now;
+      defaultGenSettings.WebsiteName = genSetting.WebsiteName;
+      defaultGenSettings.MetaAuthor = genSetting.MetaAuthor;
+      defaultGenSettings.MetaKeyWords = genSetting.MetaKeyWords;
+      defaultGenSettings.Facebook = genSetting.Facebook;
+      defaultGenSettings.Twitter = genSetting.Twitter;
+      defaultGenSettings.GooglePlus = genSetting.GooglePlus;
+      defaultGenSettings.Instagram = genSetting.Instagram;
+      defaultGenSettings.LinkedIn = genSetting.LinkedIn;
+      defaultGenSettings.Youtube = genSetting.Youtube;
+      defaultGenSettings.Telephone = genSetting.Telephone;
+      defaultGenSettings.MetaDescription = genSetting.MetaDescription;
+      defaultGenSettings.Email = genSetting.Email;
+      defaultGenSettings.Fax = genSetting.Fax;
+      defaultGenSettings.WebAddress = genSetting.WebAddress;
+      defaultGenSettings.OrganizerID = (int)HttpContext.Session.GetInt32("User_ID");
+      defaultGenSettings.IssueDate = DateTime.Now;
+      defaultGenSettings.ShortHistory = genSetting.ShortHistory;
+      defaultGenSettings.Address = genSetting.Address;
+      defaultGenSettings.Language = genSetting.Language;
+
+      db.GenSetting.Update(defaultGenSettings);
+      db.SaveChanges();
+      return View();
+    }
+
+    // * yönetim
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult Management()
+    {
+      var management = db.Management;
+      ViewData["Title"] = "Yönetim";
+
+      // * foreign key için users listesi
+      ViewBag.users = db.Users.ToList();
+
+      return View(management);
+    }
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * yönetim ekeleme
+    [HttpGet]
+    public IActionResult AddManagement()
+    {
+      // * aktif ayarları
+      var isActive = db.IsActive.ToList();
+      ViewBag.isActive = isActive;
+
+      ViewData["Title"] = "Yönetici Ekle";
+      return View();
+    }
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> AddManagementAsync(Management management, IFormFile Picture)
+    {
+      // * resim yolu
+      if (Picture != null)
+      {
+        string imageExtension = Path.GetExtension(Picture.FileName);
+
+        string imageName = Guid.NewGuid() + imageExtension;
+
+        string path = Path.Combine($"wwwroot/img/Management/{imageName}");
+
+        using var stream = new FileStream(path, FileMode.Create);
+
+        await Picture.CopyToAsync(stream);
+
+        management.Picture = path;
+
+        management.Picture = management.Picture.Substring(management.Picture.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+
+      }
+
+      management.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      management.AdditionDate = DateTime.Now;
+      management.OrganizerID = (int)HttpContext.Session.GetInt32("User_ID");
+      management.IssueDate = DateTime.Now;
+      db.Management.Add(management);
+      db.SaveChanges();
+      return RedirectToAction("Management");
+    }
+
+    // * yönetim güncelleme
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult EditManagement(int? id)
+    {
+      // * aktif ayarları
+      var isActive = db.IsActive.ToList();
+      ViewBag.isActive = isActive;
+
+      var foundManagement = db.Management.Where(a => a.Id == id).FirstOrDefault();
+      return View(foundManagement);
+    }
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> EditManagementAsync(int? id, Management management, IFormFile Picture)
+    {
+      var foundManagement = db.Management.Where(a => a.Id == id).FirstOrDefault();
+      foundManagement.FullName = management.FullName;
+      foundManagement.Email = management.Email;
+
+      foundManagement.Link = management.Link;
+      foundManagement.Status = management.Status;
+      foundManagement.Queue = management.Queue;
+      foundManagement.StaffStatus = management.StaffStatus;
+      foundManagement.IsStaff = management.IsStaff;
+      foundManagement.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      foundManagement.OrganizerID = (int)HttpContext.Session.GetInt32("User_ID");
+      // * resim yolu
+      if (Picture != null)
+
+      {
+        string imageExtension = Path.GetExtension(Picture.FileName);
+
+        string imageName = Guid.NewGuid() + imageExtension;
+
+        string path = Path.Combine($"wwwroot/img/Management/{imageName}");
+
+        using var stream = new FileStream(path, FileMode.Create);
+
+        await Picture.CopyToAsync(stream);
+
+        management.Picture = path;
+
+        management.Picture = management.Picture.Substring(management.Picture.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+
+      }
+
+      foundManagement.Picture = management.Picture;
+
+      db.Management.Update(foundManagement);
+      db.SaveChanges();
+      return RedirectToAction("Management");
+    }
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * yönetim silme
+    [HttpPost]
+    public IActionResult DeleteManagement(int id)
+    {
+      try
+      {
+        var foundManagement = db.Management.Where(a => a.Id == id).FirstOrDefault();
+        db.Management.Remove(foundManagement);
+        db.SaveChanges();
+        return RedirectToAction("Management");
+      }
+      catch (System.Exception)
+      {
+
+        throw;
+      }
+    }
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * kullanıcılar
+    [HttpGet]
+    public IActionResult Users()
+    {
+      var users = db.Users;
+      ViewData["Title"] = "Kullanıcılar";
+      return View(users);
+    }
 
-                management.Picture = path;
 
-                management.Picture = management.Picture.Substring(management.Picture.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * Kullanıcı ekle
+    [HttpGet]
+    public IActionResult AddUsers()
+    {
+      // * role 
+      var roles = db.Role.ToList();
+      ViewBag.roles = roles;
 
-            }
+      ViewData["Title"] = "Kullanıcı Ekle";
+      return View();
+    }
 
-            foundManagement.Picture = management.Picture;
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> AddUsersAsync(Users user, IFormFile PicturePath)
+    {
 
-            db.Management.Update(foundManagement);
-            db.SaveChanges();
-            return RedirectToAction("Management");
-        }
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * yönetim silme
-        [HttpPost]
-        public IActionResult DeleteManagement(int id)
-        {
-            try
-            {
-                var foundManagement = db.Management.Where(a => a.Id == id).FirstOrDefault();
-                db.Management.Remove(foundManagement);
-                db.SaveChanges();
-                return RedirectToAction("Management");
-            }
-            catch (System.Exception)
-            {
-
-                throw;
-            }
-        }
+      // * resim yolu
+      if (PicturePath != null)
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * kullanıcılar
-        [HttpGet]
-        public IActionResult Users()
-        {
-            var users = db.Users;
-            ViewData["Title"] = "Kullanıcılar";
-            return View(users);
-        }
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
+
+        string imageName = Guid.NewGuid() + imageExtension;
 
+        string path = Path.Combine($"wwwroot/img/Users/{imageName}");
+
+        using var stream = new FileStream(path, FileMode.Create);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * Kullanıcı ekle
-        [HttpGet]
-        public IActionResult AddUsers()
-        {
-            // * role 
-            var roles = db.Role.ToList();
-            ViewBag.roles = roles;
-
-            ViewData["Title"] = "Kullanıcı Ekle";
-            return View();
-        }
+        await PicturePath.CopyToAsync(stream);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> AddUsersAsync(Users user, IFormFile PicturePath)
-        {
+        user.PicturePath = path;
 
+        user.PicturePath = user.PicturePath.Substring(user.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+
+      }
+
+      user.AdditionDate = DateTime.Now;
+
+
+      user.Password = encryptToString(user.Password);
+
+
+      db.Users.Add(user);
+      db.SaveChanges();
+      return RedirectToAction("Users");
+    }
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * Kullanıcı Güncelleme
+    [HttpGet]
+    public IActionResult EditUsers(int? id)
+    {
+
+      // * role 
+      var roles = db.Role.ToList();
+      ViewBag.roles = roles;
+
+
+
+      var foundUser = db.Users.Where(user => user.UserID == id).FirstOrDefault();
+      return View(foundUser);
+    }
 
-            // * resim yolu
-            if (PicturePath != null)
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> EditUsersAsync(int? id, Users user, IFormFile PicturePath)
+    {
+      var foundUser = db.Users.Where(user => user.UserID == id).FirstOrDefault();
+      foundUser.Name = user.Name;
+      foundUser.Surname = user.Surname;
+      foundUser.Institution = user.Institution;
 
-                string imageName = Guid.NewGuid() + imageExtension;
+      foundUser.Email = user.Email;
 
-                string path = Path.Combine($"wwwroot/img/Users/{imageName}");
+      // * resim yolu
+      if (PicturePath != null)
 
-                using var stream = new FileStream(path, FileMode.Create);
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-                await PicturePath.CopyToAsync(stream);
+        string imageName = Guid.NewGuid() + imageExtension;
 
-                user.PicturePath = path;
+        string path = Path.Combine($"wwwroot/img/Users/{imageName}");
 
-                user.PicturePath = user.PicturePath.Substring(user.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+        using var stream = new FileStream(path, FileMode.Create);
 
-            }
+        await PicturePath.CopyToAsync(stream);
 
-            user.AdditionDate = DateTime.Now;
+        user.PicturePath = path;
 
-            db.Users.Add(user);
-            db.SaveChanges();
-            return RedirectToAction("Users");
-        }
+        user.PicturePath = user.PicturePath.Substring(user.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * Kullanıcı Güncelleme
-        [HttpGet]
-        public IActionResult EditUsers(int? id)
-        {
+      }
 
-            // * role 
-            var roles = db.Role.ToList();
-            ViewBag.roles = roles;
+      foundUser.PicturePath = user.PicturePath;
+      foundUser.AdditionDate = DateTime.Now;
+      foundUser.Role = user.Role;
+      db.Users.Update(foundUser);
+      db.SaveChanges();
+      return RedirectToAction("Users");
+    }
 
-            var foundUser = db.Users.Where(user => user.UserID == id).FirstOrDefault();
-            return View(foundUser);
-        }
 
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public IActionResult DeleteUser(int? id)
+    {
+      var foundUser = db.Users.Where(user => user.UserID == id).FirstOrDefault();
+      db.Users.Remove(foundUser);
+      db.SaveChanges();
+      return RedirectToAction("Users");
+    }
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> EditUsersAsync(int? id, Users user, IFormFile PicturePath)
-        {
-            var foundUser = db.Users.Where(user => user.UserID == id).FirstOrDefault();
-            foundUser.Name = user.Name;
-            foundUser.Surname = user.Surname;
-            foundUser.Institution = user.Institution;
-            foundUser.Password = user.Password;
-            foundUser.Email = user.Email;
 
-            // * resim yolu
-            if (PicturePath != null)
+    // * altyapi
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult Substructure()
+    {
+      var substructure = db.Substructure;
+      ViewData["Title"] = "Altyapı";
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+      // * foreign key için users listesi
+      ViewBag.users = db.Users.ToList();
 
-                string imageName = Guid.NewGuid() + imageExtension;
+      return View(substructure);
+    }
 
-                string path = Path.Combine($"wwwroot/img/Users/{imageName}");
+    // * altyapi ekle
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult AddSubstructure()
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-                using var stream = new FileStream(path, FileMode.Create);
+      ViewData["Title"] = "Altyapı Ekle";
+      return View();
+    }
 
-                await PicturePath.CopyToAsync(stream);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> AddSubstructureAsync(Substructure substructure, IFormFile PicturePath)
+    {
+      substructure.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      substructure.AdditionDate = DateTime.Now;
 
-                user.PicturePath = path;
+      // * resim yolu
+      if (PicturePath != null)
 
-                user.PicturePath = user.PicturePath.Substring(user.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-            }
+        string imageName = Guid.NewGuid() + imageExtension;
 
-            foundUser.PicturePath = user.PicturePath;
-            foundUser.AdditionDate = DateTime.Now;
-            foundUser.Role = user.Role;
-            db.Users.Update(foundUser);
-            db.SaveChanges();
-            return RedirectToAction("Users");
-        }
+        string path = Path.Combine($"wwwroot/img/Substructure/{imageName}");
 
+        using var stream = new FileStream(path, FileMode.Create);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public IActionResult DeleteUser(int? id)
-        {
-            var foundUser = db.Users.Where(user => user.UserID == id).FirstOrDefault();
-            db.Users.Remove(foundUser);
-            db.SaveChanges();
-            return RedirectToAction("Users");
-        }
+        await PicturePath.CopyToAsync(stream);
 
+        substructure.PicturePath = path;
 
-        // * altyapi
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult Substructure()
-        {
-            var substructure = db.Substructure;
-            ViewData["Title"] = "Altyapı";
+        substructure.PicturePath = substructure.PicturePath.Substring(substructure.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-            // * foreign key için users listesi
-            ViewBag.users = db.Users.ToList();
+      }
 
-            return View(substructure);
-        }
 
-        // * altyapi ekle
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult AddSubstructure()
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            ViewData["Title"] = "Altyapı Ekle";
-            return View();
-        }
+      db.Substructure.Add(substructure);
+      db.SaveChanges();
+      return RedirectToAction("Substructure");
+    }
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> AddSubstructureAsync(Substructure substructure, IFormFile PicturePath)
-        {
-            substructure.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            substructure.AdditionDate = DateTime.Now;
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult EditSubstructure(int? id)
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-            // * resim yolu
-            if (PicturePath != null)
+      var foundSubstructure = db.Substructure.Where(subs => subs.Id == id).FirstOrDefault();
+      return View(foundSubstructure);
+    }
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-                string imageName = Guid.NewGuid() + imageExtension;
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> EditSubstructureAsync(int? id, Substructure substructure, IFormFile PicturePath)
+    {
+      var foundSubstructure = db.Substructure.Where(subs => subs.Id == id).FirstOrDefault();
+      foundSubstructure.Name = substructure.Name;
+      foundSubstructure.Description = substructure.Description;
+      foundSubstructure.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      foundSubstructure.AdditionDate = DateTime.Now;
+      foundSubstructure.Language = substructure.Language;
 
-                string path = Path.Combine($"wwwroot/img/Substructure/{imageName}");
+      // * resim yolu
+      if (PicturePath != null)
 
-                using var stream = new FileStream(path, FileMode.Create);
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-                await PicturePath.CopyToAsync(stream);
+        string imageName = Guid.NewGuid() + imageExtension;
 
-                substructure.PicturePath = path;
+        string path = Path.Combine($"wwwroot/img/Substructure/{imageName}");
 
-                substructure.PicturePath = substructure.PicturePath.Substring(substructure.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+        using var stream = new FileStream(path, FileMode.Create);
 
-            }
+        await PicturePath.CopyToAsync(stream);
 
+        substructure.PicturePath = path;
 
-            db.Substructure.Add(substructure);
-            db.SaveChanges();
-            return RedirectToAction("Substructure");
-        }
+        substructure.PicturePath = substructure.PicturePath.Substring(substructure.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult EditSubstructure(int? id)
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            var foundSubstructure = db.Substructure.Where(subs => subs.Id == id).FirstOrDefault();
-            return View(foundSubstructure);
-        }
+      }
 
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> EditSubstructureAsync(int? id, Substructure substructure, IFormFile PicturePath)
-        {
-            var foundSubstructure = db.Substructure.Where(subs => subs.Id == id).FirstOrDefault();
-            foundSubstructure.Name = substructure.Name;
-            foundSubstructure.Description = substructure.Description;
-            foundSubstructure.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            foundSubstructure.AdditionDate = DateTime.Now;
-            foundSubstructure.Language = substructure.Language;
+      foundSubstructure.PicturePath = substructure.PicturePath;
+      db.Substructure.Update(foundSubstructure);
+      db.SaveChanges();
+      return RedirectToAction("Substructure");
+    }
 
-            // * resim yolu
-            if (PicturePath != null)
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public IActionResult DeleteSubstructure(int? id)
+    {
+      var foundSubstructure = db.Substructure.Where(subs => subs.Id == id).FirstOrDefault();
+      db.Substructure.Remove(foundSubstructure);
+      db.SaveChanges();
+      return RedirectToAction("Substructure");
+    }
 
-                string imageName = Guid.NewGuid() + imageExtension;
+    // * haberler
 
-                string path = Path.Combine($"wwwroot/img/Substructure/{imageName}");
 
-                using var stream = new FileStream(path, FileMode.Create);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult News()
+    {
+      var news = db.News;
+      ViewData["Title"] = "Haberler";
 
-                await PicturePath.CopyToAsync(stream);
+      // * foreign key için users listesi
+      ViewBag.users = db.Users.ToList();
 
-                substructure.PicturePath = path;
+      return View(news);
+    }
 
-                substructure.PicturePath = substructure.PicturePath.Substring(substructure.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+    // * haber ekle
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult AddNews()
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-            }
+      ViewData["Title"] = "Haber Ekle";
+      return View();
+    }
 
 
-            foundSubstructure.PicturePath = substructure.PicturePath;
-            db.Substructure.Update(foundSubstructure);
-            db.SaveChanges();
-            return RedirectToAction("Substructure");
-        }
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> AddNewsAsync(News news, IFormFile PicturePath)
+    {
+      news.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      news.AdditionDate = DateTime.Now;
 
+      // * resim yolu
+      if (PicturePath != null)
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public IActionResult DeleteSubstructure(int? id)
-        {
-            var foundSubstructure = db.Substructure.Where(subs => subs.Id == id).FirstOrDefault();
-            db.Substructure.Remove(foundSubstructure);
-            db.SaveChanges();
-            return RedirectToAction("Substructure");
-        }
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-        // * haberler
+        string imageName = Guid.NewGuid() + imageExtension;
 
+        string path = Path.Combine($"wwwroot/img/News/{imageName}");
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult News()
-        {
-            var news = db.News;
-            ViewData["Title"] = "Haberler";
+        using var stream = new FileStream(path, FileMode.Create);
 
-            // * foreign key için users listesi
-            ViewBag.users = db.Users.ToList();
+        await PicturePath.CopyToAsync(stream);
 
-            return View(news);
-        }
+        news.PicturePath = path;
 
-        // * haber ekle
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult AddNews()
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            ViewData["Title"] = "Haber Ekle";
-            return View();
-        }
+        news.PicturePath = news.PicturePath.Substring(news.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
+      }
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> AddNewsAsync(News news, IFormFile PicturePath)
-        {
-            news.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            news.AdditionDate = DateTime.Now;
+      db.News.Add(news);
+      db.SaveChanges();
+      return RedirectToAction("News");
+    }
 
-            // * resim yolu
-            if (PicturePath != null)
+    // * haber güncelleme
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult EditNews(int? id)
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+      var foundNews = db.News.Where(news => news.Id == id).FirstOrDefault();
+      return View(foundNews);
+    }
 
-                string imageName = Guid.NewGuid() + imageExtension;
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> EditNewsAsync(int? id, News news, IFormFile PicturePath)
+    {
+      var foundNews = db.News.Where(news => news.Id == id).FirstOrDefault();
+      foundNews.Title = news.Title;
+      foundNews.Content = news.Content;
 
-                string path = Path.Combine($"wwwroot/img/News/{imageName}");
+      // * resim yolu
+      if (PicturePath != null)
 
-                using var stream = new FileStream(path, FileMode.Create);
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-                await PicturePath.CopyToAsync(stream);
+        string imageName = Guid.NewGuid() + imageExtension;
 
-                news.PicturePath = path;
+        string path = Path.Combine($"wwwroot/img/News/{imageName}");
 
-                news.PicturePath = news.PicturePath.Substring(news.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+        using var stream = new FileStream(path, FileMode.Create);
 
-            }
+        await PicturePath.CopyToAsync(stream);
 
-            db.News.Add(news);
-            db.SaveChanges();
-            return RedirectToAction("News");
-        }
+        news.PicturePath = path;
 
-        // * haber güncelleme
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult EditNews(int? id)
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            var foundNews = db.News.Where(news => news.Id == id).FirstOrDefault();
-            return View(foundNews);
-        }
+        news.PicturePath = news.PicturePath.Substring(news.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> EditNewsAsync(int? id, News news, IFormFile PicturePath)
-        {
-            var foundNews = db.News.Where(news => news.Id == id).FirstOrDefault();
-            foundNews.Title = news.Title;
-            foundNews.Content = news.Content;
+      }
 
-            // * resim yolu
-            if (PicturePath != null)
+      foundNews.PicturePath = news.PicturePath;
+      foundNews.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      foundNews.AdditionDate = DateTime.Now;
+      foundNews.Language = news.Language;
+      foundNews.ShortText = news.ShortText;
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+      db.News.Update(foundNews);
+      db.SaveChanges();
 
-                string imageName = Guid.NewGuid() + imageExtension;
+      return RedirectToAction("News");
+    }
 
-                string path = Path.Combine($"wwwroot/img/News/{imageName}");
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public IActionResult DeleteNews(int? id)
+    {
+      var foundNews = db.News.Where(news => news.Id == id).FirstOrDefault();
+      db.News.Remove(foundNews);
+      db.SaveChanges();
+      return RedirectToAction("News");
+    }
 
-                using var stream = new FileStream(path, FileMode.Create);
+    // * makaleler
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult Articles()
+    {
+      int AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
-                await PicturePath.CopyToAsync(stream);
+      var articles = db.Articles.Where(articles => articles.AddUserID == AddUserID);
 
-                news.PicturePath = path;
+      ViewData["Title"] = "Makaleler";
 
-                news.PicturePath = news.PicturePath.Substring(news.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+      // * foreign key için users listesi
+      ViewBag.users = db.Users.ToList();
 
-            }
+      return View(articles);
+    }
 
-            foundNews.PicturePath = news.PicturePath;
-            foundNews.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            foundNews.AdditionDate = DateTime.Now;
-            foundNews.Language = news.Language;
-            foundNews.ShortText = news.ShortText;
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult AddArticles()
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-            db.News.Update(foundNews);
-            db.SaveChanges();
+      ViewData["Title"] = "Makale Ekle";
+      return View();
+    }
 
-            return RedirectToAction("News");
-        }
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> AddArticlesAsync(Articles articles, IFormFile PicturePath)
+    {
+      articles.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      articles.AdditionDate = DateTime.Now;
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public IActionResult DeleteNews(int? id)
-        {
-            var foundNews = db.News.Where(news => news.Id == id).FirstOrDefault();
-            db.News.Remove(foundNews);
-            db.SaveChanges();
-            return RedirectToAction("News");
-        }
+      // * resim yolu
+      if (PicturePath != null)
 
-        // * makaleler
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult Articles()
-        {
-            int AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-            var articles = db.Articles.Where(articles => articles.AddUserID == AddUserID);
+        string imageName = Guid.NewGuid() + imageExtension;
 
-            ViewData["Title"] = "Makaleler";
+        string path = Path.Combine($"wwwroot/img/Articles/{imageName}");
 
-            // * foreign key için users listesi
-            ViewBag.users = db.Users.ToList();
+        using var stream = new FileStream(path, FileMode.Create);
 
-            return View(articles);
-        }
+        await PicturePath.CopyToAsync(stream);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult AddArticles()
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            ViewData["Title"] = "Makale Ekle";
-            return View();
-        }
+        articles.PicturePath = path;
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> AddArticlesAsync(Articles articles, IFormFile PicturePath)
-        {
-            articles.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            articles.AdditionDate = DateTime.Now;
+        articles.PicturePath = articles.PicturePath.Substring(articles.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-            // * resim yolu
-            if (PicturePath != null)
+      }
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+      db.Articles.Add(articles);
 
-                string imageName = Guid.NewGuid() + imageExtension;
 
-                string path = Path.Combine($"wwwroot/img/Articles/{imageName}");
+      db.SaveChanges();
+      return RedirectToAction("Articles");
+    }
 
-                using var stream = new FileStream(path, FileMode.Create);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult EditArticles(int? id)
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-                await PicturePath.CopyToAsync(stream);
+      var foundArticle = db.Articles.Where(article => article.Id == id).FirstOrDefault();
+      return View(foundArticle);
+    }
 
-                articles.PicturePath = path;
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> EditArticlesAsync(int? id, Articles articles, IFormFile PicturePath)
+    {
+      var foundArticle = db.Articles.Where(article => article.Id == id).FirstOrDefault();
+      foundArticle.Name = articles.Name;
+      foundArticle.Description = articles.Description;
 
-                articles.PicturePath = articles.PicturePath.Substring(articles.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+      // * resim yolu
+      if (PicturePath != null)
 
-            }
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-            db.Articles.Add(articles);
+        string imageName = Guid.NewGuid() + imageExtension;
 
+        string path = Path.Combine($"wwwroot/img/Articles/{imageName}");
 
-            db.SaveChanges();
-            return RedirectToAction("Articles");
-        }
+        using var stream = new FileStream(path, FileMode.Create);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult EditArticles(int? id)
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            var foundArticle = db.Articles.Where(article => article.Id == id).FirstOrDefault();
-            return View(foundArticle);
-        }
+        await PicturePath.CopyToAsync(stream);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> EditArticlesAsync(int? id, Articles articles, IFormFile PicturePath)
-        {
-            var foundArticle = db.Articles.Where(article => article.Id == id).FirstOrDefault();
-            foundArticle.Name = articles.Name;
-            foundArticle.Description = articles.Description;
+        articles.PicturePath = path;
 
-            // * resim yolu
-            if (PicturePath != null)
+        articles.PicturePath = articles.PicturePath.Substring(articles.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+      }
 
-                string imageName = Guid.NewGuid() + imageExtension;
 
-                string path = Path.Combine($"wwwroot/img/Articles/{imageName}");
+      foundArticle.PicturePath = articles.PicturePath;
+      foundArticle.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      foundArticle.AdditionDate = foundArticle.AdditionDate;
+      foundArticle.Language = articles.Language;
 
-                using var stream = new FileStream(path, FileMode.Create);
+      db.Articles.Update(foundArticle);
+      db.SaveChanges();
 
-                await PicturePath.CopyToAsync(stream);
+      return RedirectToAction("Articles");
+    }
 
-                articles.PicturePath = path;
 
-                articles.PicturePath = articles.PicturePath.Substring(articles.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public IActionResult DeleteArticle(int? id)
+    {
+      var foundArticle = db.Articles.Where(article => article.Id == id).FirstOrDefault();
+      db.Articles.Remove(foundArticle);
+      db.SaveChanges();
+      return RedirectToAction("Articles");
+    }
 
-            }
+    // * bildiriler
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult Notifications()
+    {
+      int AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
+      var notifications = db.Notification.Where(notifications => notifications.AddUserID == AddUserID);
 
-            foundArticle.PicturePath = articles.PicturePath;
-            foundArticle.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            foundArticle.AdditionDate = foundArticle.AdditionDate;
-            foundArticle.Language = articles.Language;
+      ViewData["Title"] = "Bildiriler";
 
-            db.Articles.Update(foundArticle);
-            db.SaveChanges();
+      // * foreign key için users listesi
+      ViewBag.users = db.Users.ToList();
 
-            return RedirectToAction("Articles");
-        }
+      return View(notifications);
+    }
 
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * ekle
+    [HttpGet]
+    public IActionResult AddNotification()
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public IActionResult DeleteArticle(int? id)
-        {
-            var foundArticle = db.Articles.Where(article => article.Id == id).FirstOrDefault();
-            db.Articles.Remove(foundArticle);
-            db.SaveChanges();
-            return RedirectToAction("Articles");
-        }
+      ViewData["Title"] = "Bildiri Ekle";
+      return View();
+    }
 
-        // * bildiriler
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult Notifications()
-        {
-            int AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
-            var notifications = db.Notification.Where(notifications => notifications.AddUserID == AddUserID);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> AddNotificationAsync(Notification notification, IFormFile PicturePath)
+    {
+      notification.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      notification.AdditionDate = DateTime.Now;
 
-            ViewData["Title"] = "Bildiriler";
+      // * resim yolu
+      if (PicturePath != null)
 
-            // * foreign key için users listesi
-            ViewBag.users = db.Users.ToList();
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-            return View(notifications);
-        }
+        string imageName = Guid.NewGuid() + imageExtension;
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * ekle
-        [HttpGet]
-        public IActionResult AddNotification()
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            ViewData["Title"] = "Bildiri Ekle";
-            return View();
-        }
+        string path = Path.Combine($"wwwroot/img/Notification/{imageName}");
 
+        using var stream = new FileStream(path, FileMode.Create);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> AddNotificationAsync(Notification notification, IFormFile PicturePath)
-        {
-            notification.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            notification.AdditionDate = DateTime.Now;
+        await PicturePath.CopyToAsync(stream);
 
-            // * resim yolu
-            if (PicturePath != null)
+        notification.PicturePath = path;
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+        notification.PicturePath = notification.PicturePath.Substring(notification.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-                string imageName = Guid.NewGuid() + imageExtension;
+      }
 
-                string path = Path.Combine($"wwwroot/img/Notification/{imageName}");
+      db.Notification.Add(notification);
+      db.SaveChanges();
+      return RedirectToAction("Notifications");
+    }
 
-                using var stream = new FileStream(path, FileMode.Create);
 
-                await PicturePath.CopyToAsync(stream);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult EditNotification(int? id)
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-                notification.PicturePath = path;
+      var foundNotification = db.Notification.Where(notification => notification.Id == id).FirstOrDefault();
+      return View(foundNotification);
+    }
 
-                notification.PicturePath = notification.PicturePath.Substring(notification.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> EditNotificationAsync(int? id, Notification notification, IFormFile PicturePath)
+    {
+      var foundNotification = db.Notification.Where(notification => notification.Id == id).FirstOrDefault();
+      foundNotification.Name = notification.Name;
+      foundNotification.Description = notification.Description;
 
-            }
+      // * resim yolu
+      if (PicturePath != null)
 
-            db.Notification.Add(notification);
-            db.SaveChanges();
-            return RedirectToAction("Notifications");
-        }
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
+        string imageName = Guid.NewGuid() + imageExtension;
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult EditNotification(int? id)
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            var foundNotification = db.Notification.Where(notification => notification.Id == id).FirstOrDefault();
-            return View(foundNotification);
-        }
+        string path = Path.Combine($"wwwroot/img/Notification/{imageName}");
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> EditNotificationAsync(int? id, Notification notification, IFormFile PicturePath)
-        {
-            var foundNotification = db.Notification.Where(notification => notification.Id == id).FirstOrDefault();
-            foundNotification.Name = notification.Name;
-            foundNotification.Description = notification.Description;
+        using var stream = new FileStream(path, FileMode.Create);
 
-            // * resim yolu
-            if (PicturePath != null)
+        await PicturePath.CopyToAsync(stream);
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+        notification.PicturePath = path;
 
-                string imageName = Guid.NewGuid() + imageExtension;
+        notification.PicturePath = notification.PicturePath.Substring(notification.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-                string path = Path.Combine($"wwwroot/img/Notification/{imageName}");
+      }
 
-                using var stream = new FileStream(path, FileMode.Create);
 
-                await PicturePath.CopyToAsync(stream);
+      foundNotification.PicturePath = notification.PicturePath;
+      foundNotification.Language = notification.Language;
+      foundNotification.AdditionDate = DateTime.Now; // * aynı format olacak
+      foundNotification.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
-                notification.PicturePath = path;
+      db.Notification.Update(foundNotification);
+      db.SaveChanges();
 
-                notification.PicturePath = notification.PicturePath.Substring(notification.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+      return RedirectToAction("Notifications");
+    }
 
-            }
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public IActionResult DeleteNotification(int? id)
+    {
+      var foundNotification = db.Notification.Where(notification => notification.Id == id).FirstOrDefault();
+      db.Notification.Remove(foundNotification);
+      db.SaveChanges();
 
+      return RedirectToAction("Notifications");
+    }
 
-            foundNotification.PicturePath = notification.PicturePath;
-            foundNotification.Language = notification.Language;
-            foundNotification.AdditionDate = DateTime.Now; // * aynı format olacak
-            foundNotification.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+    // * Projeler
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult Projects()
+    {
+      int AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
-            db.Notification.Update(foundNotification);
-            db.SaveChanges();
+      var projects = db.Projects.Where(projects => projects.AddUserID == AddUserID);
 
-            return RedirectToAction("Notifications");
-        }
+      ViewData["Title"] = "Projeler";
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public IActionResult DeleteNotification(int? id)
-        {
-            var foundNotification = db.Notification.Where(notification => notification.Id == id).FirstOrDefault();
-            db.Notification.Remove(foundNotification);
-            db.SaveChanges();
-
-            return RedirectToAction("Notifications");
-        }
+      // * foreign key için users listesi
+      ViewBag.users = db.Users.ToList();
 
-        // * Projeler
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult Projects()
-        {
-            int AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      return View(projects);
+    }
 
-            var projects = db.Projects.Where(projects => projects.AddUserID == AddUserID);
+    // * ekle
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult AddProject()
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-            ViewData["Title"] = "Projeler";
+      ViewData["Title"] = "Proje Ekle";
+      return View();
+    }
 
-            // * foreign key için users listesi
-            ViewBag.users = db.Users.ToList();
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> AddProjectAsync(Project project, IFormFile PicturePath)
+    {
+      project.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      project.AdditionDate = DateTime.Now;
 
-            return View(projects);
-        }
+      // * resim yolu
+      if (PicturePath != null)
 
-        // * ekle
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult AddProject()
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            ViewData["Title"] = "Proje Ekle";
-            return View();
-        }
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> AddProjectAsync(Project project, IFormFile PicturePath)
-        {
-            project.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            project.AdditionDate = DateTime.Now;
+        string imageName = Guid.NewGuid() + imageExtension;
 
-            // * resim yolu
-            if (PicturePath != null)
+        string path = Path.Combine($"wwwroot/img/Projects/{imageName}");
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+        using var stream = new FileStream(path, FileMode.Create);
 
-                string imageName = Guid.NewGuid() + imageExtension;
+        await PicturePath.CopyToAsync(stream);
 
-                string path = Path.Combine($"wwwroot/img/Projects/{imageName}");
+        project.PicturePath = path;
 
-                using var stream = new FileStream(path, FileMode.Create);
+        project.PicturePath = project.PicturePath.Substring(project.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-                await PicturePath.CopyToAsync(stream);
+      }
 
-                project.PicturePath = path;
 
-                project.PicturePath = project.PicturePath.Substring(project.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+      db.Projects.Add(project);
+      db.SaveChanges();
+      return RedirectToAction("Projects");
+    }
 
-            }
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * güncelleme
+    [HttpGet]
+    public IActionResult EditProject(int? id)
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
+      var foundProject = db.Projects.Where(project => project.Id == id).FirstOrDefault();
+      return View(foundProject);
+    }
 
-            db.Projects.Add(project);
-            db.SaveChanges();
-            return RedirectToAction("Projects");
-        }
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> EditProjectAsync(int? id, Project project, IFormFile PicturePath)
+    {
+      var foundProject = db.Projects.Where(project => project.Id == id).FirstOrDefault();
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * güncelleme
-        [HttpGet]
-        public IActionResult EditProject(int? id)
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            var foundProject = db.Projects.Where(project => project.Id == id).FirstOrDefault();
-            return View(foundProject);
-        }
+      foundProject.Name = project.Name;
+      foundProject.Description = project.Description;
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> EditProjectAsync(int? id, Project project, IFormFile PicturePath)
-        {
-            var foundProject = db.Projects.Where(project => project.Id == id).FirstOrDefault();
 
-            foundProject.Name = project.Name;
-            foundProject.Description = project.Description;
+      // * resim yolu
+      if (PicturePath != null)
 
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-            // * resim yolu
-            if (PicturePath != null)
+        string imageName = Guid.NewGuid() + imageExtension;
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+        string path = Path.Combine($"wwwroot/img/Projects/{imageName}");
 
-                string imageName = Guid.NewGuid() + imageExtension;
+        using var stream = new FileStream(path, FileMode.Create);
 
-                string path = Path.Combine($"wwwroot/img/Projects/{imageName}");
+        await PicturePath.CopyToAsync(stream);
 
-                using var stream = new FileStream(path, FileMode.Create);
+        project.PicturePath = path;
 
-                await PicturePath.CopyToAsync(stream);
+        project.PicturePath = project.PicturePath.Substring(project.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-                project.PicturePath = path;
+      }
 
-                project.PicturePath = project.PicturePath.Substring(project.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-            }
 
+      foundProject.PicturePath = project.PicturePath;
+      foundProject.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      foundProject.AdditionDate = DateTime.Now;
+      foundProject.Language = project.Language;
 
+      db.Projects.Update(foundProject);
+      db.SaveChanges();
 
-            foundProject.PicturePath = project.PicturePath;
-            foundProject.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            foundProject.AdditionDate = DateTime.Now;
-            foundProject.Language = project.Language;
+      return RedirectToAction("Projects");
+    }
 
-            db.Projects.Update(foundProject);
-            db.SaveChanges();
 
-            return RedirectToAction("Projects");
-        }
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * silme
 
+    [HttpPost]
+    public IActionResult DeleteProject(int? id)
+    {
+      var foundProject = db.Projects.Where(project => project.Id == id).FirstOrDefault();
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * silme
+      db.Projects.Remove(foundProject);
+      db.SaveChanges();
 
-        [HttpPost]
-        public IActionResult DeleteProject(int? id)
-        {
-            var foundProject = db.Projects.Where(project => project.Id == id).FirstOrDefault();
+      return RedirectToAction("Projects");
+    }
 
-            db.Projects.Remove(foundProject);
-            db.SaveChanges();
+    // * laboratuvar
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult labs()
+    {
+      ViewData["Title"] = "Laboratuvarlar";
+      var labs = db.Labs;
 
-            return RedirectToAction("Projects");
-        }
+      // * foreign key için users listesi
+      ViewBag.users = db.Users.ToList();
 
-        // * laboratuvar
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult labs()
-        {
-            ViewData["Title"] = "Laboratuvarlar";
-            var labs = db.Labs;
+      return View(labs);
+    }
 
-            // * foreign key için users listesi
-            ViewBag.users = db.Users.ToList();
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * laboratuvar ekle
+    [HttpGet]
+    public IActionResult AddLab()
+    {
+      ViewData["Title"] = "Laboratuvar Ekle";
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-            return View(labs);
-        }
+      // * altyapı ayarları
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * laboratuvar ekle
-        [HttpGet]
-        public IActionResult AddLab()
-        {
-            ViewData["Title"] = "Laboratuvar Ekle";
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
+      var substructure = db.Substructure.ToList();
+      ViewBag.substructure = substructure;
 
-            // * altyapı ayarları
+      return View();
+    }
 
-            var substructure = db.Substructure.ToList();
-            ViewBag.substructure = substructure;
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> AddLabAsync(Labs labs, IFormFile PicturePath)
+    {
 
-            return View();
-        }
+      labs.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      labs.AdditionDate = DateTime.Now;
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> AddLabAsync(Labs labs, IFormFile PicturePath)
-        {
+      // * resim yolu
+      if (PicturePath != null)
 
-            labs.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            labs.AdditionDate = DateTime.Now;
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-            // * resim yolu
-            if (PicturePath != null)
+        string imageName = Guid.NewGuid() + imageExtension;
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+        string path = Path.Combine($"wwwroot/img/Labs/{imageName}");
 
-                string imageName = Guid.NewGuid() + imageExtension;
+        using var stream = new FileStream(path, FileMode.Create);
 
-                string path = Path.Combine($"wwwroot/img/Labs/{imageName}");
+        await PicturePath.CopyToAsync(stream);
 
-                using var stream = new FileStream(path, FileMode.Create);
+        labs.PicturePath = path;
 
-                await PicturePath.CopyToAsync(stream);
+        labs.PicturePath = labs.PicturePath.Substring(labs.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-                labs.PicturePath = path;
+      }
 
-                labs.PicturePath = labs.PicturePath.Substring(labs.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+      db.Labs.Add(labs);
+      db.SaveChanges();
 
-            }
 
-            db.Labs.Add(labs);
-            db.SaveChanges();
 
+      return RedirectToAction("Labs");
+    }
 
 
-            return RedirectToAction("Labs");
-        }
+    // *laboratuvar güncelleme
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult EditLab(int? id)
+    {
 
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-        // *laboratuvar güncelleme
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult EditLab(int? id)
-        {
+      // * altyapı ayarları
 
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
+      var substructure = db.Substructure.ToList();
+      ViewBag.substructure = substructure;
 
-            // * altyapı ayarları
 
-            var substructure = db.Substructure.ToList();
-            ViewBag.substructure = substructure;
+      var foundLab = db.Labs.Where(labs => labs.Id == id).FirstOrDefault();
+      return View(foundLab);
+    }
 
 
-            var foundLab = db.Labs.Where(labs => labs.Id == id).FirstOrDefault();
-            return View(foundLab);
-        }
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> EditLabAsync(int? id, Labs labs, IFormFile PicturePath)
+    {
 
+      var foundLab = db.Labs.Where(labs => labs.Id == id).FirstOrDefault();
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> EditLabAsync(int? id, Labs labs, IFormFile PicturePath)
-        {
+      foundLab.Name = labs.Name;
+      foundLab.Description = labs.Description;
+      foundLab.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      foundLab.AdditionDate = DateTime.Now;
+      foundLab.Language = labs.Language;
+      foundLab.SubstructureID = labs.SubstructureID;
 
-            var foundLab = db.Labs.Where(labs => labs.Id == id).FirstOrDefault();
+      // * resim yolu
+      if (PicturePath != null)
 
-            foundLab.Name = labs.Name;
-            foundLab.Description = labs.Description;
-            foundLab.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
-            foundLab.AdditionDate = DateTime.Now;
-            foundLab.Language = labs.Language;
-            foundLab.SubstructureID = labs.SubstructureID;
+      {
+        string imageExtension = Path.GetExtension(PicturePath.FileName);
 
-            // * resim yolu
-            if (PicturePath != null)
+        string imageName = Guid.NewGuid() + imageExtension;
 
-            {
-                string imageExtension = Path.GetExtension(PicturePath.FileName);
+        string path = Path.Combine($"wwwroot/img/Labs/{imageName}");
 
-                string imageName = Guid.NewGuid() + imageExtension;
+        using var stream = new FileStream(path, FileMode.Create);
 
-                string path = Path.Combine($"wwwroot/img/Labs/{imageName}");
+        await PicturePath.CopyToAsync(stream);
 
-                using var stream = new FileStream(path, FileMode.Create);
+        labs.PicturePath = path;
 
-                await PicturePath.CopyToAsync(stream);
+        labs.PicturePath = labs.PicturePath.Substring(labs.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-                labs.PicturePath = path;
+      }
 
-                labs.PicturePath = labs.PicturePath.Substring(labs.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+      foundLab.PicturePath = labs.PicturePath;
 
-            }
+      db.Labs.Update(foundLab);
+      db.SaveChanges();
 
-            foundLab.PicturePath = labs.PicturePath;
+      return RedirectToAction("Labs");
+    }
 
-            db.Labs.Update(foundLab);
-            db.SaveChanges();
 
-            return RedirectToAction("Labs");
-        }
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public IActionResult DeleteLab(int? id)
+    {
+      var foundLab = db.Labs.Where(labs => labs.Id == id).FirstOrDefault();
 
+      db.Labs.Remove(foundLab);
+      db.SaveChanges();
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public IActionResult DeleteLab(int? id)
-        {
-            var foundLab = db.Labs.Where(labs => labs.Id == id).FirstOrDefault();
+      return RedirectToAction("Labs");
+    }
 
-            db.Labs.Remove(foundLab);
-            db.SaveChanges();
+    // * slider
 
-            return RedirectToAction("Labs");
-        }
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult Slider()
+    {
+      ViewData["Title"] = "Slider";
+      var slider = db.Slider;
 
-        // * slider
+      // * foreign key için users listesi
+      ViewBag.users = db.Users.ToList();
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult Slider()
-        {
-            ViewData["Title"] = "Slider";
-            var slider = db.Slider;
+      return View(slider);
+    }
 
-            // * foreign key için users listesi
-            ViewBag.users = db.Users.ToList();
+    // * ekle
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpGet]
+    public IActionResult AddSlider()
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-            return View(slider);
-        }
+      // * aktif ayarları
+      var isActive = db.IsActive.ToList();
+      ViewBag.isActive = isActive;
 
-        // * ekle
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpGet]
-        public IActionResult AddSlider()
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
+      ViewData["Title"] = "Slider Ekle";
 
-            // * aktif ayarları
-            var isActive = db.IsActive.ToList();
-            ViewBag.isActive = isActive;
+      return View();
+    }
 
-            ViewData["Title"] = "Slider Ekle";
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> AddSliderAsync(Slider slider, IFormFile Picture)
+    {
+      slider.AdditionDate = DateTime.Now;
+      slider.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
 
-            return View();
-        }
+      // * resim yolu
+      if (Picture != null)
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> AddSliderAsync(Slider slider, IFormFile Picture)
-        {
-            slider.AdditionDate = DateTime.Now;
-            slider.AddUserID = (int)HttpContext.Session.GetInt32("User_ID");
+      {
+        string imageExtension = Path.GetExtension(Picture.FileName);
 
-            // * resim yolu
-            if (Picture != null)
+        string imageName = Guid.NewGuid() + imageExtension;
 
-            {
-                string imageExtension = Path.GetExtension(Picture.FileName);
+        string path = Path.Combine($"wwwroot/img/Slider/{imageName}");
 
-                string imageName = Guid.NewGuid() + imageExtension;
+        using var stream = new FileStream(path, FileMode.Create);
 
-                string path = Path.Combine($"wwwroot/img/Slider/{imageName}");
+        await Picture.CopyToAsync(stream);
 
-                using var stream = new FileStream(path, FileMode.Create);
+        slider.Picture = path;
 
-                await Picture.CopyToAsync(stream);
+        slider.Picture = slider.Picture.Substring(slider.Picture.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-                slider.Picture = path;
+      }
 
-                slider.Picture = slider.Picture.Substring(slider.Picture.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+      db.Slider.Add(slider);
+      db.SaveChanges();
 
-            }
+      return RedirectToAction("Slider");
+    }
 
-            db.Slider.Add(slider);
-            db.SaveChanges();
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    // * güncelle slider
+    [HttpGet]
+    public IActionResult EditSlider(int? id)
+    {
+      // * dil ayarları
+      var languages = db.Language.ToList();
+      ViewBag.languages = languages;
 
-            return RedirectToAction("Slider");
-        }
+      // * aktif ayarları
+      var isActive = db.IsActive.ToList();
+      ViewBag.isActive = isActive;
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        // * güncelle slider
-        [HttpGet]
-        public IActionResult EditSlider(int? id)
-        {
-            // * dil ayarları
-            var languages = db.Language.ToList();
-            ViewBag.languages = languages;
-
-            // * aktif ayarları
-            var isActive = db.IsActive.ToList();
-            ViewBag.isActive = isActive;
-
-            var foundSlider = db.Slider.Where(slider => slider.Id == id).FirstOrDefault();
-            return View(foundSlider);
-        }
+      var foundSlider = db.Slider.Where(slider => slider.Id == id).FirstOrDefault();
+      return View(foundSlider);
+    }
 
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public async Task<IActionResult> EditSliderAsync(int? id, Slider slider, IFormFile Picture)
-        {
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public async Task<IActionResult> EditSliderAsync(int? id, Slider slider, IFormFile Picture)
+    {
 
-            var foundSlider = db.Slider.Where(slider => slider.Id == id).FirstOrDefault();
+      var foundSlider = db.Slider.Where(slider => slider.Id == id).FirstOrDefault();
 
-            foundSlider.AdditionDate = DateTime.Now;
-            foundSlider.AddUserID = (int)HttpContext.Session.GetInt32("User_ID"); ;
+      foundSlider.AdditionDate = DateTime.Now;
+      foundSlider.AddUserID = (int)HttpContext.Session.GetInt32("User_ID"); ;
 
-            // * resim yolu
-            if (Picture != null)
+      // * resim yolu
+      if (Picture != null)
 
-            {
-                string imageExtension = Path.GetExtension(Picture.FileName);
+      {
+        string imageExtension = Path.GetExtension(Picture.FileName);
 
-                string imageName = Guid.NewGuid() + imageExtension;
+        string imageName = Guid.NewGuid() + imageExtension;
 
-                string path = Path.Combine($"wwwroot/img/Slider/{imageName}");
+        string path = Path.Combine($"wwwroot/img/Slider/{imageName}");
 
-                using var stream = new FileStream(path, FileMode.Create);
+        using var stream = new FileStream(path, FileMode.Create);
 
-                await Picture.CopyToAsync(stream);
+        await Picture.CopyToAsync(stream);
 
-                slider.Picture = path;
+        slider.Picture = path;
 
-                slider.Picture = slider.Picture.Substring(slider.Picture.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
+        slider.Picture = slider.Picture.Substring(slider.Picture.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
 
-            }
+      }
 
-            foundSlider.Picture = slider.Picture;
-            foundSlider.Description = slider.Description;
-            foundSlider.Title = slider.Title;
-            foundSlider.SubTitle = slider.SubTitle;
-            foundSlider.Language = slider.Language;
-            foundSlider.Queue = slider.Queue;
-            foundSlider.IsActive = slider.IsActive;
-            foundSlider.Link = slider.Link;
+      foundSlider.Picture = slider.Picture;
+      foundSlider.Description = slider.Description;
+      foundSlider.Title = slider.Title;
+      foundSlider.SubTitle = slider.SubTitle;
+      foundSlider.Language = slider.Language;
+      foundSlider.Queue = slider.Queue;
+      foundSlider.IsActive = slider.IsActive;
+      foundSlider.Link = slider.Link;
 
-            db.Slider.Update(foundSlider);
-            db.SaveChanges();
+      db.Slider.Update(foundSlider);
+      db.SaveChanges();
 
 
-            return RedirectToAction("Slider");
-        }
+      return RedirectToAction("Slider");
+    }
 
-        //* slider silme
-        [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-        [HttpPost]
-        public IActionResult DeleteSlider(int? id)
-        {
-            var foundSlider = db.Slider.Where(slider => slider.Id == id).FirstOrDefault();
+    //* slider silme
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [HttpPost]
+    public IActionResult DeleteSlider(int? id)
+    {
+      var foundSlider = db.Slider.Where(slider => slider.Id == id).FirstOrDefault();
 
-            db.Slider.Remove(foundSlider);
-            db.SaveChanges();
+      db.Slider.Remove(foundSlider);
+      db.SaveChanges();
 
-            return RedirectToAction("Slider");
-        }
+      return RedirectToAction("Slider");
+    }
 
 
 
-    }// * admin controller end
+  }// * admin controller end
 }// * controller end
