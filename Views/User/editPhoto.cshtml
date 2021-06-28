@@ -1,0 +1,30 @@
+@model Users
+@{
+  Layout = "~/Views/User/_Layout.cshtml";
+}
+
+<div class="mx-auto w-100 p-3 text-center">
+  <h3>Fotoğraf</h3>
+  <p>Profilinize güncel resminizi ekleyin.</p>
+</div>
+
+<div class="mx-auto w-25 mb-4 ">
+  <h6 class="my-3">Görüntü önizleme</h6>
+  <div class="card p-4">
+    <img src="@Model.PicturePath" alt="@Model.Name @Model.Surname fotoğraf" class="card-img-top">
+  </div>
+</div>
+
+<div class="mx-auto w-75">
+  <form asp-action="editPhoto" asp-controller="User" method="POST" class="needs-validation"
+    enctype="multipart/form-data" novalidate>
+    <div class="form-group">
+      <label asp-for="PicturePath" class="form-label">Resim Seç</label>
+      <input asp-for="PicturePath" class="form-control" type="file" required>
+      <div class="invalid-feedback">
+        Lütfen Kontrol Ediniz!
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+  </form>
+</div>

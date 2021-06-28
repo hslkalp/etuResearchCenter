@@ -1,0 +1,65 @@
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+  var fullName = HttpContextAccessor.HttpContext.Session.GetString("Name") + " " +
+      HttpContextAccessor.HttpContext.Session.GetString("Surname");
+  var picturePath = HttpContextAccessor.HttpContext.Session.GetString("PicturePath");
+  var roleId = HttpContextAccessor.HttpContext.Session.GetInt32("UserRole");
+  string url = Context.Request.Path.ToString();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil</title>
+
+  @* Main css *@
+  <link rel="stylesheet" href="~/css/main.css" asp-append-version="true">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="~/Admin/plugins/fontawesome-free/css/all.min.css" asp-append-version="true">
+  <link rel="stylesheet" href="~/node/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true">
+
+</head>
+
+<body class="user-profile">
+  <main>
+    <div class="container ">
+      <div class="row">
+        <div class="col-md-3">
+          @* User navigation *@
+          <div class="user">
+            <div class="user-img">
+              <img src="@picturePath" alt="profil resmi">
+            </div>
+            <p class="user-name">@fullName</p>
+          </div>
+          <nav>
+            <div class="list-group">
+              <a asp-controller="User" asp-action="editProfile"
+                class="list-group-item list-group-item-action">Profil</a>
+              <a asp-controller="User" asp-action="editPhoto"
+                class="list-group-item list-group-item-action">Fotoğraf</a>
+              <a asp-controller="User" asp-action="editAccount" class="list-group-item list-group-item-action">Hesap</a>
+            </div>
+          </nav>
+        </div>
+        <div class="col-md-9">
+          @RenderBody()
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+
+  <!-- Bootstrap -->
+  <script src="~/node/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+</body>
+
+</html>

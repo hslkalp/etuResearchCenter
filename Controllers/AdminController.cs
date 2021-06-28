@@ -530,40 +530,18 @@ namespace WebProject.Controllers
 
     [ServiceFilter(typeof(AdminUserSecurityAttribute))]
     [HttpPost]
-    public async Task<IActionResult> EditUsersAsync(int? id, Users user, IFormFile PicturePath)
+    public  IActionResult EditUsers(int? id, Users user)
     {
       var foundUser = db.Users.Where(user => user.UserID == id).FirstOrDefault();
-      foundUser.Name = user.Name;
-      foundUser.Surname = user.Surname;
+
       foundUser.Institution = user.Institution;
-
-      foundUser.Email = user.Email;
-
-      // * resim yolu
-      if (PicturePath != null)
-
-      {
-        string imageExtension = Path.GetExtension(PicturePath.FileName);
-
-        string imageName = Guid.NewGuid() + imageExtension;
-
-        string path = Path.Combine($"wwwroot/img/Users/{imageName}");
-
-        using var stream = new FileStream(path, FileMode.Create);
-
-        await PicturePath.CopyToAsync(stream);
-
-        user.PicturePath = path;
-
-        user.PicturePath = user.PicturePath.Substring(user.PicturePath.IndexOf("wwwroot")).Replace("wwwroot", string.Empty);
-
-      }
-
-      foundUser.PicturePath = user.PicturePath;
       foundUser.AdditionDate = DateTime.Now;
+      foundUser.Email = user.Email;
       foundUser.Role = user.Role;
+
       db.Users.Update(foundUser);
       db.SaveChanges();
+
       return RedirectToAction("Users");
     }
 

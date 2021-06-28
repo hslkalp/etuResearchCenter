@@ -5,6 +5,7 @@
             HttpContextAccessor.HttpContext.Session.GetString("Surname");
     var picturePath = HttpContextAccessor.HttpContext.Session.GetString("PicturePath");
     var roleId = HttpContextAccessor.HttpContext.Session.GetInt32("UserRole");
+    var userId = HttpContextAccessor.HttpContext.Session.GetInt32("User_ID");
     string url = Context.Request.Path.ToString();
 }
 
@@ -36,7 +37,6 @@
     @* alertifyjs *@
     <link rel="stylesheet" href="~/node/alertifyjs/build/css/alertify.min.css">
     <link rel="stylesheet" href="~/node/alertifyjs/build/css/themes/default.min.css">
-
 
 
 
@@ -91,8 +91,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                        <i class="fas fa-th-large"></i>
+                    <a class="nav-link" asp-controller="User" asp-action="editProfile">
+                        <i class="fas fa-user-cog"></i>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -123,7 +123,7 @@
                         <img src="@picturePath" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">@fullName</a>
+                        <a asp-controller="User" asp-action="editProfile" class="d-block">@fullName</a>
                     </div>
                 </div>
 
@@ -414,17 +414,6 @@
                                 </ul>
                             </li>
                         }
-
-
-
-
-
-
-
-
-
-
-
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
