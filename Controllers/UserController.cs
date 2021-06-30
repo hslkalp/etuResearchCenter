@@ -111,37 +111,64 @@ namespace WebProject.Controllers
       return View(foundUser);
     }
 
-    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
-    [HttpPost]
-    public IActionResult editAccount(Users users, string new_password, string confirm_new_password)
-    {
-      int userId = (int)HttpContext.Session.GetInt32("User_ID");
-      var foundUser = db.Users.Where(user => user.UserID == userId).FirstOrDefault();
 
+
+    [ServiceFilter(typeof(AdminUserSecurityAttribute))]
+    [Route("/User/editUser")]
+    [HttpPost]
+    public JsonResult editUser([FromBody] Users user)
+    {
       try
       {
-        if ((foundUser.Password == encryptToString(users.Password)) && (new_password == confirm_new_password))
+        int userId = (int)HttpContext.Session.GetInt32("User_ID");
+        var foundUser = db.Users.Where(user => user.UserID == userId).FirstOrDefault();
+
+        string Password = user.Password;
+        string newPassword = user.NewPassword;
+        string confirmNewPassword = user.ConfirmNewPassword;
+
+        if (string.IsNullOrEmpty(Password) && string.IsNullOrEmpty(newPassword) && string.IsNullOrEmpty(confirmNewPassword))
         {
-          foundUser.Password = encryptToString(confirm_new_password);
+          return Json(new { Result = false, Message = "Alanlar boş bıraklılamaz" });
+        }
+        if (string.IsNullOrEmpty(Password))
+        {
+          return Json(new { Result = false, Message = "Mecvut Şifrenizi girmelisiniz!" });
+        }
+        if (string.IsNullOrEmpty(newPassword))
+        {
+          return Json(new { Result = false, Message = "Yeni şifrenizi girmelisiniz!" });
+        }
+        if (string.IsNullOrEmpty(confirmNewPassword))
+        {
+          return Json(new { Result = false, Message = "Yeni şifrenizi tekrar girmelisiniz!" });
+        }
+        if (encryptToString(Password) != foundUser.Password)
+        {
+          return Json(new { Result = false, Message = "Girmiş olduğunuz şifre mevcut şifreniz ile eşleşmedi" });
+        }
+        if (newPassword != confirmNewPassword)
+        {
+          return Json(new { Result = false, Message = "Girmiş olduğunuz yeni şifre eşleşmiyor" });
+        }
+        if ((newPassword == confirmNewPassword) && (foundUser.Password == encryptToString(confirmNewPassword)))
+        {
+          return Json(new { Result = false, Message = "Eski şifreniz ile yeni girmiş olduğunuz şifre aynı" });
+        }
+        else
+        {
+          foundUser.Password = encryptToString(confirmNewPassword);
 
           db.Users.Update(foundUser);
           db.SaveChanges();
 
-          System.Console.WriteLine("şifre başarıyla güncellendi");
-
-        }
-        else
-        {
-          System.Console.WriteLine("eski şifre yanlış veya şifreler uyuşmuyor");
+          return Json(new { Result = true, Message = "Şifre başarıyla güncellendi", Url = "/User/editAccount" });
         }
       }
       catch (Exception ex)
       {
-        System.Console.WriteLine(ex);
+        return Json(new { Result = false, Message = ex.Message });
       }
-
-      return RedirectToAction("editAccount");
     }
-
   }
 }

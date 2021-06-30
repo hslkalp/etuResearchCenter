@@ -68,7 +68,7 @@ namespace WebProject.Controllers
       {
         string Email = data.Email;
 
-        string Password = data.Password;
+        string Password = data.Password;  
 
         if (string.IsNullOrEmpty(Password) && string.IsNullOrEmpty(Email))
         {

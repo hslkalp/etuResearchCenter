@@ -11,6 +11,8 @@ namespace WebProject.Models
     public string Surname { get; set; }
     public string Institution { get; set; }
     public string Password { get; set; }
+    public string NewPassword { get; set; }
+    public string ConfirmNewPassword { get; set; }
     public string Email { get; set; }
     public string PicturePath { get; set; }
     public DateTime AdditionDate { get; set; }
